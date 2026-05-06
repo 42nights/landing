@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helm — the portfolio operating cockpit, deployed by 42nights</title>
+  <meta name="description" content="KPI roll-ups across portcos, variance flags, board-pack agent. On infrastructure you control. Built on Recon, deployed by 42nights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+<body data-theme="helm">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a href="/" class="nav-brand" aria-label="42nights home">
+        <span class="brand-mark denim">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="brand-name">42nights / helm</span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a class="nav-link" href="recon.html" data-nav>Recon</a></li>
+        <li><a class="nav-link" href="pulse.html" data-nav>Pulse</a></li>
+        <li><a class="nav-link is-active" href="helm.html" data-nav>Helm</a></li>
+        <li><a class="nav-link" href="/" data-nav>Studio</a></li>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </ul>
+
+      <div class="nav-actions">
+        <a class="nav-cta" href="#cta" data-magnetic>
+          <span>Book a deploy</span>
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="hero" id="top">
+    <div class="hero-grid" aria-hidden="true" data-parallax="0.4"></div>
+    <div class="hero-orb" aria-hidden="true" data-parallax="0.7"></div>
+    <div class="hero-bg-word" aria-hidden="true" data-parallax="0.25">helm</div>
+
+    <div class="container hero-inner">
+      <div class="hero-badge" data-reveal>
+        <span class="ping"></span>
+        <span>Helm · Built on Recon · Deployed by 42nights</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line"><span class="word">A</span> <span class="word italic">portfolio</span></span>
+        <span class="line"><span class="word">cockpit</span> <span class="word">for</span></span>
+        <span class="line"><span class="word italic">holdcos</span> <span class="word">&amp;</span> <span class="word">PE.</span></span>
+      </h1>
+      <p class="hero-sub" data-reveal>
+        KPI roll-ups across portcos, variance flags, DD workspace, board-pack agent. On infrastructure you control. Deployed by <a class="inline-link" href="/">42nights</a> in four weeks.
+      </p>
+      <p class="hero-audience" data-reveal>Operating partners · COOs · Holdcos · Family offices · LP teams</p>
+
+      <div class="hero-cta" data-reveal>
+        <a class="btn btn-primary" href="#cta" data-magnetic>
+          <span>Book a Helm deploy</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="recon.html">
+          <span>See the platform</span>
+        </a>
+      </div>
+
+      <div class="hero-stats" data-reveal>
+        <div class="stat"><span class="stat-num" data-counter="100">0</span><span class="stat-label">% on your own infra</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num" data-counter="6">0</span><span class="stat-label">PE skill packs</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num" data-counter="4">0</span><span class="stat-label">week deploy</span></div>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>QuickBooks</span><span>·</span>
+        <span>Xero</span><span>·</span>
+        <span>NetSuite</span><span>·</span>
+        <span>Stripe</span><span>·</span>
+        <span>Plaid</span><span>·</span>
+        <span>Rippling</span><span>·</span>
+        <span>Gusto</span><span>·</span>
+        <span>HubSpot</span><span>·</span>
+        <span>Salesforce</span><span>·</span>
+        <span>Carta</span><span>·</span>
+        <span>Drive · Box · Docsend</span><span>·</span>
+        <span>Notion</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CAPABILITIES ═══════════════════ -->
+  <section class="section" id="capabilities">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">01</div>
+    <div class="container">
+      <div class="section-head section-head-narrow">
+        <div class="eyebrow" data-reveal><span class="dot"></span>What Helm does</div>
+        <h2 class="section-title" data-split>
+          From portco<br/><em>to board pack.</em>
+        </h2>
+      </div>
+
+      <div class="cap-grid" data-stagger>
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="10" y="58" width="14" height="22" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="30" y="44" width="14" height="36" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="50" y="62" width="14" height="18" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="70" y="36" width="14" height="44" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="90" y="50" width="14" height="30" rx="2" fill="rgba(126,197,255,0.55)" />
+            <text x="57" y="92" class="cap-label" text-anchor="middle">portcos</text>
+            <line x1="120" y1="58" x2="148" y2="58" stroke="var(--accent)" stroke-width="1.4" />
+            <polyline points="142,53 148,58 142,63" stroke="var(--accent)" fill="none" stroke-width="1.4" />
+            <rect x="158" y="20" width="44" height="60" rx="5" fill="rgba(126,197,255,0.22)" stroke="var(--accent)" />
+            <text x="180" y="92" class="cap-label" text-anchor="middle">holdco</text>
+          </svg>
+          <h3>KPI roll-ups</h3>
+          <p>Portcos in. Dashboard out.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <line x1="10" y1="46" x2="210" y2="46" stroke="rgba(255,255,255,0.15)" stroke-dasharray="2 4" />
+            <text x="14" y="14" class="cap-label">plan</text>
+            <text x="14" y="80" class="cap-label">actual</text>
+            <path d="M 20 40 L 60 38 L 100 42 L 140 56 L 180 60 L 210 65" stroke="var(--accent)" stroke-width="1.6" fill="none" />
+            <circle cx="140" cy="56" r="5" fill="none" stroke="rgba(255,140,140,0.85)" stroke-width="1.6" />
+            <line x1="135" y1="51" x2="145" y2="61" stroke="rgba(255,140,140,0.85)" stroke-width="1.5" />
+            <line x1="145" y1="51" x2="135" y2="61" stroke="rgba(255,140,140,0.85)" stroke-width="1.5" />
+            <text x="148" y="40" class="cap-label-out" fill="rgba(255,140,140,0.9)">flag</text>
+          </svg>
+          <h3>Variance vs plan</h3>
+          <p>Flagged. Drafted. Reviewed.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="0" y="6" width="32" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="36" y="17" class="cap-label">data room</text>
+            <rect x="0" y="26" width="32" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="36" y="37" class="cap-label">CIM</text>
+            <rect x="0" y="46" width="32" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="36" y="57" class="cap-label">model</text>
+            <rect x="0" y="66" width="32" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="36" y="77" class="cap-label">notes</text>
+            <path d="M 110 6 L 110 86" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2 3" />
+            <rect x="120" y="14" width="92" height="20" rx="4" fill="rgba(126,197,255,0.16)" stroke="var(--accent)" />
+            <text x="166" y="28" class="cap-label-out" text-anchor="middle">DD workspace</text>
+            <rect x="120" y="42" width="64" height="14" rx="3" fill="rgba(255,255,255,0.05)" />
+            <text x="124" y="53" class="cap-label">checklist</text>
+            <rect x="120" y="62" width="80" height="14" rx="3" fill="rgba(255,255,255,0.05)" />
+            <text x="124" y="73" class="cap-label">risk flags</text>
+          </svg>
+          <h3>DD workspace generator</h3>
+          <p>Per-deal. Auto-tagged.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="6" y="10" width="80" height="72" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+            <line x1="14" y1="22" x2="78" y2="22" stroke="rgba(255,255,255,0.15)" />
+            <line x1="14" y1="32" x2="60" y2="32" stroke="rgba(255,255,255,0.15)" />
+            <line x1="14" y1="42" x2="74" y2="42" stroke="rgba(255,255,255,0.15)" />
+            <line x1="14" y1="52" x2="50" y2="52" stroke="rgba(255,255,255,0.15)" />
+            <line x1="14" y1="62" x2="68" y2="62" stroke="rgba(255,255,255,0.15)" />
+            <line x1="14" y1="72" x2="56" y2="72" stroke="rgba(255,255,255,0.15)" />
+            <text x="46" y="92" class="cap-label" text-anchor="middle">notes</text>
+            <line x1="92" y1="46" x2="124" y2="46" stroke="var(--accent)" stroke-width="1.4" />
+            <polyline points="118,41 124,46 118,51" stroke="var(--accent)" fill="none" stroke-width="1.4" />
+            <rect x="130" y="10" width="84" height="72" rx="4" fill="rgba(126,197,255,0.12)" stroke="var(--accent)" />
+            <text x="172" y="38" class="cap-label-out" text-anchor="middle">BOARD</text>
+            <text x="172" y="52" class="cap-label-out" text-anchor="middle">PACK</text>
+            <text x="172" y="92" class="cap-label" text-anchor="middle">board ready</text>
+          </svg>
+          <h3>Board-pack agent</h3>
+          <p>Notes in. Pack out.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ROADMAP ═══════════════════ -->
+  <section class="section section-narrow" id="roadmap">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">02</div>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Roadmap</div>
+        <h2 class="section-title" data-split>
+          Five phases<br/><em>per deployment.</em>
+        </h2>
+      </div>
+
+      <div class="rm-timeline" data-active-phase="0">
+        <div class="rm-track">
+          <div class="rm-line"></div>
+          <div class="rm-progress"></div>
+          <button class="rm-dot active" data-phase-idx="0" aria-label="Phase 1"><span>01</span></button>
+          <button class="rm-dot" data-phase-idx="1" aria-label="Phase 2"><span>02</span></button>
+          <button class="rm-dot" data-phase-idx="2" aria-label="Phase 3"><span>03</span></button>
+          <button class="rm-dot" data-phase-idx="3" aria-label="Phase 4"><span>04</span></button>
+          <button class="rm-dot" data-phase-idx="4" aria-label="Phase 5"><span>05</span></button>
+        </div>
+
+        <div class="rm-stage">
+          <div class="rm-panels active" data-roadmap-panel="helm">
+            <div class="rm-panel active" data-phase-idx="0">
+              <span class="rm-tag">Phase 1 · Helm</span>
+              <h4>Multi-entity foundation</h4>
+              <p>Workspace-as-portfolio-company. HoldCo workspace aggregating read-only views. Entities: Company, People, Contracts, KPIs, Reporting periods.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="1">
+              <span class="rm-tag">Phase 2 · Helm</span>
+              <h4>Operating cadence</h4>
+              <p>QuickBooks / Xero / NetSuite, Stripe, HRIS, Hub/Salesforce ingest. Auto-populated monthly &amp; quarterly templates with variance flags.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="2">
+              <span class="rm-tag">Phase 3 · Helm</span>
+              <h4>Diligence &amp; deal flow</h4>
+              <p>Deal pipeline as a first-class object. Per-deal DD workspace generator. Data-room ingest with auto-tagging and risk flag agents.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="3">
+              <span class="rm-tag">Phase 4 · Helm</span>
+              <h4>Portfolio agents</h4>
+              <p>Operating-partner agent per portco. Cross-portfolio benchmarking on margin, CAC payback, NRR percentiles. Talent-network agent.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="4">
+              <span class="rm-tag">Phase 5 · Helm</span>
+              <h4>LP &amp; governance</h4>
+              <p>LP reporting view (capital account, IRR/MOIC). Board-pack generator from operating-partner output. SOC2-ready audit trail.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PLATFORM REFERENCE ═══════════════════ -->
+  <section class="section section-narrow platform-ref">
+    <div class="container">
+      <div class="ref-card" data-reveal>
+        <div class="ref-copy">
+          <div class="eyebrow"><span class="dot"></span>Built on Recon</div>
+          <h3>Same gateway. Same vault. Same audit log.</h3>
+          <p>Helm is a thin Next.js app over the Recon substrate. Each portco is a scoped workspace; the holdco view is a read-only roll-up. Same security posture, same audit trail.</p>
+          <a class="btn btn-ghost" href="recon.html">
+            <span>See the Recon platform</span>
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CTA ═══════════════════ -->
+  <section class="section cta-sec" id="cta">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">03</div>
+    <div class="container">
+      <div class="cta-card" data-reveal>
+        <div class="cta-copy">
+          <div class="eyebrow"><span class="dot"></span>Get Helm deployed</div>
+          <h2 class="section-title" data-split>
+            Four weeks to<br/><em>a holdco cockpit.</em>
+          </h2>
+          <p class="section-lede">
+            42nights deploys Helm inside your perimeter — one workspace per portco, holdco view rolling up. Discovery to running in four weeks.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="mailto:jerry@xiao.sh?subject=Helm%20deploy" data-magnetic>
+              <span>Book a deploy</span>
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="/">
+              <span>About 42nights</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="terminal" aria-hidden="true">
+          <div class="terminal-bar">
+            <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+            <span class="terminal-title">helm · pinemark-holdco</span>
+          </div>
+          <div class="terminal-body" id="terminal-body">
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="recon up --variant=helm"></span></div>
+            <div class="t-line out ok"><span>▲ holdco workspace ready · 7 portcos scoped</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="helm ingest --kpi --portco=northstar"></span></div>
+            <div class="t-line out"><span>✓ QB · Stripe · HRIS · 14 KPIs synced</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="helm variance --period=Q2 --vs=plan"></span></div>
+            <div class="t-line out"><span>◇ 3 portcos flagged · 12 commentary drafts</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="helm board-pack --period=Q2 --portco=all"></span></div>
+            <div class="t-line out muted"><span>◇ pack drafted · 38 pages · awaiting review</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span>Helm · built &amp; deployed by <a href="/">42nights</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Studio</a>
+        <a href="recon.html">Recon</a>
+        <a href="pulse.html">Pulse</a>
+        <a href="helm.html">Helm</a>
+        <a href="mailto:jerry@xiao.sh">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

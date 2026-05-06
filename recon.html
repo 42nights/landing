@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recon — the operating substrate for revenue and portfolio teams</title>
+  <meta name="description" content="The self-hosted, single-tenant, audit-ready platform that Pulse and Helm are built on. Deployed by 42nights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+<body data-theme="recon">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a href="/" class="nav-brand" aria-label="42nights home">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="brand-name">42nights / recon</span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a class="nav-link is-active" href="recon.html" data-nav>Recon</a></li>
+        <li><a class="nav-link" href="pulse.html" data-nav>Pulse</a></li>
+        <li><a class="nav-link" href="helm.html" data-nav>Helm</a></li>
+        <li><a class="nav-link" href="/" data-nav>Studio</a></li>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </ul>
+
+      <div class="nav-actions">
+        <a class="nav-cta" href="#cta" data-magnetic>
+          <span>Book a deploy</span>
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="hero" id="top">
+    <div class="hero-grid" aria-hidden="true" data-parallax="0.4"></div>
+    <div class="hero-orb" aria-hidden="true" data-parallax="0.7"></div>
+    <div class="hero-radar" aria-hidden="true" data-parallax="0.5">
+      <span class="radar-ring"></span>
+      <span class="radar-ring r2"></span>
+      <span class="radar-ring r3"></span>
+      <span class="radar-sweep"></span>
+    </div>
+    <div class="hero-bg-word" aria-hidden="true" data-parallax="0.25">recon</div>
+
+    <div class="container hero-inner">
+      <div class="hero-badge" data-reveal>
+        <span class="ping"></span>
+        <span>Self-hosted · Single-tenant · Audit-ready</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line"><span class="word">The</span> <span class="word">operating</span> <span class="word">substrate</span></span>
+        <span class="line"><span class="word">for</span> <span class="word italic">ops-heavy</span> <span class="word">teams.</span></span>
+      </h1>
+      <p class="hero-sub" data-reveal>
+        Recon is the self-hosted gateway, workspace, and skill runtime that <a class="inline-link" href="pulse.html">Pulse</a> and <a class="inline-link helm-link" href="helm.html">Helm</a> are built on. Deployed by <a class="inline-link" href="/">42nights</a> inside your perimeter.
+      </p>
+      <p class="hero-audience" data-reveal>RevOps · Sales leadership · Operating partners · COOs · Family offices</p>
+
+      <div class="hero-cta" data-reveal>
+        <a class="btn btn-primary" href="#cta" data-magnetic>
+          <span>Book a demo</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="mailto:jerry@xiao.sh?subject=Recon%20enquiry">
+          <span>Talk to us</span>
+        </a>
+      </div>
+
+      <div class="hero-stats" data-reveal>
+        <div class="stat"><span class="stat-num" data-counter="100">0</span><span class="stat-label">% on your own infra</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num" data-counter="2">0</span><span class="stat-label">product surfaces</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num" data-counter="0">0</span><span class="stat-label">vendor lock-in</span></div>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Salesforce</span><span>·</span>
+        <span>HubSpot</span><span>·</span>
+        <span>Gmail</span><span>·</span>
+        <span>Outlook</span><span>·</span>
+        <span>Slack</span><span>·</span>
+        <span>Linear</span><span>·</span>
+        <span>QuickBooks</span><span>·</span>
+        <span>Stripe</span><span>·</span>
+        <span>NetSuite</span><span>·</span>
+        <span>Xero</span><span>·</span>
+        <span>Apollo</span><span>·</span>
+        <span>Clay</span><span>·</span>
+        <span>PostHog</span><span>·</span>
+        <span>Notion</span><span>·</span>
+        <span>Drive</span><span>·</span>
+        <span>Box</span><span>·</span>
+        <span>MCP servers</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ WHY (perimeter diagram) ═══════════════════ -->
+  <section class="section" id="why">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">01</div>
+    <div class="container">
+      <div class="section-head section-head-narrow">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Why operators choose Recon</div>
+        <h2 class="section-title" data-split>
+          Your data. Your perimeter. <em>Your agents.</em>
+        </h2>
+      </div>
+
+      <div class="perimeter-stage" data-reveal>
+        <svg viewBox="0 0 1000 540" class="perimeter-svg" role="img" aria-labelledby="perimTitle">
+          <title id="perimTitle">Recon stays inside your perimeter; connectors call out, never in</title>
+          <defs>
+            <pattern id="perimGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+            </pattern>
+            <radialGradient id="gatewayGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(205, 251, 83, 0.32)" />
+              <stop offset="100%" stop-color="rgba(205, 251, 83, 0)" />
+            </radialGradient>
+          </defs>
+          <rect width="1000" height="540" fill="url(#perimGrid)" />
+
+          <!-- outer perimeter -->
+          <text x="80" y="58" class="perim-title">YOUR PERIMETER</text>
+          <text x="240" y="58" class="perim-sub">VPC · laptop · air-gapped</text>
+          <rect x="60" y="74" width="600" height="396" rx="16"
+                fill="rgba(205, 251, 83, 0.018)"
+                stroke="rgba(205, 251, 83, 0.45)"
+                stroke-width="1.5" stroke-dasharray="6 6"
+                class="perim-boundary" />
+
+          <!-- shells -->
+          <g class="perim-shell">
+            <rect x="110" y="120" width="180" height="58" rx="10"
+                  fill="rgba(205, 251, 83, 0.07)" stroke="rgba(205, 251, 83, 0.5)" stroke-width="1.2" />
+            <text x="128" y="148" class="perim-name">Pulse</text>
+            <text x="128" y="166" class="perim-tiny">GTM workspace</text>
+          </g>
+          <g class="perim-shell">
+            <rect x="430" y="120" width="180" height="58" rx="10"
+                  fill="rgba(126, 197, 255, 0.07)" stroke="rgba(126, 197, 255, 0.5)" stroke-width="1.2" />
+            <text x="448" y="148" class="perim-name helm">Helm</text>
+            <text x="448" y="166" class="perim-tiny">Portfolio cockpit</text>
+          </g>
+
+          <!-- shells → gateway -->
+          <path d="M200 178 Q200 220 270 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
+          <path d="M520 178 Q520 220 450 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
+
+          <!-- gateway glow + box -->
+          <ellipse cx="360" cy="295" rx="190" ry="64" fill="url(#gatewayGlow)" />
+          <rect x="240" y="252" width="240" height="86" rx="12"
+                fill="rgba(205, 251, 83, 0.18)"
+                stroke="rgba(205, 251, 83, 0.7)" stroke-width="1.5" class="perim-gateway-box" />
+          <text x="360" y="286" class="perim-name strong" text-anchor="middle">Gateway</text>
+          <text x="360" y="308" class="perim-tiny" text-anchor="middle">audit log · vault · skill runtime</text>
+
+          <!-- gateway → DB -->
+          <line x1="360" y1="338" x2="360" y2="380" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
+          <rect x="290" y="380" width="140" height="46" rx="10"
+                fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.18)" />
+          <text x="360" y="408" class="perim-name muted" text-anchor="middle">your DB</text>
+
+          <!-- external connectors -->
+          <g class="perim-externals">
+            <g transform="translate(720, 102)">
+              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+              <text x="20" y="26" class="perim-ext">Salesforce · HubSpot</text>
+            </g>
+            <g transform="translate(720, 162)">
+              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+              <text x="20" y="26" class="perim-ext">Stripe · QuickBooks · Xero</text>
+            </g>
+            <g transform="translate(720, 222)">
+              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+              <text x="20" y="26" class="perim-ext">Gmail · Outlook · Calendar</text>
+            </g>
+            <g transform="translate(720, 282)">
+              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+              <text x="20" y="26" class="perim-ext">Apollo · Clay · PostHog</text>
+            </g>
+            <g transform="translate(720, 342)">
+              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
+              <text x="20" y="26" class="perim-ext">MCP servers · LLM APIs</text>
+            </g>
+          </g>
+
+          <!-- outbound flow lines -->
+          <g class="perim-flows" stroke-linecap="round" fill="none" stroke-width="1.4">
+            <path d="M480 274 C 600 274 620 122 720 122" stroke-dasharray="4 6" />
+            <path d="M480 286 C 600 286 620 182 720 182" stroke-dasharray="4 6" />
+            <path d="M480 298 C 600 298 620 242 720 242" stroke-dasharray="4 6" />
+            <path d="M480 310 C 600 310 620 302 720 302" stroke-dasharray="4 6" />
+            <path d="M480 322 C 600 322 620 362 720 362" stroke-dasharray="4 6" />
+          </g>
+
+          <!-- legend tags -->
+          <g transform="translate(60, 490)">
+            <rect width="200" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,100,100,0.32)" />
+            <line x1="22" y1="11" x2="34" y2="23" stroke="rgba(255,120,120,0.65)" stroke-width="1.6" />
+            <line x1="34" y1="11" x2="22" y2="23" stroke="rgba(255,120,120,0.65)" stroke-width="1.6" />
+            <text x="48" y="21" class="perim-tag muted">no inbound</text>
+          </g>
+          <g transform="translate(280, 490)">
+            <rect width="200" height="32" rx="16" fill="rgba(205,251,83,0.06)" stroke="rgba(205,251,83,0.35)" />
+            <text x="20" y="21" class="perim-tag">→ outbound only</text>
+          </g>
+          <g transform="translate(500, 490)">
+            <rect width="200" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.14)" />
+            <text x="20" y="21" class="perim-tag muted">audit log signed</text>
+          </g>
+          <g transform="translate(720, 490)">
+            <rect width="240" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.14)" />
+            <text x="20" y="21" class="perim-tag muted">your keys, your network</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PRODUCTS ═══════════════════ -->
+  <section class="section" id="products">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">02</div>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Two products · one substrate</div>
+        <h2 class="section-title" data-split>
+          Pulse for revenue.<br/><em>Helm</em> for portfolios.
+        </h2>
+        <p class="section-lede" data-reveal>
+          Both wrap the same self-hosted core — same gateway, same identity vault, same skill substrate. Different operators, very different jobs to be done.
+        </p>
+      </div>
+
+      <div class="product-grid">
+        <a class="product-card" href="pulse.html" data-product="pulse" data-reveal>
+          <div class="product-head">
+            <div class="product-mark pulse-mark">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 16h6l3-9 6 18 3-9h10"/>
+              </svg>
+            </div>
+            <div>
+              <div class="product-name">Pulse</div>
+              <div class="product-tag">GTM operating system</div>
+            </div>
+          </div>
+          <h3 class="product-headline">The operating layer between raw signal and revenue execution.</h3>
+          <p class="product-copy">
+            Identity-resolved CRM, inbox-first sync, Apollo / Clay-style enrichment, scheduled outbound, attribution and forecast — all on infrastructure you control.
+          </p>
+          <div class="product-foot">
+            <span class="product-audience">RevOps · Sales · Growth</span>
+            <span class="product-arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </div>
+          <div class="product-glow"></div>
+        </a>
+
+        <a class="product-card helm" href="helm.html" data-product="helm" data-reveal>
+          <div class="product-head">
+            <div class="product-mark helm-mark">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="16" cy="16" r="6"/>
+                <path d="M16 4v6M16 22v6M4 16h6M22 16h6M7.5 7.5l4.2 4.2M20.3 20.3l4.2 4.2M7.5 24.5l4.2-4.2M20.3 11.7l4.2-4.2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="product-name">Helm</div>
+              <div class="product-tag">Portfolio operating cockpit</div>
+            </div>
+          </div>
+          <h3 class="product-headline">A holdco cockpit — every portco a workspace, rolling up to one view.</h3>
+          <p class="product-copy">
+            KPI ingest from QuickBooks, Stripe, HRIS, HubSpot. Variance flags with agent-drafted commentary. Per-deal DD workspace generator. Cross-portfolio benchmarking on margin, CAC payback, NRR.
+          </p>
+          <div class="product-foot">
+            <span class="product-audience">Operating partners · Holdcos · Family offices</span>
+            <span class="product-arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </div>
+          <div class="product-glow"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ HOW IT DEPLOYS (architecture stack) ═══════════════════ -->
+  <section class="section section-narrow" id="how">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">03</div>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-reveal><span class="dot"></span>How it deploys</div>
+        <h2 class="section-title" data-split>
+          Three layers. <em>One process tree.</em>
+        </h2>
+      </div>
+
+      <div class="arch-stack" data-stagger>
+        <div class="arch-layer arch-shells">
+          <span class="al-tag">Shells</span>
+          <div class="al-cells">
+            <span class="al-cell">apps/web</span>
+            <span class="al-cell pulse">Pulse</span>
+            <span class="al-cell helm">Helm</span>
+          </div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-layer arch-gateway">
+          <span class="al-tag">Gateway</span>
+          <div class="al-cells">
+            <span class="al-cell strong">profile-managed daemon</span>
+            <span class="al-cell">audit signer</span>
+            <span class="al-cell">credential vault</span>
+          </div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-layer arch-ext">
+          <span class="al-tag">Extensions</span>
+          <div class="al-cells">
+            <span class="al-cell">AI gateway</span>
+            <span class="al-cell">Identity</span>
+            <span class="al-cell">Composio</span>
+            <span class="al-cell">Apollo</span>
+            <span class="al-cell">PostHog</span>
+          </div>
+        </div>
+        <div class="arch-arrow down"></div>
+        <div class="arch-deploys">
+          <span class="kbd">macOS</span>
+          <span class="kbd">Linux</span>
+          <span class="kbd">Docker</span>
+          <span class="kbd">VPC</span>
+          <span class="kbd">Air-gapped</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CAPABILITIES (2×2 mini diagrams) ═══════════════════ -->
+  <section class="section" id="capabilities">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">04</div>
+    <div class="container">
+      <div class="section-head section-head-narrow">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Capabilities</div>
+        <h2 class="section-title" data-split>
+          What it does, <em>out of the box.</em>
+        </h2>
+      </div>
+
+      <div class="cap-grid" data-stagger>
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="0" y="6" width="92" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="6" y="17" class="cap-label">maya@northstar.io</text>
+            <rect x="0" y="36" width="106" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="6" y="47" class="cap-label">m.adams@northstar.io</text>
+            <rect x="0" y="66" width="100" height="14" rx="3" fill="rgba(255,255,255,0.06)" />
+            <text x="6" y="77" class="cap-label">li/maya-adams</text>
+            <path d="M 92 13 C 120 13 130 43 145 43" stroke="var(--accent)" fill="none" stroke-dasharray="3 3" />
+            <path d="M 106 43 L 145 43" stroke="var(--accent)" fill="none" stroke-dasharray="3 3" />
+            <path d="M 100 73 C 120 73 130 43 145 43" stroke="var(--accent)" fill="none" stroke-dasharray="3 3" />
+            <rect x="145" y="34" width="72" height="20" rx="4"
+                  fill="rgba(205,251,83,0.15)" stroke="var(--accent)" />
+            <text x="181" y="48" class="cap-label-out" text-anchor="middle">M. Adams</text>
+          </svg>
+          <h3>Identity-resolved CRM</h3>
+          <p>Three channels. One row.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <circle cx="20" cy="46" r="7" fill="var(--accent)" />
+            <circle cx="20" cy="46" r="14" fill="none" stroke="var(--accent)" stroke-opacity="0.4" />
+            <text x="6" y="78" class="cap-label">trigger</text>
+            <line x1="34" y1="46" x2="78" y2="46" stroke="var(--accent)" stroke-dasharray="3 4" />
+            <rect x="78" y="32" width="56" height="28" rx="6"
+                  fill="rgba(205,251,83,0.16)" stroke="var(--accent)" />
+            <text x="106" y="50" class="cap-label-out" text-anchor="middle">RUN</text>
+            <line x1="134" y1="46" x2="178" y2="46" stroke="var(--accent)" stroke-dasharray="3 4" />
+            <rect x="178" y="32" width="34" height="28" rx="6"
+                  fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" />
+            <text x="195" y="50" class="cap-label-out muted" text-anchor="middle">DIFF</text>
+            <text x="195" y="78" class="cap-label" text-anchor="middle">review</text>
+          </svg>
+          <h3>Skills act on schedule</h3>
+          <p>Trigger → run → diff back.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="0" y="4" width="44" height="10" rx="3" fill="rgba(255,255,255,0.08)" />
+            <text x="48" y="13" class="cap-label">posthog</text>
+            <rect x="0" y="22" width="44" height="10" rx="3" fill="rgba(255,255,255,0.08)" />
+            <text x="48" y="31" class="cap-label">apollo</text>
+            <rect x="0" y="40" width="44" height="10" rx="3" fill="rgba(255,255,255,0.08)" />
+            <text x="48" y="49" class="cap-label">clearbit</text>
+            <rect x="0" y="58" width="44" height="10" rx="3" fill="rgba(255,255,255,0.08)" />
+            <text x="48" y="67" class="cap-label">webhook</text>
+            <rect x="0" y="76" width="44" height="10" rx="3" fill="rgba(255,255,255,0.08)" />
+            <text x="48" y="85" class="cap-label">linkedin</text>
+            <path d="M 100 4 L 150 36 L 150 56 L 100 88 Z"
+                  fill="rgba(205,251,83,0.05)" stroke="var(--accent)" stroke-opacity="0.4" />
+            <rect x="150" y="36" width="68" height="20" rx="10"
+                  fill="rgba(205,251,83,0.16)" stroke="var(--accent)" />
+            <text x="184" y="50" class="cap-label-out" text-anchor="middle">signals</text>
+          </svg>
+          <h3>One surface for intent</h3>
+          <p>Many sources. One stream.</p>
+        </article>
+
+        <article class="cap-tile">
+          <svg class="cap-vis" viewBox="0 0 220 92" aria-hidden="true">
+            <rect x="10" y="58" width="14" height="22" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="30" y="44" width="14" height="36" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="50" y="62" width="14" height="18" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="70" y="36" width="14" height="44" rx="2" fill="rgba(126,197,255,0.55)" />
+            <rect x="90" y="50" width="14" height="30" rx="2" fill="rgba(126,197,255,0.55)" />
+            <text x="57" y="92" class="cap-label" text-anchor="middle">portcos</text>
+            <line x1="120" y1="58" x2="148" y2="58" stroke="var(--helm)" stroke-width="1.4" />
+            <polyline points="142,53 148,58 142,63" stroke="var(--helm)" fill="none" stroke-width="1.4" />
+            <rect x="158" y="20" width="44" height="60" rx="5"
+                  fill="rgba(126,197,255,0.22)" stroke="var(--helm)" />
+            <text x="180" y="92" class="cap-label" text-anchor="middle">holdco</text>
+          </svg>
+          <h3>Holdco KPI roll-ups</h3>
+          <p>Portcos in. Dashboard out.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ROADMAP ═══════════════════ -->
+  <section class="section section-narrow" id="roadmap">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">05</div>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Roadmap</div>
+        <h2 class="section-title" data-split>
+          Five phases. <em>Two products.</em> One substrate.
+        </h2>
+      </div>
+
+      <div class="roadmap-tabs" role="tablist" aria-label="Roadmap product">
+        <button class="rt-btn active" data-roadmap="pulse" role="tab" aria-selected="true">Pulse — GTM</button>
+        <button class="rt-btn" data-roadmap="helm" role="tab" aria-selected="false">Helm — PE</button>
+        <span class="rt-indicator" aria-hidden="true"></span>
+      </div>
+
+      <div class="rm-timeline" data-active-phase="0">
+        <div class="rm-track">
+          <div class="rm-line"></div>
+          <div class="rm-progress"></div>
+          <button class="rm-dot active" data-phase-idx="0" aria-label="Phase 1"><span>01</span></button>
+          <button class="rm-dot" data-phase-idx="1" aria-label="Phase 2"><span>02</span></button>
+          <button class="rm-dot" data-phase-idx="2" aria-label="Phase 3"><span>03</span></button>
+          <button class="rm-dot" data-phase-idx="3" aria-label="Phase 4"><span>04</span></button>
+          <button class="rm-dot" data-phase-idx="4" aria-label="Phase 5"><span>05</span></button>
+        </div>
+
+        <div class="rm-stage">
+          <div class="rm-panels active" data-roadmap-panel="pulse">
+            <div class="rm-panel active" data-phase-idx="0">
+              <span class="rm-tag">Phase 1 · Pulse</span>
+              <h4>Pipeline foundations</h4>
+              <p>Canonical People + Company model. Inbox-first sync. Calendar → meeting → deal attribution. Lifecycle stage, owner, last touch.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="1">
+              <span class="rm-tag">Phase 2 · Pulse</span>
+              <h4>Signal capture</h4>
+              <p>Apollo / Clay enrichment. PostHog event timeline. LinkedIn + outbound capture. Intent adapters behind one <code>signals</code> surface.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="2">
+              <span class="rm-tag">Phase 3 · Pulse</span>
+              <h4>Agentic execution</h4>
+              <p>Lead triage · ICP scoring · outbound draft · meeting prep · pipeline review · churn flag. Per-account next-best-action on a schedule.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="3">
+              <span class="rm-tag">Phase 4 · Pulse</span>
+              <h4>Revenue analytics</h4>
+              <p>Weighted forecast by stage / owner / segment. Source → meeting → opp attribution. Cohort retention via PostHog or warehouse adapter.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="4">
+              <span class="rm-tag">Phase 5 · Pulse</span>
+              <h4>Multiplayer</h4>
+              <p>Team workspaces with row-level RBAC. Shared skill libraries with review/approval. Slack / Linear two-way sync for handoffs.</p>
+            </div>
+          </div>
+
+          <div class="rm-panels" data-roadmap-panel="helm">
+            <div class="rm-panel active" data-phase-idx="0">
+              <span class="rm-tag">Phase 1 · Helm</span>
+              <h4>Multi-entity foundation</h4>
+              <p>Workspace-as-portfolio-company. HoldCo workspace aggregating read-only views. Entities: Company, People, Contracts, KPIs, Reporting periods.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="1">
+              <span class="rm-tag">Phase 2 · Helm</span>
+              <h4>Operating cadence</h4>
+              <p>QuickBooks / Xero / NetSuite, Stripe, HRIS, Hub/Salesforce ingest. Auto-populated monthly &amp; quarterly templates with variance flags.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="2">
+              <span class="rm-tag">Phase 3 · Helm</span>
+              <h4>Diligence &amp; deal flow</h4>
+              <p>Deal pipeline as a first-class object. Per-deal DD workspace generator. Data-room ingest with auto-tagging and risk flag agents.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="3">
+              <span class="rm-tag">Phase 4 · Helm</span>
+              <h4>Portfolio agents</h4>
+              <p>Operating-partner agent per portco. Cross-portfolio benchmarking on margin, CAC payback, NRR percentiles. Talent-network agent.</p>
+            </div>
+            <div class="rm-panel" data-phase-idx="4">
+              <span class="rm-tag">Phase 5 · Helm</span>
+              <h4>LP &amp; governance</h4>
+              <p>LP reporting view (capital account, IRR/MOIC). Board-pack generator from operating-partner output. SOC2-ready audit trail.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TRUST (sovereignty inline) ═══════════════════ -->
+  <section class="section section-narrow trust-sec" id="trust">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">06</div>
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-reveal><span class="dot"></span>Trust</div>
+        <h2 class="section-title" data-split>
+          Built to pass<br/><em>your security review.</em>
+        </h2>
+      </div>
+      <p class="trust-statement" data-reveal>
+        Single-tenant by definition. Bring your own keys for LLM, CRM, storage, and identity. SOC2-ready audit log per workspace, per skill, per credential — pipe it straight to your SIEM. Zero telemetry, verifiable in source provided under your contract. Workspace-scoped RBAC isolates your sales workspace from your portfolio data, by default.
+      </p>
+      <ul class="trust-tags" data-stagger role="list">
+        <li>SOC2-ready audit trail</li>
+        <li>Bring your own keys</li>
+        <li>On-prem / VPC / Air-gapped</li>
+        <li>Single-tenant by design</li>
+        <li>Zero telemetry</li>
+        <li>Workspace-scoped RBAC</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CTA ═══════════════════ -->
+  <section class="section cta-sec" id="cta">
+    <div class="bg-numeral" aria-hidden="true" data-parallax="0.35">07</div>
+    <div class="container">
+      <div class="cta-card" data-reveal>
+        <div class="cta-copy">
+          <div class="eyebrow"><span class="dot"></span>Get started</div>
+          <h2 class="section-title" data-split>
+            Run it where your<br/><em>data already lives.</em>
+          </h2>
+          <p class="section-lede">
+            We deploy Recon inside your perimeter and stay close through onboarding, integration, and skill-pack tuning. Talk to us about scope, security, and pricing.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="mailto:jerry@xiao.sh?subject=Recon%20demo%20request" data-magnetic>
+              <span>Book a demo</span>
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="mailto:jerry@xiao.sh?subject=Recon%20enquiry">
+              <span>Talk to us</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="terminal" aria-hidden="true">
+          <div class="terminal-bar">
+            <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+            <span class="terminal-title">recon · acme-prod</span>
+          </div>
+          <div class="terminal-body" id="terminal-body">
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="recon up --profile=acme-prod"></span></div>
+            <div class="t-line out ok"><span>▲ workspace ready · auth via SSO</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="recon connect hubspot --read-only"></span></div>
+            <div class="t-line out"><span>✓ 4,212 contacts · 318 active deals indexed</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="recon skills run pipeline-review"></span></div>
+            <div class="t-line out"><span>✓ 47 deals scored · 3 flagged for risk</span></div>
+            <div class="t-line"><span class="prompt">$</span> <span class="cmd" data-typed="recon audit log --since=24h"></span></div>
+            <div class="t-line out muted"><span>◇ 142 agent actions · 0 anomalies</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+          </svg>
+        </div>
+        <span>Recon · built &amp; deployed by <a href="/">42nights</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Studio</a>
+        <a href="recon.html">Recon</a>
+        <a href="pulse.html">Pulse</a>
+        <a href="helm.html">Helm</a>
+        <a href="mailto:jerry@xiao.sh">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
