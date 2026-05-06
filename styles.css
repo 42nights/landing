@@ -490,13 +490,15 @@ body[data-phase="pe"] .pt-indicator {
 /* ═══════════ SECTION HEAD VARIANT ═══════════ */
 .section-head-narrow { max-width: var(--max-narrow); margin-left: auto; margin-right: auto; text-align: left; }
 
-/* ═══════════ PERIMETER DIAGRAM ═══════════ */
+/* ═══════════ PERIMETER DIAGRAM (SVG lines + HTML liquid-glass boxes) ═══════════ */
 .perimeter-stage {
   position: relative;
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, var(--surface) 0%, var(--bg-2) 100%);
+  background:
+    radial-gradient(700px 280px at 36% 56%, rgba(205, 251, 83, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--surface) 0%, var(--bg-2) 100%);
   padding: 28px;
   overflow: hidden;
 }
@@ -504,19 +506,28 @@ body[data-phase="pe"] .pt-indicator {
   content: ""; position: absolute; inset: -1px; pointer-events: none;
   border-radius: inherit;
   background: radial-gradient(900px 240px at 30% 30%, var(--accent-soft), transparent 60%);
-  opacity: 0.6;
+  opacity: 0.5;
 }
-.perimeter-svg { width: 100%; height: auto; position: relative; }
-.perim-title { fill: var(--accent); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; }
-.perim-sub { fill: var(--text-faint); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; }
-.perim-name { fill: var(--text); font-family: var(--font-sans); font-size: 16px; font-weight: 500; letter-spacing: -0.01em; }
-.perim-name.helm { fill: var(--helm); }
-.perim-name.strong { font-size: 19px; font-weight: 600; }
-.perim-name.muted { fill: var(--text-dim); font-size: 13px; }
-.perim-tiny { fill: var(--text-faint); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; }
-.perim-ext { fill: var(--text-dim); font-family: var(--font-mono); font-size: 12px; letter-spacing: -0.005em; }
-.perim-tag { fill: var(--accent); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; }
-.perim-tag.muted { fill: var(--text-faint); }
+.perim-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 540;
+}
+.perimeter-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.perim-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.perim-overlay > * { pointer-events: auto; }
+
 .perim-flows path {
   stroke: rgba(205, 251, 83, 0.55);
   animation: flowDash 1.6s linear infinite;
@@ -526,14 +537,164 @@ body[data-phase="pe"] .pt-indicator {
 .perim-flows path:nth-child(4) { animation-duration: 2.2s; animation-delay: -0.9s; }
 .perim-flows path:nth-child(5) { animation-duration: 2.4s; animation-delay: -1.2s; }
 @keyframes flowDash { to { stroke-dashoffset: -20; } }
-.perim-boundary {
-  animation: boundaryPulse 4s ease-in-out infinite;
-}
+.perim-boundary { animation: boundaryPulse 4s ease-in-out infinite; }
 @keyframes boundaryPulse { 50% { stroke-opacity: 0.8; } }
-.perim-gateway-box {
-  animation: gatewayPulse 3.6s ease-in-out infinite;
+
+/* ─── perimeter labels ─── */
+.perim-label-text {
+  position: absolute;
+  left: calc(var(--x, 0) / 1000 * 100%);
+  top: calc(var(--y, 0) / 540 * 100%);
+  transform: translateY(-55%);
+  font-family: var(--font-mono);
+  white-space: nowrap;
 }
-@keyframes gatewayPulse { 50% { stroke-opacity: 1; } }
+.perim-title-text { color: var(--accent); font-size: clamp(10px, 1.2vw, 12px); letter-spacing: 0.16em; }
+.perim-sub-text { color: var(--text-faint); font-size: clamp(9px, 1.1vw, 11px); letter-spacing: 0.06em; }
+
+/* ─── glass primitive ─── */
+.glass {
+  position: absolute;
+  left: calc(var(--x, 0) / 1000 * 100%);
+  top: calc(var(--y, 0) / 540 * 100%);
+  width: calc(var(--w, 0) / 1000 * 100%);
+  height: calc(var(--h, 0) / 540 * 100%);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.02),
+    0 4px 14px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 16px;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 320ms var(--ease-out), border-color 220ms var(--ease-out);
+}
+/* spec-highlight gradient — top-left light reflection */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10), transparent 55%);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .glass:hover { transform: translateY(-2px); }
+}
+
+/* ─── glass variants ─── */
+.glass-pulse {
+  background: rgba(205, 251, 83, 0.07);
+  border-color: rgba(205, 251, 83, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(205, 251, 83, 0.20),
+    inset 0 -1px 0 rgba(205, 251, 83, 0.06),
+    0 0 32px -8px rgba(205, 251, 83, 0.30),
+    0 4px 14px rgba(0, 0, 0, 0.28);
+}
+.glass-helm {
+  background: rgba(126, 197, 255, 0.07);
+  border-color: rgba(126, 197, 255, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(126, 197, 255, 0.20),
+    inset 0 -1px 0 rgba(126, 197, 255, 0.06),
+    0 0 32px -8px rgba(126, 197, 255, 0.30),
+    0 4px 14px rgba(0, 0, 0, 0.28);
+}
+.glass-gateway {
+  background:
+    linear-gradient(135deg, rgba(205, 251, 83, 0.20) 0%, rgba(205, 251, 83, 0.10) 100%);
+  border-color: rgba(205, 251, 83, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(205, 251, 83, 0.32),
+    inset 0 -1px 0 rgba(205, 251, 83, 0.10),
+    0 0 60px -10px rgba(205, 251, 83, 0.55),
+    0 6px 22px rgba(0, 0, 0, 0.35);
+}
+.glass-gateway::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(205, 251, 83, 0.18), transparent 60%);
+  z-index: -1;
+  filter: blur(28px);
+  pointer-events: none;
+}
+.glass-db {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.13);
+  align-items: center;
+  text-align: center;
+}
+.glass-ext {
+  border-radius: 100px;
+  align-items: flex-start;
+  padding: 0 18px;
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.2vw, 12px);
+  color: var(--text-dim);
+  letter-spacing: -0.005em;
+}
+.glass-tag {
+  border-radius: 100px;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.05vw, 11px);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+}
+.glass-deny { border-color: rgba(255, 100, 100, 0.32); }
+.glass-deny .x-mark { color: rgba(255, 130, 130, 0.75); font-size: clamp(11px, 1.3vw, 13px); }
+.glass-allow {
+  background: rgba(205, 251, 83, 0.08);
+  border-color: rgba(205, 251, 83, 0.40);
+  color: var(--accent);
+  box-shadow:
+    inset 0 1px 0 rgba(205, 251, 83, 0.22),
+    0 0 24px -8px rgba(205, 251, 83, 0.30);
+}
+
+/* ─── glass content typography ─── */
+.glass .g-name {
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.65vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  line-height: 1.1;
+}
+.glass-helm .g-name { color: var(--helm); }
+.glass-gateway .g-name {
+  font-size: clamp(15px, 2.0vw, 22px);
+  font-weight: 600;
+  color: #f7fff0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.glass-db .g-name { font-size: clamp(12px, 1.4vw, 15px); color: var(--text-dim); font-weight: 400; }
+.glass .g-tag {
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.05vw, 11.5px);
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  margin-top: 3px;
+  line-height: 1.2;
+}
+.glass-gateway .g-tag {
+  color: rgba(245, 255, 215, 0.80);
+  letter-spacing: 0.06em;
+}
 
 /* ═══════════ ARCHITECTURE STACK DIAGRAM ═══════════ */
 .arch-stack {
@@ -1350,7 +1511,9 @@ body[data-phase="pe"] .rm-progress {
   .cap-grid { grid-template-columns: 1fr; }
   .arch-layer { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 20px; }
   .al-tag { min-width: auto; }
-  .perimeter-stage { padding: 16px; }
+  .perimeter-stage { padding: 14px; }
+  .glass { padding: 0 10px; border-radius: 10px; }
+  .glass-ext, .glass-tag { padding: 0 12px; }
   .rm-panel { padding: 22px 22px; }
   .cta-card, .contact-card { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
   .studio-products { grid-template-columns: 1fr; }

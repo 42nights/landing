@@ -129,113 +129,85 @@
       </div>
 
       <div class="perimeter-stage" data-reveal>
-        <svg viewBox="0 0 1000 540" class="perimeter-svg" role="img" aria-labelledby="perimTitle">
-          <title id="perimTitle">Recon stays inside your perimeter; connectors call out, never in</title>
-          <defs>
-            <pattern id="perimGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
-            </pattern>
-            <radialGradient id="gatewayGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(205, 251, 83, 0.32)" />
-              <stop offset="100%" stop-color="rgba(205, 251, 83, 0)" />
-            </radialGradient>
-          </defs>
-          <rect width="1000" height="540" fill="url(#perimGrid)" />
-
-          <!-- outer perimeter -->
-          <text x="80" y="58" class="perim-title">YOUR PERIMETER</text>
-          <text x="240" y="58" class="perim-sub">VPC · laptop · air-gapped</text>
-          <rect x="60" y="74" width="600" height="396" rx="16"
-                fill="rgba(205, 251, 83, 0.018)"
-                stroke="rgba(205, 251, 83, 0.45)"
-                stroke-width="1.5" stroke-dasharray="6 6"
-                class="perim-boundary" />
-
-          <!-- shells -->
-          <g class="perim-shell">
-            <rect x="110" y="120" width="180" height="58" rx="10"
-                  fill="rgba(205, 251, 83, 0.07)" stroke="rgba(205, 251, 83, 0.5)" stroke-width="1.2" />
-            <text x="128" y="148" class="perim-name">Pulse</text>
-            <text x="128" y="166" class="perim-tiny">GTM workspace</text>
-          </g>
-          <g class="perim-shell">
-            <rect x="430" y="120" width="180" height="58" rx="10"
-                  fill="rgba(126, 197, 255, 0.07)" stroke="rgba(126, 197, 255, 0.5)" stroke-width="1.2" />
-            <text x="448" y="148" class="perim-name helm">Helm</text>
-            <text x="448" y="166" class="perim-tiny">Portfolio cockpit</text>
-          </g>
-
-          <!-- shells → gateway -->
-          <path d="M200 178 Q200 220 270 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
-          <path d="M520 178 Q520 220 450 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
-
-          <!-- gateway glow + box -->
-          <ellipse cx="360" cy="295" rx="190" ry="64" fill="url(#gatewayGlow)" />
-          <rect x="240" y="252" width="240" height="86" rx="12"
-                fill="rgba(205, 251, 83, 0.18)"
-                stroke="rgba(205, 251, 83, 0.7)" stroke-width="1.5" class="perim-gateway-box" />
-          <text x="360" y="286" class="perim-name strong" text-anchor="middle">Gateway</text>
-          <text x="360" y="308" class="perim-tiny" text-anchor="middle">audit log · vault · skill runtime</text>
-
-          <!-- gateway → DB -->
-          <line x1="360" y1="338" x2="360" y2="380" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
-          <rect x="290" y="380" width="140" height="46" rx="10"
-                fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.18)" />
-          <text x="360" y="408" class="perim-name muted" text-anchor="middle">your DB</text>
-
-          <!-- external connectors -->
-          <g class="perim-externals">
-            <g transform="translate(720, 102)">
-              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
-              <text x="20" y="26" class="perim-ext">Salesforce · HubSpot</text>
+        <div class="perim-canvas">
+          <!-- SVG: grid background, perimeter outline, all connecting lines/flows -->
+          <svg viewBox="0 0 1000 540" class="perimeter-svg" role="img" aria-labelledby="perimTitle" preserveAspectRatio="xMidYMid meet">
+            <title id="perimTitle">Recon stays inside your perimeter; connectors call out, never in</title>
+            <defs>
+              <pattern id="perimGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="1000" height="540" fill="url(#perimGrid)" />
+            <rect x="60" y="74" width="600" height="396" rx="16"
+                  fill="rgba(205, 251, 83, 0.018)"
+                  stroke="rgba(205, 251, 83, 0.45)"
+                  stroke-width="1.5" stroke-dasharray="6 6"
+                  class="perim-boundary" />
+            <!-- shells → gateway -->
+            <path d="M200 178 Q200 220 270 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
+            <path d="M520 178 Q520 220 450 250" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="1.2" />
+            <!-- gateway → DB -->
+            <line x1="360" y1="338" x2="360" y2="380" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
+            <!-- outbound flow lines -->
+            <g class="perim-flows" stroke-linecap="round" fill="none" stroke-width="1.4">
+              <path d="M480 274 C 600 274 620 122 720 122" stroke-dasharray="4 6" />
+              <path d="M480 286 C 600 286 620 182 720 182" stroke-dasharray="4 6" />
+              <path d="M480 298 C 600 298 620 242 720 242" stroke-dasharray="4 6" />
+              <path d="M480 310 C 600 310 620 302 720 302" stroke-dasharray="4 6" />
+              <path d="M480 322 C 600 322 620 362 720 362" stroke-dasharray="4 6" />
             </g>
-            <g transform="translate(720, 162)">
-              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
-              <text x="20" y="26" class="perim-ext">Stripe · QuickBooks · Xero</text>
-            </g>
-            <g transform="translate(720, 222)">
-              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
-              <text x="20" y="26" class="perim-ext">Gmail · Outlook · Calendar</text>
-            </g>
-            <g transform="translate(720, 282)">
-              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
-              <text x="20" y="26" class="perim-ext">Apollo · Clay · PostHog</text>
-            </g>
-            <g transform="translate(720, 342)">
-              <rect width="240" height="40" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" />
-              <text x="20" y="26" class="perim-ext">MCP servers · LLM APIs</text>
-            </g>
-          </g>
+          </svg>
 
-          <!-- outbound flow lines -->
-          <g class="perim-flows" stroke-linecap="round" fill="none" stroke-width="1.4">
-            <path d="M480 274 C 600 274 620 122 720 122" stroke-dasharray="4 6" />
-            <path d="M480 286 C 600 286 620 182 720 182" stroke-dasharray="4 6" />
-            <path d="M480 298 C 600 298 620 242 720 242" stroke-dasharray="4 6" />
-            <path d="M480 310 C 600 310 620 302 720 302" stroke-dasharray="4 6" />
-            <path d="M480 322 C 600 322 620 362 720 362" stroke-dasharray="4 6" />
-          </g>
+          <!-- HTML overlay: liquid-glass boxes positioned in % of the 1000×540 viewBox -->
+          <div class="perim-overlay">
+            <span class="perim-label-text perim-title-text" style="--x:80; --y:58">YOUR PERIMETER</span>
+            <span class="perim-label-text perim-sub-text" style="--x:222; --y:58">VPC · laptop · air-gapped</span>
 
-          <!-- legend tags -->
-          <g transform="translate(60, 490)">
-            <rect width="200" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,100,100,0.32)" />
-            <line x1="22" y1="11" x2="34" y2="23" stroke="rgba(255,120,120,0.65)" stroke-width="1.6" />
-            <line x1="34" y1="11" x2="22" y2="23" stroke="rgba(255,120,120,0.65)" stroke-width="1.6" />
-            <text x="48" y="21" class="perim-tag muted">no inbound</text>
-          </g>
-          <g transform="translate(280, 490)">
-            <rect width="200" height="32" rx="16" fill="rgba(205,251,83,0.06)" stroke="rgba(205,251,83,0.35)" />
-            <text x="20" y="21" class="perim-tag">→ outbound only</text>
-          </g>
-          <g transform="translate(500, 490)">
-            <rect width="200" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.14)" />
-            <text x="20" y="21" class="perim-tag muted">audit log signed</text>
-          </g>
-          <g transform="translate(720, 490)">
-            <rect width="240" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.14)" />
-            <text x="20" y="21" class="perim-tag muted">your keys, your network</text>
-          </g>
-        </svg>
+            <!-- shells -->
+            <div class="glass glass-pulse" style="--x:110; --y:120; --w:180; --h:58">
+              <div class="g-name">Pulse</div>
+              <div class="g-tag">GTM workspace</div>
+            </div>
+            <div class="glass glass-helm" style="--x:430; --y:120; --w:180; --h:58">
+              <div class="g-name">Helm</div>
+              <div class="g-tag">Portfolio cockpit</div>
+            </div>
+
+            <!-- gateway -->
+            <div class="glass glass-gateway" style="--x:240; --y:252; --w:240; --h:86">
+              <div class="g-name strong">Gateway</div>
+              <div class="g-tag">audit log · vault · skill runtime</div>
+            </div>
+
+            <!-- db -->
+            <div class="glass glass-db" style="--x:290; --y:380; --w:140; --h:46">
+              <div class="g-name muted">your DB</div>
+            </div>
+
+            <!-- externals -->
+            <div class="glass glass-ext" style="--x:720; --y:102; --w:240; --h:40">Salesforce · HubSpot</div>
+            <div class="glass glass-ext" style="--x:720; --y:162; --w:240; --h:40">Stripe · QuickBooks · Xero</div>
+            <div class="glass glass-ext" style="--x:720; --y:222; --w:240; --h:40">Gmail · Outlook · Calendar</div>
+            <div class="glass glass-ext" style="--x:720; --y:282; --w:240; --h:40">Apollo · Clay · PostHog</div>
+            <div class="glass glass-ext" style="--x:720; --y:342; --w:240; --h:40">MCP servers · LLM APIs</div>
+
+            <!-- legend tags -->
+            <div class="glass glass-tag glass-deny" style="--x:60; --y:490; --w:200; --h:32">
+              <span class="x-mark" aria-hidden="true">✕</span>
+              <span>no inbound</span>
+            </div>
+            <div class="glass glass-tag glass-allow" style="--x:280; --y:490; --w:200; --h:32">
+              <span>→ outbound only</span>
+            </div>
+            <div class="glass glass-tag" style="--x:500; --y:490; --w:200; --h:32">
+              <span>audit log signed</span>
+            </div>
+            <div class="glass glass-tag" style="--x:720; --y:490; --w:240; --h:32">
+              <span>your keys, your network</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
