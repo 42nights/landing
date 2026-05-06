@@ -54,12 +54,12 @@ body::before {
   z-index: 0;
 }
 /* theme variants — applied via body[data-theme] */
-body[data-theme="helm"] {
+[data-theme="helm"] {
   --accent: #7ec5ff;
   --accent-soft: rgba(126, 197, 255, 0.12);
   --accent-glow: rgba(126, 197, 255, 0.35);
 }
-body[data-theme="agency"] {
+[data-theme="agency"] {
   --accent: #7892bd;
   --accent-soft: rgba(120, 146, 189, 0.13);
   --accent-glow: rgba(120, 146, 189, 0.38);
@@ -117,12 +117,12 @@ body.ready .spotlight { opacity: 1; }
 }
 /* Denim brand mark for 42nights — used on /, and as the parent-brand mark on pulse/helm navs */
 .brand-mark.denim,
-body[data-theme="agency"] .brand-mark {
+[data-theme="agency"] .brand-mark {
   background: linear-gradient(135deg, #88a3cd 0%, #5a7bb0 100%);
   color: #f5f7fb;
   box-shadow: 0 0 0 1px rgba(120, 146, 189, 0.35), 0 0 24px -2px rgba(120, 146, 189, 0.45);
 }
-body[data-theme="helm"] .brand-mark:not(.denim) {
+[data-theme="helm"] .brand-mark:not(.denim) {
   background: linear-gradient(135deg, #b6dcff 0%, #5a9adc 100%);
   color: #07101c;
   box-shadow: 0 0 0 1px rgba(126, 197, 255, 0.32), 0 0 24px -2px rgba(126, 197, 255, 0.45);
@@ -310,11 +310,6 @@ body[data-theme="helm"] .brand-mark:not(.denim) {
   box-shadow: 0 0 0 1px rgba(205, 251, 83, 0.5), 0 6px 20px -4px var(--accent-glow);
   transition: background 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
 }
-body[data-phase="pe"] .pt-indicator {
-  background: var(--helm);
-  box-shadow: 0 0 0 1px rgba(126, 197, 255, 0.5), 0 6px 20px -4px rgba(126, 197, 255, 0.35);
-}
-
 /* hero-stage holds both phases stacked */
 .hero-stage {
   position: relative;
@@ -837,13 +832,9 @@ body[data-phase="pe"] .pt-indicator {
   position: absolute; left: 16px; top: 50%;
   width: 0;
   height: 1px;
-  background: linear-gradient(90deg, var(--accent), rgba(205,251,83,0.7));
+  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
   box-shadow: 0 0 10px var(--accent-glow);
   transform: translateY(-50%);
-}
-body[data-phase="pe"] .rm-progress {
-  background: linear-gradient(90deg, var(--helm), rgba(126,197,255,0.7));
-  box-shadow: 0 0 10px rgba(126,197,255,0.4);
 }
 .rm-dot {
   position: relative; z-index: 2;
