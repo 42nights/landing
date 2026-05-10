@@ -6,9 +6,6 @@ const row1 = [
   "Susa",
   "Afore Capital",
   "OpenAI for Startups program member",
-];
-
-const row2 = [
   "Reflex (HF0/Susa)",
   "Eragon (a16z/Lightspeed)",
   "Pocket (YC W26)",
@@ -58,12 +55,6 @@ export function Marquee() {
             Working with teams from
           </div>
           <Row items={row1} direction="left" />
-        </div>
-        <div className="mt-12">
-          <div className="mb-4 text-[9pt] uppercase tracking-[0.15em] text-mutedSoft">
-            Built by founders who've shipped at
-          </div>
-          <Row items={row2} direction="right" />
         </div>
       </div>
     </section>

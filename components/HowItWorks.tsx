@@ -15,7 +15,7 @@ const steps = [
     n: "03",
     title: "Ship.",
     body:
-      "The agent goes live with permission to act — Slack, voice, spend, code review — at ~10% the cost of the equivalent hire.",
+      "The agent goes live with permission to act — Slack, email, voice, spend — at ~10% the cost of the equivalent hire.",
   },
 ];
 

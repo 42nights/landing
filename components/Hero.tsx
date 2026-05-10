@@ -2,15 +2,17 @@ export function Hero() {
   return (
     <section className="mx-auto max-w-page px-6 pb-24 pt-24 md:px-10 md:pb-32 md:pt-32">
       <h1 className="font-serif-display text-[44px] leading-[1.05] tracking-tight md:text-[88px]">
-        An AI{" "}
+        Making companies{" "}
         <em className="not-italic">
-          <span className="italic text-accent">chief-of-staff</span>
-        </em>{" "}
-        for your company.
+          <span className="italic text-accent">AI native</span>
+        </em>
+        .
       </h1>
       <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink/80 md:text-xl">
-        We embed as engineers, learn how your company runs, and ship a
-        closed-loop agent that takes action — not just suggestions.
+        An agent that runs inside your company — wired into Slack, iMessage,
+        and WhatsApp — purpose-built for your industry. It takes action, finds
+        inefficiencies, and ships automations. At a tenth the cost of a hire.
+        No excuses. Just does.
       </p>
       <div className="mt-10 flex flex-col gap-3 sm:flex-row">
         {/* TODO: replace placeholder cal.com link before launch */}
