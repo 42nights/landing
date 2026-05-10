@@ -6,6 +6,9 @@
   --ink: #0A0A0A;
   --cream: #FAFAF7;
   --accent: #D72638;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 html {
@@ -24,6 +27,30 @@ body {
   font-family: Fraunces, Georgia, "Times New Roman", serif;
   font-feature-settings: "ss01", "ss02";
   letter-spacing: -0.02em;
+}
+
+@layer components {
+  .btn-press {
+    transition: background-color 200ms var(--ease-out),
+      color 200ms var(--ease-out),
+      transform 160ms var(--ease-out),
+      box-shadow 200ms var(--ease-out);
+    will-change: transform;
+  }
+  .btn-press:active {
+    transform: scale(0.97);
+  }
+  .btn-press:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent);
+  }
+}
+
+@media (hover: none) {
+  .btn-press:hover {
+    background-color: revert;
+    color: revert;
+  }
 }
 
 .marquee-mask {
@@ -45,4 +72,57 @@ body {
 
 .marquee-track:hover .marquee-row {
   animation-play-state: paused;
+}
+
+.fade-up {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+}
+
+@starting-style {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.stagger > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+}
+
+@starting-style {
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.stagger > *:nth-child(1) { transition-delay: 0ms; }
+.stagger > *:nth-child(2) { transition-delay: 50ms; }
+.stagger > *:nth-child(3) { transition-delay: 100ms; }
+.stagger > *:nth-child(4) { transition-delay: 150ms; }
+.stagger > *:nth-child(5) { transition-delay: 200ms; }
+.stagger > *:nth-child(6) { transition-delay: 250ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-row,
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none !important;
+  }
+  .animate-ping,
+  .animate-pulse-ring {
+    animation: none !important;
+  }
+  .fade-up,
+  .stagger > * {
+    transition: opacity 200ms ease;
+    transform: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

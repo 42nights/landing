@@ -23,7 +23,7 @@ export function HowItWorks() {
   return (
     <section className="border-t border-black/5">
       <div className="mx-auto max-w-page px-6 py-24 md:px-10 md:py-32">
-        <div className="grid gap-12 md:grid-cols-3 md:gap-10">
+        <div className="stagger grid gap-12 md:grid-cols-3 md:gap-10">
           {steps.map((s) => (
             <div key={s.n} className="border-t border-ink pt-6">
               <div className="text-sm font-medium tracking-wider text-mutedSoft">

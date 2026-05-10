@@ -11,7 +11,7 @@ export function Nav() {
         {/* TODO: replace placeholder cal.com link before launch */}
         <a
           href="https://cal.com/42nights"
-          className="rounded-md border border-ink bg-ink px-4 py-2 text-sm text-white transition-colors hover:bg-white hover:text-ink"
+          className="btn-press rounded-md border border-ink bg-ink px-4 py-2 text-sm text-white hover:bg-white hover:text-ink"
         >
           Book a call
         </a>

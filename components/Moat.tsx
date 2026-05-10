@@ -15,7 +15,7 @@ export function Moat() {
           context lives inside a model purpose-built for your company.
         </p>
 
-        <div className="mt-12 grid gap-8 border-t border-cream/15 pt-12 md:grid-cols-3 md:gap-10">
+        <div className="stagger mt-12 grid gap-8 border-t border-cream/15 pt-12 md:grid-cols-3 md:gap-10">
           <div>
             <div className="font-serif-display text-2xl tracking-tight text-cream md:text-3xl">
               <span className="text-accent">01</span> Trained, not stored.

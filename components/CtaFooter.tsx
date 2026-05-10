@@ -11,7 +11,7 @@ export function CtaFooter() {
           {/* TODO: replace placeholder cal.com link before launch */}
           <a
             href="https://cal.com/42nights"
-            className="inline-flex items-center justify-center rounded-md border border-ink bg-ink px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white hover:text-ink"
+            className="btn-press inline-flex items-center justify-center rounded-md border border-ink bg-ink px-8 py-3 text-sm font-medium text-white hover:bg-white hover:text-ink"
           >
             Book a call
           </a>
@@ -23,7 +23,7 @@ export function CtaFooter() {
           {/* TODO: replace placeholder hello@ email before launch */}
           <a
             href="mailto:hello@42nights.ai"
-            className="text-mutedSoft transition-colors hover:text-ink"
+            className="text-mutedSoft transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-ink"
           >
             hello@42nights.ai
           </a>
