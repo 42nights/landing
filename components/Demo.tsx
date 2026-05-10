@@ -28,7 +28,7 @@ const onboardingScript: Beat[] = [
   },
   {
     who: "you",
-    meta: "Ayaan",
+    meta: "Jerry",
     text: "Sounds good. Daniel's leading review. Maya owns vendor pipeline.",
   },
   {
@@ -45,7 +45,7 @@ const onboardingScript: Beat[] = [
   },
   {
     who: "you",
-    meta: "Ayaan",
+    meta: "Jerry",
     text: "Yes — show me a stalled PR.",
   },
   {
@@ -56,7 +56,7 @@ const onboardingScript: Beat[] = [
   },
   {
     who: "you",
-    meta: "Ayaan",
+    meta: "Jerry",
     text: "Right. Approved.",
   },
   {
@@ -374,7 +374,7 @@ function SlackPanel({
               transition={{ duration: 0.35 }}
             >
               <SlackMessage
-                who={b.who === "agent" ? "42nights agent" : "Ayaan G."}
+                who={b.who === "agent" ? "42nights agent" : "Jerry X."}
                 time={b.meta}
                 agent={b.who === "agent"}
               >
