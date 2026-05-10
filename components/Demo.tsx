@@ -88,8 +88,8 @@ const procurement = [
 export function Demo() {
   const [channel, setChannel] = useState<Channel>("slack");
   const [mode, setMode] = useState<Mode>("onboarding");
-  const [phase, setPhase] = useState<Phase>("idle");
-  const [visible, setVisible] = useState(0);
+  const [phase, setPhase] = useState<Phase>("playing");
+  const [visible, setVisible] = useState(1);
   const [final, setFinal] = useState<string | null>(null);
 
   const total = mode === "onboarding" ? onboardingScript.length : liveOpsMessages.length;
@@ -122,8 +122,8 @@ export function Demo() {
   }
 
   function reset(newMode?: Mode) {
-    setPhase("idle");
-    setVisible(0);
+    setPhase("playing");
+    setVisible(1);
     setFinal(null);
     if (newMode) setMode(newMode);
   }
@@ -353,7 +353,7 @@ function SlackPanel({
         )}
         {mode === "onboarding" && (
           <SlackMessage who="42nights agent" time="Day 0 · 9:00 AM" agent>
-            Hello. I'm your forward-deployed agent. Starting a 2–4 week embed
+            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
             today. I'll observe before I act.
           </SlackMessage>
         )}
@@ -491,7 +491,7 @@ function ImessagePanel({
 
         {mode === "onboarding" && (
           <ImessageBubble side="left">
-            Hello. I'm your forward-deployed agent. Starting a 2–4 week embed
+            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
             today. I'll observe before I act.
           </ImessageBubble>
         )}
@@ -653,7 +653,7 @@ function WhatsappPanel({
 
         {mode === "onboarding" && (
           <WhatsappBubble side="left" time="9:00">
-            Hello. I'm your forward-deployed agent. Starting a 2–4 week embed
+            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
             today. I'll observe before I act.
           </WhatsappBubble>
         )}

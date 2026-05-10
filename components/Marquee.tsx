@@ -52,7 +52,7 @@ export function Marquee() {
       <div className="mx-auto max-w-page px-6 py-24 md:px-10 md:py-32">
         <div>
           <div className="mb-4 text-[9pt] uppercase tracking-[0.15em] text-mutedSoft">
-            Working with teams from
+            Silicon Valley startups · pre-seed → Series A
           </div>
           <Row items={row1} direction="left" />
         </div>

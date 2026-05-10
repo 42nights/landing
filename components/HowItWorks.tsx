@@ -3,7 +3,7 @@ const steps = [
     n: "01",
     title: "Embed.",
     body:
-      "We work alongside your team for 2–4 weeks as forward-deployed engineers, observing the workflows we'll automate.",
+      "We work alongside your team for 1–2 weeks as forward-deployed engineers, observing every workflow we'll automate.",
   },
   {
     n: "02",
