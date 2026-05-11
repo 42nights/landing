@@ -44,10 +44,10 @@ export default function DepositPage() {
           <p className="mt-6 text-sm text-mutedSoft">
             Questions? Email{" "}
             <a
-              href="mailto:hello@42nights.ai"
+              href="mailto:hello@42nights.dev"
               className="underline decoration-ink/30 underline-offset-4 transition-[color] duration-200 hover:text-ink"
             >
-              hello@42nights.ai
+              hello@42nights.dev
             </a>
             .
           </p>
@@ -58,10 +58,10 @@ export default function DepositPage() {
         <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-mutedSoft md:flex-row md:px-10">
           <Wordmark className="text-base" />
           <a
-            href="mailto:hello@42nights.ai"
+            href="mailto:hello@42nights.dev"
             className="text-mutedSoft transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-ink"
           >
-            hello@42nights.ai
+            hello@42nights.dev
           </a>
           <span>© 2026</span>
         </div>

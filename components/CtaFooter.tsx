@@ -22,10 +22,10 @@ export function CtaFooter() {
           <Wordmark className="text-base" />
           {/* TODO: replace placeholder hello@ email before launch */}
           <a
-            href="mailto:hello@42nights.ai"
+            href="mailto:hello@42nights.dev"
             className="text-mutedSoft transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-ink"
           >
-            hello@42nights.ai
+            hello@42nights.dev
           </a>
           <span>© 2026</span>
         </div>
