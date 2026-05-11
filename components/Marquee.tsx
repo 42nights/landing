@@ -11,8 +11,7 @@ const row1 = [
   "Pocket (YC W26)",
   "Orca (HF0 Lightyear 001)",
   "Kamco Invest",
-  "BeFreed",
-  "Eaglecraft",
+  "Rule Your Own Game Inc.",
 ];
 
 function Pill({ label }: { label: string }) {
