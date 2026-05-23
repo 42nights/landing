@@ -106,6 +106,9 @@ body {
 .stagger > *:nth-child(4) { transition-delay: 150ms; }
 .stagger > *:nth-child(5) { transition-delay: 200ms; }
 .stagger > *:nth-child(6) { transition-delay: 250ms; }
+.stagger > *:nth-child(7) { transition-delay: 300ms; }
+.stagger > *:nth-child(8) { transition-delay: 350ms; }
+.stagger > *:nth-child(9) { transition-delay: 400ms; }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-row,
