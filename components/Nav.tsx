@@ -27,10 +27,10 @@ export function Nav() {
     if (!bar) return;
     const f = floating.current;
     gsap.to(bar, {
-      maxWidth: !f ? 1280 : hovering.current ? 1140 : 920,
+      maxWidth: !f ? 1280 : hovering.current ? 1260 : 1200,
       marginTop: f ? 12 : 0,
-      paddingTop: f ? 12 : 20,
-      paddingBottom: f ? 12 : 20,
+      paddingTop: f ? 16 : 20,
+      paddingBottom: f ? 16 : 20,
       backgroundColor: f ? "rgba(14,14,18,0.72)" : "rgba(14,14,18,0)",
       backdropFilter: f ? "blur(12px)" : "blur(0px)",
       borderColor: f ? "rgba(247,245,241,0.1)" : "rgba(247,245,241,0)",
@@ -56,10 +56,10 @@ export function Nav() {
       mm.add("(prefers-reduced-motion: reduce)", () => {
         floating.current = true;
         gsap.set(barRef.current, {
-          maxWidth: 920,
+          maxWidth: 1200,
           marginTop: 12,
-          paddingTop: 12,
-          paddingBottom: 12,
+          paddingTop: 16,
+          paddingBottom: 16,
           backgroundColor: "rgba(14,14,18,0.72)",
           backdropFilter: "blur(12px)",
           borderColor: "rgba(247,245,241,0.1)",
