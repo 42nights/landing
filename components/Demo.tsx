@@ -193,13 +193,13 @@ export function Demo() {
         >
           {/* Workflow panel */}
           <div className="flex h-[600px] flex-col rounded-lg border border-cream/10 bg-surface">
-            <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 pb-4 pt-6">
+            <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 py-3">
               <div className="text-sm font-medium text-cream">Workflow</div>
               <div className="font-mono-label text-[10px] text-cream/45">
                 {mode === "onboarding" ? "mapping" : "live"}
               </div>
             </div>
-            <div className="min-h-0 flex-1 divide-y divide-cream/[0.06] overflow-y-auto px-5 pb-5">
+            <div className="min-h-0 flex-1 divide-y divide-cream/[0.06] overflow-y-auto px-5 pb-5 pt-5">
               <Block title="Modules Rebuilt" subtitle="this sprint">
                 <ul className="divide-y divide-cream/[0.06] text-sm">
                   {rebuildModules.map((m) => (
@@ -347,7 +347,7 @@ function ModeButton({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`btn-press rounded-md px-4 py-2 text-left text-sm transition-colors ${
+      className={`btn-press rounded-md px-4 py-1.5 text-left text-sm transition-colors ${
         active
           ? "bg-cream/10 text-cream"
           : "text-cream/70 hover:bg-cream/[0.05] hover:text-cream"
@@ -382,7 +382,7 @@ function ChannelPills({
           key={t.id}
           onClick={() => setChannel(t.id)}
           aria-pressed={channel === t.id}
-          className={`btn-press rounded-md px-3 py-2 text-xs transition-colors ${
+          className={`btn-press rounded-md px-3 py-1.5 text-xs transition-colors ${
             channel === t.id
               ? "bg-cream/10 text-cream"
               : "text-cream/55 hover:bg-cream/[0.05] hover:text-cream"
@@ -868,7 +868,7 @@ function ControlBar({
       {phase === "idle" && (
         <button
           onClick={onStart}
-          className="btn-press w-full rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white hover:bg-accentBright animate-pulse-ring"
+          className="btn-press w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accentBright animate-pulse-ring"
         >
           {mode === "onboarding"
             ? "Walk me through the build"
@@ -883,13 +883,13 @@ function ControlBar({
             <>
               <button
                 onClick={onApprove}
-                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accentBright"
+                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accentBright"
               >
                 Approve, deploy in-house
               </button>
               <button
                 onClick={onSkipToOps}
-                className="btn-press shrink-0 rounded-lg border border-cream/15 bg-cream/[0.03] px-4 py-2.5 text-sm text-cream/85 hover:border-cream/35 hover:bg-cream/[0.06]"
+                className="btn-press shrink-0 rounded-lg border border-cream/15 bg-cream/[0.03] px-4 py-2 text-sm text-cream/85 hover:border-cream/35 hover:bg-cream/[0.06]"
               >
                 Skip to the closed loop
               </button>
@@ -898,7 +898,7 @@ function ControlBar({
             <>
               <button
                 onClick={onApprove}
-                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accentBright"
+                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accentBright"
               >
                 Approve all
               </button>
@@ -906,7 +906,7 @@ function ControlBar({
                 disabled
                 aria-disabled="true"
                 title="Hardcoded demo — only Approve all is wired"
-                className="shrink-0 cursor-not-allowed rounded-lg border border-cream/10 bg-cream/[0.02] px-4 py-2.5 text-sm text-cream/40"
+                className="shrink-0 cursor-not-allowed rounded-lg border border-cream/10 bg-cream/[0.02] px-4 py-2 text-sm text-cream/40"
               >
                 Review individually
               </button>

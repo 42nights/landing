@@ -12,7 +12,7 @@
   --surface-2: #141418;
   --cream: #f7f5f1;
   --accent: #d72638;
-  --accent-bright: #ff3b50;
+  --accent-bright: #ff3b3b;
   --line: rgba(247, 245, 241, 0.1);
   --line-soft: rgba(247, 245, 241, 0.06);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -26,21 +26,10 @@ html {
 }
 
 body {
-  /* Layered radial depth so the canvas never reads as flat black. A low warm
-     accent bloom sits bottom-left; a cool lift sits top. */
-  background:
-    radial-gradient(
-      120% 80% at 15% 110%,
-      rgba(215, 38, 56, 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      100% 70% at 80% -10%,
-      rgba(120, 130, 160, 0.06) 0%,
-      transparent 50%
-    ),
-    var(--void);
-  background-attachment: fixed;
+  /* Transparent so the fixed z-[-10] AsciiBackground canvas shows through. The
+     page color (--void) lives on <html>; an opaque body background here would
+     paint OVER the negative-z canvas and hide the ASCII entirely. */
+  background: transparent;
   color: var(--cream);
   font-family:
     Inter,

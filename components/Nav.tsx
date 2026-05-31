@@ -1,65 +1,158 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/components/motion/gsap";
 import { Wordmark } from "./Wordmark";
 
-// Nav (DESIGN-SPEC §2 + §4): no resting border, flat at rest. Separation from
-// the Hero is whitespace. A subtle elevation (translucent backdrop blur + a low
-// shadow) fades in only after the page scrolls past ~24px, driven by a
-// ScrollTrigger boolean that toggles paint-only properties (background /
-// box-shadow). Sticky so the bar stays in view to earn the scroll state.
+// Nav: full-width + flat at rest. Past ~24px it morphs (GSAP) into a floating
+// island — narrower, dropped from the top, rounded, blurred, bordered, lifted —
+// and expands back to full-width at the very top AND as the page end nears.
+// Hovering the floating bar lengthens it. Center holds one number per section;
+// the active number lights up (color + scale) and animates as you scroll, and
+// clicking a number navigates to that section. No highlight box — just numbers.
 export function Nav() {
-  const ref = useRef<HTMLElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const sectionsRef = useRef<HTMLElement[]>([]);
+  const floating = useRef(false);
+  const hovering = useRef(false);
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(0);
+
+  // Morph the bar to its target shape from the combined scroll + hover state.
+  // maxWidth/marginTop/padding are layout, but this is a one-shot 0.4s toggle,
+  // not a per-frame scrub, so it stays cheap.
+  function shape() {
+    const bar = barRef.current;
+    if (!bar) return;
+    const f = floating.current;
+    gsap.to(bar, {
+      maxWidth: !f ? 1280 : hovering.current ? 1140 : 920,
+      marginTop: f ? 12 : 0,
+      paddingTop: f ? 12 : 20,
+      paddingBottom: f ? 12 : 20,
+      backgroundColor: f ? "rgba(14,14,18,0.72)" : "rgba(14,14,18,0)",
+      backdropFilter: f ? "blur(12px)" : "blur(0px)",
+      borderColor: f ? "rgba(247,245,241,0.1)" : "rgba(247,245,241,0)",
+      boxShadow: f
+        ? "0 16px 34px -16px rgba(0,0,0,0.65)"
+        : "0 0 0 0 rgba(0,0,0,0)",
+      duration: 0.4,
+      ease: "power3.out",
+    });
+  }
 
   useGSAP(
     () => {
-      const el = ref.current;
-      if (!el) return;
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("main > section"),
+      );
+      sectionsRef.current = sections;
+      setCount(sections.length);
 
       const mm = gsap.matchMedia();
 
-      // Reduced motion: skip the scroll-linked fade, show the elevated state
-      // immediately so the bar is always legible over content.
+      // Reduced motion: park in the floating state, no scroll-linked morph.
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(el, {
-          backgroundColor: "rgba(8,8,10,0.72)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 1px 0 rgba(247,245,241,0.08)",
+        floating.current = true;
+        gsap.set(barRef.current, {
+          maxWidth: 920,
+          marginTop: 12,
+          paddingTop: 12,
+          paddingBottom: 12,
+          backgroundColor: "rgba(14,14,18,0.72)",
+          backdropFilter: "blur(12px)",
+          borderColor: "rgba(247,245,241,0.1)",
+          boxShadow: "0 16px 34px -16px rgba(0,0,0,0.65)",
         });
       });
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const elevate = gsap.to(el, {
-          backgroundColor: "rgba(8,8,10,0.72)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 1px 0 rgba(247,245,241,0.08)",
-          duration: 0.3,
-          ease: "power3.out",
-          paused: true,
+        const triggers: ScrollTrigger[] = [];
+
+        // Float only in the body of the page: collapse at the top and as the
+        // end nears (~half a viewport before the bottom).
+        triggers.push(
+          ScrollTrigger.create({
+            start: "24px top",
+            end: () =>
+              "+=" +
+              Math.max(
+                1,
+                ScrollTrigger.maxScroll(window) - window.innerHeight * 0.5 - 24,
+              ),
+            invalidateOnRefresh: true,
+            onToggle: (self) => {
+              floating.current = self.isActive;
+              shape();
+            },
+          }),
+        );
+
+        // Active section -> the lit number.
+        sections.forEach((sec, i) => {
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: sec,
+              start: "top center",
+              end: "bottom center",
+              onToggle: (self) => self.isActive && setActive(i),
+            }),
+          );
         });
 
-        ScrollTrigger.create({
-          start: "24px top",
-          onToggle: (self) =>
-            self.isActive ? elevate.play() : elevate.reverse(),
-        });
+        return () => triggers.forEach((t) => t.kill());
       });
+
+      return () => mm.revert();
     },
-    { scope: ref },
+    { scope: barRef },
   );
 
+  function go(i: number) {
+    sectionsRef.current[i]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
   return (
-    <nav
-      ref={ref}
-      className="sticky top-0 z-50 w-full bg-transparent"
-      style={{ backdropFilter: "blur(0px)" }}
-    >
-      <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 md:px-10">
+    <nav className="sticky top-0 z-50 w-full">
+      <div
+        ref={barRef}
+        onPointerEnter={() => {
+          hovering.current = true;
+          shape();
+        }}
+        onPointerLeave={() => {
+          hovering.current = false;
+          shape();
+        }}
+        className="mx-auto flex max-w-page items-center justify-between rounded-2xl border border-transparent px-6 py-5 md:px-10"
+      >
         <Link href="/" className="text-xl tracking-tight">
           <Wordmark />
         </Link>
+
+        {/* Center: one number per section; the active one lights up + scales. */}
+        <div className="hidden items-center gap-2 md:flex">
+          {Array.from({ length: count }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              aria-current={active === i ? "true" : undefined}
+              aria-label={`Go to section ${i}`}
+              className={`grid h-7 w-6 place-items-center font-mono-label text-[12px] transition-all duration-300 ${
+                active === i
+                  ? "scale-110 text-accentBright"
+                  : "text-cream/35 hover:text-cream/70"
+              }`}
+            >
+              {i}
+            </button>
+          ))}
+        </div>
+
         {/* TODO: replace placeholder cal.com link before launch */}
         <a
           href="https://cal.com/42nights"
