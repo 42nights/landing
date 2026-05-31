@@ -6,7 +6,7 @@
  * Use sparingly at very low opacity to add tactile depth over flat surfaces or
  * treated imagery; never as decoration loud enough to be noticed on its own.
  *
- *   <Grain opacity={0.05} blend="overlay" className="rounded-2xl" />
+ *   <Grain opacity={0.05} blend="overlay" className="" />
  */
 
 type GrainProps = {

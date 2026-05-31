@@ -98,7 +98,7 @@ export function Capabilities() {
             {CAPABILITIES.map((cap) => (
               <div
                 key={cap.index}
-                className="group grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-cream/[0.08] py-7 first:border-t first:border-cream/[0.08] md:gap-x-8 md:py-8"
+                className="group grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-cream/15 py-7 first:border-t first:border-cream/15 md:gap-x-8 md:py-8"
               >
                 <span className="font-mono-label pt-1 text-[11px] text-cream/30 transition-colors duration-200 group-hover:text-accentBright/70">
                   {cap.index}

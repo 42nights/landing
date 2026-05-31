@@ -34,13 +34,13 @@ export function Hero() {
             {/* TODO: replace placeholder cal.com link before launch */}
             <a
               href="https://cal.com/42nights"
-              className="btn-press inline-flex items-center justify-center rounded-lg bg-accent px-7 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
+              className="btn-press inline-flex items-center justify-center  bg-accent px-7 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
             >
               Book a call
             </a>
             <a
               href="#demo"
-              className="btn-press inline-flex items-center justify-center rounded-lg border border-cream/15 bg-cream/[0.02] px-7 py-3.5 text-sm font-medium text-cream/85 backdrop-blur-sm hover:border-cream/35 hover:bg-cream/[0.06]"
+              className="btn-press inline-flex items-center justify-center  border border-cream/15 bg-cream/[0.02] px-7 py-3.5 text-sm font-medium text-cream/85 backdrop-blur-sm hover:border-cream/35 hover:bg-cream/[0.06]"
             >
               See the demo
             </a>

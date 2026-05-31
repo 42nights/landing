@@ -23,7 +23,7 @@ export function CtaFooter() {
             {/* TODO: replace placeholder cal.com link before launch */}
             <a
               href="https://cal.com/42nights"
-              className="btn-press inline-flex items-center justify-center rounded-lg bg-accent px-8 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
+              className="btn-press inline-flex items-center justify-center  bg-accent px-8 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
             >
               Book a call
             </a>
@@ -35,7 +35,7 @@ export function CtaFooter() {
         <Reveal
           y={12}
           duration={0.9}
-          className="flex flex-col items-center justify-between gap-4 border-t border-cream/10 py-10 text-sm text-cream/45 md:flex-row"
+          className="flex flex-col items-center justify-between gap-4 border-t border-cream/15 py-10 text-sm text-cream/45 md:flex-row"
         >
           <Wordmark className="text-base text-cream" />
           {/* TODO: replace placeholder hello@ email before launch */}

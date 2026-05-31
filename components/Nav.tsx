@@ -6,7 +6,7 @@ import { gsap, ScrollTrigger, useGSAP } from "@/components/motion/gsap";
 import { Wordmark } from "./Wordmark";
 
 // Nav: full-width + flat at rest. Past ~24px it morphs (GSAP) into a floating
-// island — narrower, dropped from the top, rounded, blurred, bordered, lifted —
+// island — narrower, dropped from the top, , blurred, bordered, lifted —
 // and expands back to full-width at the very top AND as the page end nears.
 // Hovering the floating bar lengthens it. Center holds one number per section;
 // the active number lights up (color + scale) and animates as you scroll, and
@@ -128,7 +128,7 @@ export function Nav() {
           hovering.current = false;
           shape();
         }}
-        className="mx-auto flex max-w-page items-center justify-between rounded-2xl border border-transparent px-6 py-5 md:px-10"
+        className="mx-auto flex max-w-page items-center justify-between  border border-transparent px-6 py-5 md:px-10"
       >
         <Link href="/" className="text-xl tracking-tight">
           <Wordmark />
@@ -156,7 +156,7 @@ export function Nav() {
         {/* TODO: replace placeholder cal.com link before launch */}
         <a
           href="https://cal.com/42nights"
-          className="btn-press rounded-lg border border-cream/15 bg-cream/[0.04] px-4 py-2 text-sm text-cream/90 backdrop-blur-sm transition-colors hover:border-accent/60 hover:bg-accent hover:text-white"
+          className="btn-press  border border-cream/15 bg-cream/[0.04] px-4 py-2 text-sm text-cream/90 backdrop-blur-sm transition-colors hover:border-accent/60 hover:bg-accent hover:text-white"
         >
           Book a call
         </a>
