@@ -1,51 +1,81 @@
+import { Reveal } from "@/components/motion/Reveal";
+
+// The cinematic dark moment. The shared ASCII field (rendered once by
+// <AsciiBackground/>) shows through behind this section; a radial wash seats the
+// glyphs into the void and keeps the left-anchored type clean and
+// high-contrast. No section borders: the air between this and its neighbors is
+// the divider.
+const POINTS = [
+  {
+    index: "01",
+    title: "Self-evolving harness.",
+    body: "Agents run a closed loop on your software: observe, test, patch, repeat. It improves itself in production, not on a vendor's roadmap.",
+  },
+  {
+    index: "02",
+    title: "It sharpens in place.",
+    body: "As frontier models advance, your agents inherit the gains automatically. No re-implementation, no drift, no migration project.",
+  },
+  {
+    index: "03",
+    title: "Each deploy compounds.",
+    body: "Patterns that recur across builds (auth, billing, reporting) become reusable, compressing the next deployment.",
+  },
+];
+
 export function Moat() {
   return (
-    <section className="bg-ink text-cream">
-      <div className="mx-auto max-w-page px-6 py-24 md:px-10 md:py-32">
-        <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/50">
-          The moat
-        </div>
-        <h2 className="mt-3 font-serif-display text-4xl leading-tight tracking-tight md:text-6xl">
-          The data lives{" "}
-          <span className="italic text-accent">in the weights</span>.
-        </h2>
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-cream/85 md:text-xl">
-          Every engagement folds your workflows, decisions, and voice into the
-          agent's training. There's no retrievable memory to export — your
-          context lives inside a model purpose-built for your company.
-        </p>
+    <section className="relative overflow-hidden py-28 md:py-40">
+      {/* Radial wash: seats the shared ASCII glyphs into the void and keeps the
+          left column legible. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_42%,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.45)_45%,transparent_75%)]"
+      />
 
-        <div className="stagger mt-12 grid gap-8 border-t border-cream/15 pt-12 md:grid-cols-3 md:gap-10">
-          <div>
-            <div className="font-serif-display text-2xl tracking-tight text-cream md:text-3xl">
-              <span className="text-accent">01</span> Trained, not stored.
+      <div className="relative z-10 mx-auto max-w-page px-6 md:px-10">
+        <Reveal stagger={0.1} y={28} duration={1} className="max-w-2xl">
+          <p className="font-mono-label text-[10px] text-cream/45">The moat</p>
+          <h2 className="mt-7 font-serif-display leading-[1.0] text-cream [font-size:clamp(34px,5vw,68px)]">
+            The software{" "}
+            <span className="italic text-accentBright">maintains itself</span>.
+          </h2>
+          <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-cream/70 md:text-xl">
+            Every deploy runs under a self-evolving harness: AI agents that
+            monitor, test, patch, and improve your software in place. A closed
+            loop on your own infrastructure, with no vendor in it.
+          </p>
+        </Reveal>
+
+        <Reveal
+          stagger={0.1}
+          y={26}
+          duration={0.9}
+          className="mt-20 max-w-3xl md:mt-28"
+        >
+          {POINTS.map((p, i) => (
+            <div key={p.index}>
+              {/* Hairline between blocks, never a section rule. Air carries the
+                  rest of the separation. */}
+              {i > 0 && (
+                <div aria-hidden className="h-px w-full bg-cream/[0.08]" />
+              )}
+              <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 py-8 md:grid-cols-[5rem_1fr] md:gap-x-10 md:py-10">
+                <span className="font-mono-label pt-1 text-[11px] text-cream/30 md:pt-2.5">
+                  {p.index}
+                </span>
+                <div>
+                  <h3 className="font-serif-display text-2xl leading-tight text-cream md:text-[2rem]">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 max-w-xl text-base leading-relaxed text-cream/70">
+                    {p.body}
+                  </p>
+                </div>
+              </div>
             </div>
-            <p className="mt-3 text-base leading-relaxed text-cream/75">
-              Workflows, decisions, and institutional context fold into the
-              model itself — not a database a vendor can hand back to you.
-            </p>
-          </div>
-          <div>
-            <div className="font-serif-display text-2xl tracking-tight text-cream md:text-3xl">
-              <span className="text-accent">02</span> It sharpens in place.
-            </div>
-            <p className="mt-3 text-base leading-relaxed text-cream/75">
-              The agent gets better every day — on your workflows, your data,
-              your decisions. As frontier models advance, yours inherits the
-              gains. No re-implementation. No drift.
-            </p>
-          </div>
-          <div>
-            <div className="font-serif-display text-2xl tracking-tight text-cream md:text-3xl">
-              <span className="text-accent">03</span> Each deploy compounds.
-            </div>
-            <p className="mt-3 text-base leading-relaxed text-cream/75">
-              Workflows that recur across customers — eng ops, procurement,
-              vendor management — become reusable templates that compress the
-              next install.
-            </p>
-          </div>
-        </div>
+          ))}
+        </Reveal>
       </div>
     </section>
   );

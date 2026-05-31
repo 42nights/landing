@@ -1,16 +1,35 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { gsap, useGSAP } from "@/components/motion/gsap";
+import { Reveal } from "@/components/motion/Reveal";
 
 type Channel = "slack" | "imessage" | "whatsapp";
 type Mode = "onboarding" | "ops";
 type Phase = "idle" | "playing" | "awaiting" | "done";
 
+// Keeps a scroll container pinned to the bottom as messages stream in.
+function useAutoScroll(deps: unknown[]) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Defer one frame so a just-mounted element (e.g. the Approve CTA) is laid
+    // out before we read scrollHeight; otherwise we scroll to a stale height and
+    // the new content stays clipped below the fold.
+    const id = requestAnimationFrame(() =>
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" }),
+    );
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+  return ref;
+}
+
 const liveOpsMessages = [
-  "Daniel hasn't pushed a PR in 4 days. No documented blocker. Should I check in?",
-  "Sourced 3 quotes for new dev tooling. Vendor B is 22% cheaper, same SLA. Want me to negotiate further?",
-  "Maya's calendar is fully booked. I rescheduled her recurring 1:1 with Anika to Thursday — both confirmed.",
+  "Billing service throughput dropped 12% after last night's deploy. Root-caused to a query regression, patched and shipped to your VPC. Want the diff?",
+  "Your Stripe replacement passed all 1,284 regression tests against this week's frontier-model upgrade. Inherited the gains, zero re-implementation.",
+  "Found a dead code path in the legacy reporting rebuild. Removed it, added a test, redeployed. Logged.",
 ];
 
 type Beat = {
@@ -23,36 +42,32 @@ const onboardingScript: Beat[] = [
   {
     who: "agent",
     meta: "Day 1 · Embed",
-    text:
-      "Forward-deployed today. I'm sitting in #engineering and #ops. Watching how PRs flow through review and how vendor calls get scheduled. I'll stay quiet for the first week.",
+    text: "Forward-deployed today. Sitting with your team, mapping the SaaS and internal systems you run on. I'll watch how billing, auth, and reporting actually work before I rebuild anything.",
   },
   {
     who: "you",
     meta: "Jerry",
-    text: "Sounds good. Daniel's leading review. Maya owns vendor pipeline.",
+    text: "Sounds good. Billing's our biggest vendor pain. Reporting's a legacy mess.",
   },
   {
     who: "agent",
-    meta: "Day 3 · Embed",
-    text:
-      "Mapped your procurement surface: Linear, Sentry, Vercel renewing this quarter. Pulling 12 months of vendor history and your last 3 contract negotiations.",
+    meta: "Day 4 · Map",
+    text: "Mapped 480 endpoints across your billing vendor and the legacy reporting DB. 86% reverse-engineered. Pulling the contracts and undocumented schemas now.",
   },
   {
     who: "agent",
-    meta: "Day 6 · Train",
-    text:
-      "Trained on 412 Slack threads, 87 PRs, 14 vendor calls. I can now answer \"who's blocked\" and \"what's stalled\" without asking. Want me to demo before going live?",
+    meta: "Day 9 · Rebuild",
+    text: "Rebuilt billing and auth as services running in your VPC, source is yours. Closed loop is running: 1,284 tests, 9 patches, 3 regressions caught and fixed automatically. Want a walkthrough before I deploy?",
   },
   {
     who: "you",
     meta: "Jerry",
-    text: "Yes — show me a stalled PR.",
+    text: "Yes, show me the billing cutover.",
   },
   {
     who: "agent",
-    meta: "Day 6 · Train",
-    text:
-      "Daniel's PR #482 is 4 days idle. CI green. No reviewer assigned. Pattern matches 11 prior stalls — usually a quiet review-load issue. I'd ping Maya. Sound right?",
+    meta: "Day 9 · Rebuild",
+    text: "Billing engine matches your vendor's behavior on 480/480 traced cases. Zero data leaves your infra. I'd cut over reporting next. Sound right?",
   },
   {
     who: "you",
@@ -61,28 +76,27 @@ const onboardingScript: Beat[] = [
   },
   {
     who: "agent",
-    meta: "Day 14 · Ship",
-    text:
-      "Ready to ship. I'll act with permission on: PR triage, vendor scheduling, procurement up to $20k/mo on the spend card. Voice routes through Vapi. I'll log every action to #engineering-ops. Approve to go live?",
+    meta: "Day 14 · Deploy",
+    text: "Ready to deploy in-house. I'll run live on your infra under a self-evolving harness: monitor, test, patch, improve, no vendor in the loop. I'll log every change to #engineering-ops. Approve to go live?",
   },
 ];
 
-const prActivity = [
-  { name: "Daniel R.", count: 0, status: "stalled" },
-  { name: "Maya O.", count: 3, status: "active" },
-  { name: "Jordan P.", count: 5, status: "active" },
-  { name: "Anika S.", count: 2, status: "active" },
+const rebuildModules = [
+  { name: "Auth & SSO", state: "live", status: "active" },
+  { name: "Billing engine", state: "in review", status: "stalled" },
+  { name: "Reporting", state: "live", status: "active" },
+  { name: "Admin console", state: "live", status: "active" },
 ];
 
-const vendorCalls = [
-  { vendor: "Linear", when: "Tue 2:30p" },
-  { vendor: "Sentry", when: "Wed 11:00a" },
-  { vendor: "Vercel", when: "Thu 4:00p" },
+const closedLoop = [
+  { label: "Tests run", value: "1,284" },
+  { label: "Patches shipped", value: "9" },
+  { label: "Regressions caught", value: "3" },
 ];
 
-const procurement = [
-  { item: "Linear Plus seats × 12", amount: "$1,440 / mo" },
-  { item: "Datadog APM upgrade", amount: "$2,100 / mo" },
+const deployTargets = [
+  { target: "Your VPC (us-east)", state: "connected" },
+  { target: "Bare-metal cluster", state: "connected" },
 ];
 
 export function Demo() {
@@ -92,7 +106,8 @@ export function Demo() {
   const [visible, setVisible] = useState(1);
   const [final, setFinal] = useState<string | null>(null);
 
-  const total = mode === "onboarding" ? onboardingScript.length : liveOpsMessages.length;
+  const total =
+    mode === "onboarding" ? onboardingScript.length : liveOpsMessages.length;
 
   useEffect(() => {
     if (phase !== "playing") return;
@@ -100,7 +115,10 @@ export function Demo() {
       setPhase("awaiting");
       return;
     }
-    const t = setTimeout(() => setVisible((v) => v + 1), mode === "onboarding" ? 1100 : 800);
+    const t = setTimeout(
+      () => setVisible((v) => v + 1),
+      mode === "onboarding" ? 1100 : 800,
+    );
     return () => clearTimeout(t);
   }, [phase, visible, total, mode]);
 
@@ -113,10 +131,12 @@ export function Demo() {
   function approve() {
     if (mode === "onboarding") {
       setFinal(
-        "Live. I'll start with PR triage and vendor calls today. You'll see the next prompt when something needs your call.",
+        "Live on your infra. The closed loop is running: I'll monitor, test, and patch the software in place. You'll see a prompt only when something needs your call.",
       );
     } else {
-      setFinal("Done. Logged to #engineering-ops. Want to see the weekly digest?");
+      setFinal(
+        "Done. Patch shipped to your VPC and logged. Want the weekly build digest?",
+      );
     }
     setPhase("done");
   }
@@ -129,102 +149,127 @@ export function Demo() {
   }
 
   return (
-    <section id="demo" className="border-t border-black/5 scroll-mt-16">
-      <div className="mx-auto max-w-page px-6 py-24 md:px-10 md:py-32">
-        <div className="mb-10 max-w-2xl">
-          <div className="text-xs uppercase tracking-[0.15em] text-mutedSoft">
+    <section id="demo" className="scroll-mt-16">
+      <div className="mx-auto max-w-page px-6 py-28 md:px-10 md:py-40">
+        <Reveal as="div" stagger={0.08} className="max-w-2xl">
+          <div className="font-mono-label text-[11px] text-cream/45">
             Live demo
           </div>
-          <h2 className="mt-3 font-serif-display text-3xl leading-tight tracking-tight md:text-5xl">
-            What the agent does, in your stack.
+          <h2 className="mt-6 font-serif-display leading-[1.02] tracking-[-0.02em] text-cream text-[clamp(34px,5vw,68px)]">
+            The agents that build and run it.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-ink/70">
-            Pick a channel and a phase. The conversation below is hardcoded —
-            but every beat mirrors a real forward-deployed engagement.
+          <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-cream/70 md:mt-6 md:text-xl">
+            Pick a channel and a phase. The conversation below is hardcoded, but
+            every beat mirrors a real build-and-deploy engagement.
           </p>
-        </div>
+        </Reveal>
 
-        {/* Mode toggle + channel pills row */}
-        <div className="mb-6 flex flex-wrap items-center gap-3">
-          <div className="inline-flex rounded-md border border-black/15 bg-white p-1">
+        {/* Controls aligned to their panels: mode toggle over the workflow card,
+            channel pills over the chat card (same 2-col grid as the cards). */}
+        <div className="mt-10 grid gap-10 md:gap-12 lg:grid-cols-2 lg:justify-items-start">
+          <div className="inline-flex w-fit rounded-md border border-cream/10 bg-cream/[0.03] p-1">
             <ModeButton
               active={mode === "onboarding"}
               onClick={() => reset("onboarding")}
-              label="Onboarding session"
-              sub="Weeks 1–4"
+              label="Build phase"
+              sub="Weeks 1 to 2"
             />
             <ModeButton
               active={mode === "ops"}
               onClick={() => reset("ops")}
-              label="Live operations"
-              sub="Post-ship"
+              label="Closed loop"
+              sub="Post-deploy"
             />
           </div>
           <ChannelPills channel={channel} setChannel={setChannel} />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[1fr_1fr] lg:gap-6">
+        <Reveal
+          as="div"
+          stagger={0.12}
+          y={24}
+          start="top 85%"
+          className="mt-10 grid gap-10 md:gap-12 lg:grid-cols-2"
+        >
           {/* Workflow panel */}
-          <div className="rounded-lg border border-black/15 bg-white">
-            <div className="flex items-center justify-between border-b border-black/10 px-5 py-3">
-              <div className="text-sm font-medium">Workflow</div>
-              <div className="text-xs text-mutedSoft">
-                {mode === "onboarding" ? "shadowing" : "today"}
+          <div className="flex h-[600px] flex-col rounded-lg border border-cream/10 bg-surface">
+            <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 pb-4 pt-6">
+              <div className="text-sm font-medium text-cream">Workflow</div>
+              <div className="font-mono-label text-[10px] text-cream/45">
+                {mode === "onboarding" ? "mapping" : "live"}
               </div>
             </div>
-            <div className="space-y-4 p-5">
-              <Card title="Pull Request Activity" subtitle="last 24h">
-                <ul className="divide-y divide-black/5 text-sm">
-                  {prActivity.map((p) => (
-                    <li key={p.name} className="flex items-center justify-between py-2">
-                      <span>{p.name}</span>
+            <div className="min-h-0 flex-1 divide-y divide-cream/[0.06] overflow-y-auto px-5 pb-5">
+              <Block title="Modules Rebuilt" subtitle="this sprint">
+                <ul className="divide-y divide-cream/[0.06] text-sm">
+                  {rebuildModules.map((m) => (
+                    <li
+                      key={m.name}
+                      className="flex items-center justify-between py-2"
+                    >
+                      <span className="text-cream/80">{m.name}</span>
                       <span
                         className={
-                          p.status === "stalled" ? "text-accent" : "text-ink/70"
+                          m.status === "stalled"
+                            ? "text-accentBright"
+                            : "text-cream/55"
                         }
                       >
-                        {p.count} PRs
+                        {m.state}
                       </span>
                     </li>
                   ))}
                 </ul>
-              </Card>
+              </Block>
 
-              <Card title="Vendor Calls Scheduled This Week">
-                <ul className="divide-y divide-black/5 text-sm">
-                  {vendorCalls.map((v) => (
-                    <li key={v.vendor} className="flex items-center justify-between py-2">
-                      <span>{v.vendor}</span>
-                      <span className="text-ink/70">{v.when}</span>
+              <Block title="Closed-Loop Activity" subtitle="last 24h">
+                <ul className="divide-y divide-cream/[0.06] text-sm">
+                  {closedLoop.map((c) => (
+                    <li
+                      key={c.label}
+                      className="flex items-center justify-between py-2"
+                    >
+                      <span className="text-cream/80">{c.label}</span>
+                      <span className="text-cream/55">{c.value}</span>
                     </li>
                   ))}
                 </ul>
-              </Card>
+              </Block>
 
-              <Card title="Procurement Decisions Pending Approval">
-                <ul className="divide-y divide-black/5 text-sm">
-                  {procurement.map((p) => (
-                    <li key={p.item} className="flex items-center justify-between py-2">
-                      <span>{p.item}</span>
-                      <span className="text-ink/70">{p.amount}</span>
+              <Block title="Deploy Targets">
+                <ul className="divide-y divide-cream/[0.06] text-sm">
+                  {deployTargets.map((d) => (
+                    <li
+                      key={d.target}
+                      className="flex items-center justify-between py-2"
+                    >
+                      <span className="text-cream/80">{d.target}</span>
+                      <span className="text-cream/55">{d.state}</span>
                     </li>
                   ))}
                 </ul>
-              </Card>
+              </Block>
 
-              <Card title="Spend This Month / Budget Remaining">
+              <Block title="Reverse-Engineering Coverage">
                 <div className="mt-1 flex items-baseline justify-between">
-                  <span className="font-serif-display text-2xl">$8,420</span>
-                  <span className="text-sm text-ink/70">of $20,000</span>
+                  <span className="font-serif-display text-2xl text-cream">
+                    412
+                  </span>
+                  <span className="text-sm text-cream/55">
+                    of 480 endpoints
+                  </span>
                 </div>
-                <div className="mt-3 h-1.5 w-full rounded-full bg-black/10">
-                  <div className="h-full rounded-full bg-ink" style={{ width: "42%" }} />
+                <div className="mt-3 h-1.5 w-full rounded-full bg-cream/10">
+                  <div
+                    className="h-full rounded-full bg-cream/80"
+                    style={{ width: "86%" }}
+                  />
                 </div>
-              </Card>
+              </Block>
             </div>
           </div>
 
-          {/* Chat panel — channel-specific chrome */}
+          {/* Chat panel, channel-specific chrome */}
           <ChatPanel
             channel={channel}
             mode={mode}
@@ -236,16 +281,55 @@ export function Demo() {
             onReset={() => reset()}
             onSkipToOps={() => reset("ops")}
           />
-        </div>
+        </Reveal>
 
-        <p className="mt-6 max-w-3xl text-sm italic text-mutedSoft">
-          This is a hardcoded demo. The real agent ships with your company's
-          actual data, integrated with Slack, iMessage, WhatsApp, voice (Vapi),
-          code repos, and a permissioned spend card.
+        <p className="mt-10 max-w-3xl text-sm italic text-cream/45">
+          This is a hardcoded demo. The real agents work on your company's
+          actual systems, reverse-engineering your SaaS, rebuilding it in your
+          VPC, and running a closed loop that maintains it in place.
         </p>
       </div>
     </section>
   );
+}
+
+/**
+ * BubbleIn: GSAP replacement for the former framer-motion message-entrance.
+ * Each rendered bubble has a stable unique key, so it mounts fresh as the
+ * state machine advances. A scoped useGSAP runs once on mount and fades the
+ * node up. Reduced motion shows it statically via gsap.matchMedia.
+ */
+function BubbleIn({ y = 8, children }: { y?: number; children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(el, { clearProps: "all", opacity: 1, y: 0 });
+      });
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(el, {
+          y,
+          autoAlpha: 0,
+          scale: 0.985,
+          transformOrigin: "left center",
+          duration: 0.35,
+          ease: "power3.out",
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
+
+  return <div ref={ref}>{children}</div>;
 }
 
 function ModeButton({
@@ -262,12 +346,17 @@ function ModeButton({
   return (
     <button
       onClick={onClick}
-      className={`rounded-md px-4 py-2 text-left text-sm transition-colors ${
-        active ? "bg-ink text-white" : "text-ink hover:bg-black/5"
+      aria-pressed={active}
+      className={`btn-press rounded-md px-4 py-2 text-left text-sm transition-colors ${
+        active
+          ? "bg-cream/10 text-cream"
+          : "text-cream/70 hover:bg-cream/[0.05] hover:text-cream"
       }`}
     >
       <div className="font-medium leading-tight">{label}</div>
-      <div className={`text-[11px] ${active ? "text-white/70" : "text-mutedSoft"}`}>
+      <div
+        className={`text-[11px] ${active ? "text-cream/55" : "text-cream/40"}`}
+      >
         {sub}
       </div>
     </button>
@@ -287,13 +376,16 @@ function ChannelPills({
     { id: "whatsapp", label: "WhatsApp" },
   ];
   return (
-    <div className="inline-flex rounded-md border border-black/15 bg-white p-1">
+    <div className="inline-flex rounded-md border border-cream/10 bg-cream/[0.03] p-1">
       {tabs.map((t) => (
         <button
           key={t.id}
           onClick={() => setChannel(t.id)}
-          className={`rounded-md px-3 py-2 text-xs transition-colors ${
-            channel === t.id ? "bg-ink text-white" : "text-ink/70 hover:bg-black/5"
+          aria-pressed={channel === t.id}
+          className={`btn-press rounded-md px-3 py-2 text-xs transition-colors ${
+            channel === t.id
+              ? "bg-cream/10 text-cream"
+              : "text-cream/55 hover:bg-cream/[0.05] hover:text-cream"
           }`}
         >
           {t.label}
@@ -333,75 +425,74 @@ function SlackPanel({
   onReset,
   onSkipToOps,
 }: ChatPanelProps) {
-  const channelName = mode === "onboarding" ? "42n-onboarding" : "engineering-ops";
+  const channelName = mode === "onboarding" ? "42n-build" : "engineering-ops";
+  const scrollRef = useAutoScroll([visible, phase, final]);
   return (
-    <div className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-black/15 bg-white">
-      <div className="flex items-center justify-between border-b border-black/10 bg-[#F8F8F8] px-5 py-3">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
+      <div className="flex items-center justify-between border-b border-cream/[0.06] bg-surface2 px-5 py-3">
         <div className="flex items-center gap-2">
-          <span className="font-serif-display text-base text-ink">#</span>
-          <span className="text-sm font-semibold text-ink">{channelName}</span>
-          <span className="text-xs text-mutedSoft">· 4 members</span>
+          <span className="font-serif-display text-base text-cream/45">#</span>
+          <span className="text-sm font-semibold text-cream">
+            {channelName}
+          </span>
+          <span className="text-xs text-cream/40">· 4 members</span>
         </div>
-        <div className="text-xs text-mutedSoft">Slack</div>
+        <div className="font-mono-label text-[10px] text-cream/40">Slack</div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto bg-white p-5">
+      <div
+        ref={scrollRef}
+        className="flex flex-1 flex-col gap-4 overflow-y-auto p-5"
+      >
         {mode === "ops" && (
           <SlackMessage who="42nights agent" time="9:42 AM" agent>
-            Hi — I noticed something you might want to see.
+            Hi, I noticed something in your deployed stack.
           </SlackMessage>
         )}
         {mode === "onboarding" && (
           <SlackMessage who="42nights agent" time="Day 0 · 9:00 AM" agent>
-            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
-            today. I'll observe before I act.
+            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
+            today, mapping the software you run on. I'll observe before I
+            rebuild.
           </SlackMessage>
         )}
 
-        <AnimatePresence>
-          {(mode === "onboarding"
-            ? onboardingScript.slice(0, visible)
-            : liveOpsMessages.slice(0, visible).map((t) => ({
-                who: "agent" as const,
-                meta: "9:42 AM",
-                text: t,
-              }))
-          ).map((b, i) => (
-            <motion.div
-              key={`s-${mode}-${i}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
+        {(mode === "onboarding"
+          ? onboardingScript.slice(0, visible)
+          : liveOpsMessages.slice(0, visible).map((t) => ({
+              who: "agent" as const,
+              meta: "9:42 AM",
+              text: t,
+            }))
+        ).map((b, i) => (
+          <BubbleIn key={`s-${mode}-${i}`}>
+            <SlackMessage
+              who={b.who === "agent" ? "42nights agent" : "Jerry X."}
+              time={b.meta}
+              agent={b.who === "agent"}
             >
-              <SlackMessage
-                who={b.who === "agent" ? "42nights agent" : "Jerry X."}
-                time={b.meta}
-                agent={b.who === "agent"}
-              >
-                {b.text}
-              </SlackMessage>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-
-        {phase === "awaiting" && (
-          <ApproveButtons mode={mode} onApprove={onApprove} onSkipToOps={onSkipToOps} />
-        )}
+              {b.text}
+            </SlackMessage>
+          </BubbleIn>
+        ))}
 
         {final && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-          >
+          <BubbleIn>
             <SlackMessage who="42nights agent" time="just now" agent>
               {final}
             </SlackMessage>
-          </motion.div>
+          </BubbleIn>
         )}
       </div>
 
-      <ControlBar phase={phase} mode={mode} onStart={onStart} onReset={onReset} />
+      <ControlBar
+        phase={phase}
+        mode={mode}
+        onStart={onStart}
+        onReset={onReset}
+        onApprove={onApprove}
+        onSkipToOps={onSkipToOps}
+      />
     </div>
   );
 }
@@ -421,23 +512,25 @@ function SlackMessage({
   return (
     <div className="flex gap-3">
       <div
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-sm font-semibold text-white ${
-          agent ? "bg-accent" : "bg-ink"
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-sm font-semibold ${
+          agent ? "bg-accent/15 text-accentBright" : "bg-cream/10 text-cream"
         }`}
       >
         {initial}
       </div>
       <div className="flex-1">
         <div className="flex items-baseline gap-2">
-          <span className="text-sm font-bold text-ink">{who}</span>
+          <span className="text-sm font-bold text-cream">{who}</span>
           {agent && (
-            <span className="rounded-sm bg-black/10 px-1 py-0.5 text-[9px] font-bold uppercase tracking-wide text-ink/70">
+            <span className="rounded-sm bg-cream/10 px-1 py-0.5 text-[9px] font-bold uppercase tracking-wide text-cream/55">
               APP
             </span>
           )}
-          <span className="text-xs text-mutedSoft">{time}</span>
+          <span className="text-xs text-cream/40">{time}</span>
         </div>
-        <div className="mt-0.5 text-sm leading-relaxed text-ink">{children}</div>
+        <div className="mt-0.5 text-sm leading-relaxed text-cream/80">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -463,12 +556,13 @@ function ImessagePanel({
           meta: "",
           text: t,
         }));
+  const scrollRef = useAutoScroll([visible, phase, final]);
 
   return (
-    <div className="flex min-h-[640px] flex-col overflow-hidden rounded-[20px] border border-black/15 bg-white">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-[20px] border border-cream/10 bg-surface">
       {/* iMessage status bar + contact header */}
-      <div className="border-b border-black/10 bg-[#F6F6F6]">
-        <div className="flex items-center justify-between px-4 pt-2 text-[11px] font-semibold text-ink">
+      <div className="border-b border-cream/[0.06] bg-surface2">
+        <div className="flex items-center justify-between px-4 pt-2 text-[11px] font-semibold text-cream/80">
           <span>9:41</span>
           <span className="flex items-center gap-1">
             <span>•••</span>
@@ -477,83 +571,86 @@ function ImessagePanel({
           </span>
         </div>
         <div className="flex flex-col items-center pb-3 pt-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15 text-sm font-semibold text-accentBright">
             42
           </div>
-          <div className="mt-1 text-[11px] font-medium text-ink">42nights agent</div>
-          <div className="text-[10px] text-mutedSoft">iMessage</div>
+          <div className="mt-1 text-[11px] font-medium text-cream">
+            42nights agent
+          </div>
+          <div className="text-[10px] text-cream/40">iMessage</div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex flex-1 flex-col gap-1 overflow-y-auto bg-white px-4 py-4">
+      <div
+        ref={scrollRef}
+        className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4"
+      >
         <ImessageDayDivider label="Today 9:00 AM" />
 
         {mode === "onboarding" && (
           <ImessageBubble side="left">
-            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
-            today. I'll observe before I act.
+            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
+            today, mapping the software you run on. I'll observe before I
+            rebuild.
           </ImessageBubble>
         )}
         {mode === "ops" && (
           <ImessageBubble side="left">
-            Hi — I noticed something you might want to see.
+            Hi, I noticed something in your deployed stack.
           </ImessageBubble>
         )}
 
-        <AnimatePresence>
-          {beats.map((b, i) => (
-            <motion.div
-              key={`im-${mode}-${i}`}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+        {beats.map((b, i) => (
+          <BubbleIn key={`im-${mode}-${i}`} y={6}>
+            <ImessageBubble
+              side={b.who === "you" ? "right" : "left"}
+              meta={b.meta}
             >
-              <ImessageBubble side={b.who === "you" ? "right" : "left"} meta={b.meta}>
-                {b.text}
-              </ImessageBubble>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-
-        {phase === "awaiting" && (
-          <div className="pt-2">
-            <ApproveButtons mode={mode} onApprove={onApprove} onSkipToOps={onSkipToOps} />
-          </div>
-        )}
+              {b.text}
+            </ImessageBubble>
+          </BubbleIn>
+        ))}
 
         {final && (
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <BubbleIn y={6}>
             <ImessageBubble side="left">{final}</ImessageBubble>
-          </motion.div>
+          </BubbleIn>
         )}
 
         {phase === "done" && (
-          <div className="mt-1 text-right text-[10px] text-mutedSoft">Delivered</div>
+          <div className="mt-1 text-right text-[10px] text-cream/40">
+            Delivered
+          </div>
         )}
       </div>
 
       {/* iMessage compose */}
-      <div className="border-t border-black/10 bg-[#F6F6F6] px-3 py-2">
-        <div className="flex items-center gap-2 rounded-full border border-black/20 bg-white px-3 py-2">
-          <span className="text-mutedSoft">+</span>
-          <span className="flex-1 text-[11px] text-mutedSoft">iMessage</span>
-          <span className="rounded-full bg-[#0A84FF] px-2 py-0.5 text-[10px] text-white">↑</span>
+      <div className="border-t border-cream/[0.06] bg-surface2 px-3 py-2">
+        <div className="flex items-center gap-2 rounded-full border border-cream/15 bg-cream/[0.03] px-3 py-2">
+          <span className="text-cream/40">+</span>
+          <span className="flex-1 text-[11px] text-cream/40">iMessage</span>
+          <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] text-white">
+            ↑
+          </span>
         </div>
       </div>
 
-      <ControlBar phase={phase} mode={mode} onStart={onStart} onReset={onReset} />
+      <ControlBar
+        phase={phase}
+        mode={mode}
+        onStart={onStart}
+        onReset={onReset}
+        onApprove={onApprove}
+        onSkipToOps={onSkipToOps}
+      />
     </div>
   );
 }
 
 function ImessageDayDivider({ label }: { label: string }) {
   return (
-    <div className="my-2 text-center text-[10px] font-medium text-mutedSoft">
+    <div className="my-2 text-center text-[10px] font-medium text-cream/40">
       {label}
     </div>
   );
@@ -574,7 +671,7 @@ function ImessageBubble({
       <div className="flex max-w-[78%] flex-col">
         {meta && (
           <div
-            className={`mb-0.5 text-[10px] text-mutedSoft ${isRight ? "text-right" : "text-left"}`}
+            className={`mb-0.5 text-[10px] text-cream/40 ${isRight ? "text-right" : "text-left"}`}
           >
             {meta}
           </div>
@@ -583,8 +680,8 @@ function ImessageBubble({
           <div
             className={`px-3.5 py-2 text-[14px] leading-snug ${
               isRight
-                ? "rounded-[18px] rounded-br-[4px] bg-[#0A84FF] text-white"
-                : "rounded-[18px] rounded-bl-[4px] bg-[#E5E5EA] text-ink"
+                ? "rounded-[18px] rounded-br-[4px] bg-cream/10 text-cream"
+                : "rounded-[18px] rounded-bl-[4px] bg-accent/15 text-cream"
             }`}
           >
             {children}
@@ -615,105 +712,96 @@ function WhatsappPanel({
           meta: "",
           text: t,
         }));
-
-  // Tan WhatsApp wallpaper using subtle SVG dots
-  const wallpaperBg = {
-    background:
-      "#E5DDD5 url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23d3c5b8' opacity='0.4'/></svg>\")",
-  };
+  const scrollRef = useAutoScroll([visible, phase, final]);
 
   return (
-    <div className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-black/15 bg-white">
-      {/* WhatsApp top bar */}
-      <div className="flex items-center gap-3 bg-[#075E54] px-4 py-3 text-white">
-        <span className="text-lg">‹</span>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#128C7E] text-sm font-semibold">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
+      {/* WhatsApp top bar, dark surface with a green presence cue (no flat color block) */}
+      <div className="flex items-center gap-3 border-b border-cream/[0.06] bg-surface2 px-4 py-3">
+        <span className="text-lg text-cream/45">‹</span>
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent/15 text-sm font-semibold text-accentBright">
           42
         </div>
         <div className="flex flex-1 flex-col leading-tight">
-          <span className="text-sm font-semibold">42nights agent</span>
-          <span className="text-[11px] text-white/80">online</span>
+          <span className="text-sm font-semibold text-cream">
+            42nights agent
+          </span>
+          <span className="flex items-center gap-1.5 text-[11px] text-cream/45">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#25D366]" />
+            online
+          </span>
         </div>
-        <div className="flex items-center gap-3 text-white/90">
+        <div className="flex items-center gap-3 text-cream/45">
           <span className="text-base">📞</span>
           <span className="text-base">⋮</span>
         </div>
       </div>
 
-      {/* Messages on wallpaper */}
+      {/* Messages on dark surface */}
       <div
-        className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-3"
-        style={wallpaperBg}
+        ref={scrollRef}
+        className="flex flex-1 flex-col gap-1 overflow-y-auto bg-void/40 px-3 py-3"
       >
         <div className="my-2 text-center">
-          <span className="rounded-md bg-white/85 px-2 py-1 text-[10px] font-medium text-ink/70">
+          <span className="rounded-md bg-cream/[0.06] px-2 py-1 text-[10px] font-medium text-cream/45">
             TODAY
           </span>
         </div>
 
         {mode === "onboarding" && (
           <WhatsappBubble side="left" time="9:00">
-            Hello. I'm your forward-deployed agent. Starting a 1–2 week embed
-            today. I'll observe before I act.
+            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
+            today, mapping the software you run on. I'll observe before I
+            rebuild.
           </WhatsappBubble>
         )}
         {mode === "ops" && (
           <WhatsappBubble side="left" time="9:42">
-            Hi — I noticed something you might want to see.
+            Hi, I noticed something in your deployed stack.
           </WhatsappBubble>
         )}
 
-        <AnimatePresence>
-          {beats.map((b, i) => (
-            <motion.div
-              key={`wa-${mode}-${i}`}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+        {beats.map((b, i) => (
+          <BubbleIn key={`wa-${mode}-${i}`} y={6}>
+            <WhatsappBubble
+              side={b.who === "you" ? "right" : "left"}
+              time={timeFromMeta(b.meta, i)}
+              read={b.who === "you"}
             >
-              <WhatsappBubble
-                side={b.who === "you" ? "right" : "left"}
-                time={timeFromMeta(b.meta, i)}
-                read={b.who === "you"}
-              >
-                {b.text}
-              </WhatsappBubble>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-
-        {phase === "awaiting" && (
-          <div className="pt-2">
-            <ApproveButtons mode={mode} onApprove={onApprove} onSkipToOps={onSkipToOps} />
-          </div>
-        )}
+              {b.text}
+            </WhatsappBubble>
+          </BubbleIn>
+        ))}
 
         {final && (
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <BubbleIn y={6}>
             <WhatsappBubble side="left" time="now">
               {final}
             </WhatsappBubble>
-          </motion.div>
+          </BubbleIn>
         )}
       </div>
 
       {/* Compose */}
-      <div className="flex items-center gap-2 bg-[#F0F0F0] px-3 py-2">
-        <span className="text-base text-mutedSoft">😊</span>
-        <div className="flex-1 rounded-full bg-white px-3 py-2 text-[11px] text-mutedSoft">
+      <div className="flex items-center gap-2 border-t border-cream/[0.06] bg-surface2 px-3 py-2">
+        <span className="text-base text-cream/40">😊</span>
+        <div className="flex-1 rounded-full border border-cream/10 bg-cream/[0.03] px-3 py-2 text-[11px] text-cream/40">
           Type a message
         </div>
-        <span className="text-base text-mutedSoft">📎</span>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#128C7E] text-white">
+        <span className="text-base text-cream/40">📎</span>
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white">
           🎤
         </div>
       </div>
 
-      <ControlBar phase={phase} mode={mode} onStart={onStart} onReset={onReset} />
+      <ControlBar
+        phase={phase}
+        mode={mode}
+        onStart={onStart}
+        onReset={onReset}
+        onApprove={onApprove}
+        onSkipToOps={onSkipToOps}
+      />
     </div>
   );
 }
@@ -740,15 +828,17 @@ function WhatsappBubble({
   return (
     <div className={`flex ${isRight ? "justify-end" : "justify-start"} my-0.5`}>
       <div
-        className={`relative max-w-[80%] rounded-md px-3 py-2 text-[14px] leading-snug shadow-sm ${
-          isRight ? "bg-[#DCF8C6] text-ink" : "bg-white text-ink"
+        className={`relative max-w-[80%] rounded-md px-3 py-2 text-[14px] leading-snug ${
+          isRight ? "bg-cream/[0.06] text-cream" : "bg-accent/15 text-cream"
         }`}
       >
         <div>{children}</div>
-        <div className="mt-1 flex items-center justify-end gap-1 text-[10px] text-ink/55">
+        <div className="mt-1 flex items-center justify-end gap-1 text-[10px] text-cream/40">
           <span>{time}</span>
           {isRight && (
-            <span className={read ? "text-[#34B7F1]" : "text-ink/55"}>✓✓</span>
+            <span className={read ? "text-[#34B7F1]" : "text-cream/40"}>
+              ✓✓
+            </span>
           )}
         </div>
       </div>
@@ -758,83 +848,76 @@ function WhatsappBubble({
 
 /* ----------------- Shared ----------------- */
 
-function ApproveButtons({
-  mode,
-  onApprove,
-  onSkipToOps,
-}: {
-  mode: Mode;
-  onApprove: () => void;
-  onSkipToOps: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex flex-wrap gap-2 pt-1"
-    >
-      {mode === "onboarding" ? (
-        <>
-          <button
-            onClick={onApprove}
-            className="rounded-md border border-ink bg-ink px-4 py-2 text-sm text-white hover:bg-white hover:text-ink"
-          >
-            Approve — go live
-          </button>
-          <button
-            onClick={onSkipToOps}
-            className="rounded-md border border-ink bg-white px-4 py-2 text-sm text-ink hover:bg-ink hover:text-white"
-          >
-            Skip to live ops
-          </button>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={onApprove}
-            className="rounded-md border border-ink bg-ink px-4 py-2 text-sm text-white hover:bg-white hover:text-ink"
-          >
-            Approve all
-          </button>
-          <button
-            onClick={onApprove}
-            className="rounded-md border border-ink bg-white px-4 py-2 text-sm text-ink hover:bg-ink hover:text-white"
-          >
-            Review individually
-          </button>
-        </>
-      )}
-    </motion.div>
-  );
-}
-
 function ControlBar({
   phase,
   mode,
   onStart,
   onReset,
+  onApprove,
+  onSkipToOps,
 }: {
   phase: Phase;
   mode: Mode;
   onStart: () => void;
   onReset: () => void;
+  onApprove: () => void;
+  onSkipToOps: () => void;
 }) {
   return (
-    <div className="border-t border-black/10 bg-white px-5 py-3">
+    <div className="border-t border-cream/[0.06] bg-surface2 px-5 py-3">
       {phase === "idle" && (
         <button
           onClick={onStart}
-          className="w-full rounded-md border border-ink bg-ink px-4 py-3 text-sm font-medium text-white animate-pulse-ring"
+          className="btn-press w-full rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white hover:bg-accentBright animate-pulse-ring"
         >
           {mode === "onboarding"
-            ? "Walk me through the embed"
-            : "Show me what the agent caught today"}
+            ? "Walk me through the build"
+            : "Show me what the agent shipped today"}
         </button>
       )}
-      {phase !== "idle" && (
+      {/* The decision lives in the footer, always reachable — never buried in the
+          scroll. */}
+      {phase === "awaiting" && (
+        <div className="flex items-center gap-2">
+          {mode === "onboarding" ? (
+            <>
+              <button
+                onClick={onApprove}
+                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accentBright"
+              >
+                Approve, deploy in-house
+              </button>
+              <button
+                onClick={onSkipToOps}
+                className="btn-press shrink-0 rounded-lg border border-cream/15 bg-cream/[0.03] px-4 py-2.5 text-sm text-cream/85 hover:border-cream/35 hover:bg-cream/[0.06]"
+              >
+                Skip to the closed loop
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={onApprove}
+                className="btn-press flex-1 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accentBright"
+              >
+                Approve all
+              </button>
+              <button
+                disabled
+                aria-disabled="true"
+                title="Hardcoded demo — only Approve all is wired"
+                className="shrink-0 cursor-not-allowed rounded-lg border border-cream/10 bg-cream/[0.02] px-4 py-2.5 text-sm text-cream/40"
+              >
+                Review individually
+              </button>
+            </>
+          )}
+        </div>
+      )}
+      {(phase === "playing" || phase === "done") && (
         <button
           onClick={onReset}
-          className="text-xs text-mutedSoft underline-offset-4 hover:text-ink hover:underline"
+          className="text-xs text-cream/45 underline-offset-4 transition-colors hover:text-cream hover:underline"
         >
           ↻ replay demo
         </button>
@@ -843,7 +926,7 @@ function ControlBar({
   );
 }
 
-function Card({
+function Block({
   title,
   subtitle,
   children,
@@ -853,10 +936,14 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-md border border-black/10 p-4">
+    <div className="py-4 first:pt-0 last:pb-0">
       <div className="flex items-baseline justify-between">
-        <div className="text-sm font-medium">{title}</div>
-        {subtitle && <div className="text-xs text-mutedSoft">{subtitle}</div>}
+        <div className="text-sm font-medium text-cream/90">{title}</div>
+        {subtitle && (
+          <div className="font-mono-label text-[10px] text-cream/40">
+            {subtitle}
+          </div>
+        )}
       </div>
       <div className="mt-2">{children}</div>
     </div>

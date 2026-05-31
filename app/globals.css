@@ -3,22 +3,52 @@
 @tailwind utilities;
 
 :root {
-  --ink: #0A0A0A;
-  --cream: #FAFAF7;
-  --accent: #D72638;
+  /* Deliberate dark cinematic design. Declaring the scheme dark stops browsers
+     in OS dark mode (and Chrome "Auto Dark Mode") from inverting it. */
+  color-scheme: dark;
+  --void: #08080a;
+  --ink: #0a0a0a;
+  --surface: #0e0e12;
+  --surface-2: #141418;
+  --cream: #f7f5f1;
+  --accent: #d72638;
+  --accent-bright: #ff3b50;
+  --line: rgba(247, 245, 241, 0.1);
+  --line-soft: rgba(247, 245, 241, 0.06);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--void);
 }
 
 body {
-  background: #FFFFFF;
-  color: var(--ink);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Layered radial depth so the canvas never reads as flat black. A low warm
+     accent bloom sits bottom-left; a cool lift sits top. */
+  background:
+    radial-gradient(
+      120% 80% at 15% 110%,
+      rgba(215, 38, 56, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      100% 70% at 80% -10%,
+      rgba(120, 130, 160, 0.06) 0%,
+      transparent 50%
+    ),
+    var(--void);
+  background-attachment: fixed;
+  color: var(--cream);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,15 +56,54 @@ body {
 .font-serif-display {
   font-family: Fraunces, Georgia, "Times New Roman", serif;
   font-feature-settings: "ss01", "ss02";
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+}
+
+.font-mono-label {
+  font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* The accent, used as a light source rather than a flat fill. */
+.text-glow {
+  text-shadow:
+    0 0 24px rgba(215, 38, 56, 0.55),
+    0 0 4px rgba(215, 38, 56, 0.4);
+}
+
+/* Cinematic film grain. Sits over everything, pointer-events-none. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* A vignette to seat content and pull the eye inward. */
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    130% 110% at 50% 45%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
 }
 
 @layer components {
   .btn-press {
-    transition: background-color 200ms var(--ease-out),
-      color 200ms var(--ease-out),
+    transition:
+      background-color 220ms var(--ease-out),
+      color 220ms var(--ease-out),
       transform 160ms var(--ease-out),
-      box-shadow 200ms var(--ease-out);
+      box-shadow 280ms var(--ease-out);
     will-change: transform;
   }
   .btn-press:active {
@@ -42,7 +111,9 @@ body {
   }
   .btn-press:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent);
+    box-shadow:
+      0 0 0 2px var(--void),
+      0 0 0 4px var(--accent);
   }
 }
 
@@ -70,60 +141,11 @@ body {
   );
 }
 
-.marquee-track:hover .marquee-row {
-  animation-play-state: paused;
-}
-
-.fade-up {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
-}
-
-@starting-style {
-  .fade-up {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-
-.stagger > * {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
-}
-
-@starting-style {
-  .stagger > * {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
-.stagger > *:nth-child(1) { transition-delay: 0ms; }
-.stagger > *:nth-child(2) { transition-delay: 50ms; }
-.stagger > *:nth-child(3) { transition-delay: 100ms; }
-.stagger > *:nth-child(4) { transition-delay: 150ms; }
-.stagger > *:nth-child(5) { transition-delay: 200ms; }
-.stagger > *:nth-child(6) { transition-delay: 250ms; }
-.stagger > *:nth-child(7) { transition-delay: 300ms; }
-.stagger > *:nth-child(8) { transition-delay: 350ms; }
-.stagger > *:nth-child(9) { transition-delay: 400ms; }
-
 @media (prefers-reduced-motion: reduce) {
-  .marquee-row,
-  .animate-marquee-left,
-  .animate-marquee-right {
-    animation: none !important;
-  }
   .animate-ping,
-  .animate-pulse-ring {
+  .animate-pulse-ring,
+  .animate-bob {
     animation: none !important;
-  }
-  .fade-up,
-  .stagger > * {
-    transition: opacity 200ms ease;
-    transform: none !important;
   }
   html {
     scroll-behavior: auto;
