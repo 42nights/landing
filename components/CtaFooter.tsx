@@ -35,15 +35,15 @@ export function CtaFooter() {
         <Reveal
           y={12}
           duration={0.9}
+          start="top bottom"
           className="flex flex-col items-center justify-between gap-4 border-t border-cream/15 py-10 text-sm text-cream/45 md:flex-row"
         >
           <Wordmark className="text-base text-cream" />
-          {/* TODO: replace placeholder hello@ email before launch */}
           <a
-            href="mailto:hello@42nights.dev"
+            href="mailto:jerry@42nights.dev"
             className="group relative text-cream/45 transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-cream"
           >
-            hello@42nights.dev
+            jerry@42nights.dev
             <span
               aria-hidden
               className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
