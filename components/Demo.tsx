@@ -191,14 +191,14 @@ export function Demo() {
           className="mt-10 grid gap-10 md:gap-12 lg:grid-cols-2"
         >
           {/* Workflow panel */}
-          <div className="flex h-full min-h-[640px] flex-col rounded-lg border border-cream/10 bg-surface">
+          <div className="flex h-[600px] flex-col rounded-lg border border-cream/10 bg-surface">
             <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 py-3.5">
               <div className="text-sm font-medium text-cream">Workflow</div>
               <div className="font-mono-label text-[10px] text-cream/45">
                 {mode === "onboarding" ? "mapping" : "live"}
               </div>
             </div>
-            <div className="divide-y divide-cream/[0.06] px-5 pb-5">
+            <div className="min-h-0 flex-1 divide-y divide-cream/[0.06] overflow-y-auto px-5 pb-5">
               <Block title="Modules Rebuilt" subtitle="this sprint">
                 <ul className="divide-y divide-cream/[0.06] text-sm">
                   {rebuildModules.map((m) => (
@@ -425,7 +425,7 @@ function SlackPanel({
   const channelName = mode === "onboarding" ? "42n-build" : "engineering-ops";
   const scrollRef = useAutoScroll([visible, phase, final]);
   return (
-    <div className="flex h-full min-h-[640px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
       <div className="flex items-center justify-between border-b border-cream/[0.06] bg-surface2 px-5 py-3">
         <div className="flex items-center gap-2">
           <span className="font-serif-display text-base text-cream/45">#</span>
@@ -556,7 +556,7 @@ function ImessagePanel({
   const scrollRef = useAutoScroll([visible, phase, final]);
 
   return (
-    <div className="flex h-full min-h-[640px] flex-col overflow-hidden rounded-[20px] border border-cream/10 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-[20px] border border-cream/10 bg-surface">
       {/* iMessage status bar + contact header */}
       <div className="border-b border-cream/[0.06] bg-surface2">
         <div className="flex items-center justify-between px-4 pt-2 text-[11px] font-semibold text-cream/80">
@@ -712,7 +712,7 @@ function WhatsappPanel({
   const scrollRef = useAutoScroll([visible, phase, final]);
 
   return (
-    <div className="flex h-full min-h-[640px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-lg border border-cream/10 bg-surface">
       {/* WhatsApp top bar, dark surface with a green presence cue (no flat color block) */}
       <div className="flex items-center gap-3 border-b border-cream/[0.06] bg-surface2 px-4 py-3">
         <span className="text-lg text-cream/45">‹</span>
