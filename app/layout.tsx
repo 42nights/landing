@@ -17,7 +17,6 @@ export const metadata: Metadata = {
     title: "42nights",
     description: "An AI chief-of-staff for your company.",
   },
-  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {
