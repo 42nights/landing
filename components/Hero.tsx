@@ -1,4 +1,3 @@
-import HeroField from "@/components/assets/HeroField";
 import { LogoScroll } from "@/components/LogoScroll";
 import { ScrollCue } from "@/components/ScrollCue";
 import { Reveal } from "@/components/motion/Reveal";
@@ -6,15 +5,7 @@ import { SplitLines } from "@/components/motion/SplitLines";
 
 export function Hero() {
   return (
-    <section className="grain vignette relative flex min-h-[100svh] flex-col justify-center overflow-hidden">
-      {/* backdrop: ASCII flow-field + a legibility scrim so cream type always
-          holds contrast (Emil: guarantee readability, keep the texture). */}
-      <div aria-hidden className="absolute inset-0">
-        <HeroField className="absolute inset-0 h-full w-full" />
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.7)_42%,rgba(8,8,10,0.25)_72%,transparent_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-void to-transparent" />
-      </div>
-
+    <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden">
       <div className="relative z-10 mx-auto w-full max-w-page -translate-y-[6vh] px-6 md:-translate-y-[8vh] md:px-10">
         <SplitLines
           as="h1"

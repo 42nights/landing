@@ -1,12 +1,10 @@
-import AsciiField from "@/components/assets/AsciiField";
-import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 
-// The cinematic dark moment. The signature ASCII field lives here as a faint
-// backdrop with its red-lit core drifting to the right (focusX 0.7), so the
-// left-anchored type stays clean and high-contrast. A radial wash seats the
-// glyphs into the void and protects legibility. No section borders: the air
-// between this and its neighbors is the divider.
+// The cinematic dark moment. The shared ASCII field (rendered once by
+// <AsciiBackground/>) shows through behind this section; a radial wash seats the
+// glyphs into the void and keeps the left-anchored type clean and
+// high-contrast. No section borders: the air between this and its neighbors is
+// the divider.
 const POINTS = [
   {
     index: "01",
@@ -28,24 +26,12 @@ const POINTS = [
 export function Moat() {
   return (
     <section className="relative overflow-hidden py-28 md:py-40">
-      {/* Backdrop: the signature ASCII field, faint, red core drifting right.
-          Parallax gives it a slow cinematic rise as the section scrolls. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <Parallax
-          speed={0.12}
-          className="absolute -inset-y-[8%] inset-x-0 h-[116%]"
-        >
-          <AsciiField
-            className="absolute inset-0 h-full w-full"
-            tint
-            focusX={0.7}
-            focusY={0.4}
-            alpha={0.1}
-          />
-        </Parallax>
-        {/* Seat the glyphs into the void and keep the left column legible. */}
-        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_42%,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.45)_45%,transparent_75%)]" />
-      </div>
+      {/* Radial wash: seats the shared ASCII glyphs into the void and keeps the
+          left column legible. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_42%,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.45)_45%,transparent_75%)]"
+      />
 
       <div className="relative z-10 mx-auto max-w-page px-6 md:px-10">
         <Reveal stagger={0.1} y={28} duration={1} className="max-w-2xl">

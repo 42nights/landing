@@ -1,3 +1,4 @@
+import { AsciiBackground } from "@/components/AsciiBackground";
 import { Capabilities } from "@/components/Capabilities";
 import { CtaFooter } from "@/components/CtaFooter";
 import { Demo } from "@/components/Demo";
@@ -11,6 +12,7 @@ import { Nav } from "@/components/Nav";
 export default function Home() {
   return (
     <main className="flex flex-col">
+      <AsciiBackground />
       <Nav />
       <Hero />
       <Capabilities />

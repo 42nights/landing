@@ -346,6 +346,7 @@ function ModeButton({
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
       className={`btn-press rounded-md px-4 py-2 text-left text-sm transition-colors ${
         active
           ? "bg-cream/10 text-cream"
@@ -380,6 +381,7 @@ function ChannelPills({
         <button
           key={t.id}
           onClick={() => setChannel(t.id)}
+          aria-pressed={channel === t.id}
           className={`btn-press rounded-md px-3 py-2 text-xs transition-colors ${
             channel === t.id
               ? "bg-cream/10 text-cream"
@@ -901,8 +903,10 @@ function ControlBar({
                 Approve all
               </button>
               <button
-                onClick={onApprove}
-                className="btn-press shrink-0 rounded-lg border border-cream/15 bg-cream/[0.03] px-4 py-2.5 text-sm text-cream/85 hover:border-cream/35 hover:bg-cream/[0.06]"
+                disabled
+                aria-disabled="true"
+                title="Hardcoded demo — only Approve all is wired"
+                className="shrink-0 cursor-not-allowed rounded-lg border border-cream/10 bg-cream/[0.02] px-4 py-2.5 text-sm text-cream/40"
               >
                 Review individually
               </button>

@@ -52,6 +52,11 @@ export function SplitLines({
       const el = ref.current;
       if (!el) return;
 
+      // Hide client-side here (useGSAP runs in a pre-paint layout effect, so no
+      // flash) rather than via inline CSS — that keeps the text visible for
+      // SSR / no-JS / crawlers, which a permanent inline visibility:hidden broke.
+      gsap.set(el, { autoAlpha: 0 });
+
       const mm = gsap.matchMedia();
 
       // Reduced motion: show instantly, no split, no transform.
@@ -124,11 +129,7 @@ export function SplitLines({
     { scope: ref },
   );
 
-  // autoAlpha:0 at rest so there is no flash before the split runs; the matchMedia
-  // callbacks set it visible. Inline style avoids depending on a utility class.
-  return createElement(
-    as,
-    { ref, className, style: { visibility: "hidden" } },
-    children,
-  );
+  // Render visible by default: with JS, useGSAP hides it pre-paint then reveals
+  // it (no flash); without JS, the headline stays visible for SSR / crawlers.
+  return createElement(as, { ref, className }, children);
 }

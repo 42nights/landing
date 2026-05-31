@@ -1,22 +1,11 @@
-import AsciiField from "@/components/assets/AsciiField";
 import { Reveal } from "@/components/motion/Reveal";
 import { Wordmark } from "./Wordmark";
 
 export function CtaFooter() {
   return (
     <section className="grain vignette relative overflow-hidden">
-      {/* signature ASCII motif, faint and untinted so it never fights the headline */}
-      <div aria-hidden className="absolute inset-0">
-        <AsciiField
-          className="absolute inset-0 h-full w-full"
-          alpha={0.06}
-          tint={false}
-          focusX={0.5}
-          focusY={0.42}
-          cell={15}
-        />
-      </div>
-
+      {/* The shared ASCII field (rendered once by <AsciiBackground/>) shows
+          through here; the grain + vignette keep the headline clean. */}
       <div className="relative z-10 mx-auto max-w-page px-6 py-28 md:px-10 md:py-40">
         <Reveal
           stagger={0.1}
