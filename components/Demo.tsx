@@ -164,9 +164,10 @@ export function Demo() {
           </p>
         </Reveal>
 
-        {/* Mode toggle + channel pills row */}
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <div className="inline-flex rounded-md border border-cream/10 bg-cream/[0.03] p-1">
+        {/* Controls aligned to their panels: mode toggle over the workflow card,
+            channel pills over the chat card (same 2-col grid as the cards). */}
+        <div className="mt-10 grid gap-10 md:gap-12 lg:grid-cols-2 lg:justify-items-start">
+          <div className="inline-flex w-fit rounded-md border border-cream/10 bg-cream/[0.03] p-1">
             <ModeButton
               active={mode === "onboarding"}
               onClick={() => reset("onboarding")}
@@ -192,7 +193,7 @@ export function Demo() {
         >
           {/* Workflow panel */}
           <div className="flex h-[600px] flex-col rounded-lg border border-cream/10 bg-surface">
-            <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 py-3.5">
+            <div className="flex items-center justify-between border-b border-cream/[0.06] px-5 pb-4 pt-6">
               <div className="text-sm font-medium text-cream">Workflow</div>
               <div className="font-mono-label text-[10px] text-cream/45">
                 {mode === "onboarding" ? "mapping" : "live"}
