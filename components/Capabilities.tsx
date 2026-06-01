@@ -25,7 +25,7 @@ const CAPABILITIES: Capability[] = [
     index: "02",
     title: "Build the software you can't buy",
     detail:
-      "Proprietary internal tools, purpose-built for your workflows and owned outright by you.",
+      "Internal tools the platform generates for your exact workflows, then runs and maintains end to end.",
   },
   {
     index: "03",
@@ -41,9 +41,9 @@ const CAPABILITIES: Capability[] = [
   },
   {
     index: "05",
-    title: "Source you own",
+    title: "No vendor lock-in",
     detail:
-      "You get the code, not a login. No vendor who can raise the price or take it back.",
+      "It runs in your environment on your terms, not a subscription a vendor can reprice, change, or shut off.",
   },
 ];
 
@@ -60,7 +60,7 @@ export function Capabilities() {
             <Reveal as="div" y={14} duration={0.8}>
               <div className="flex items-center gap-3">
                 <span className="font-mono-label text-[10px] text-cream/45">
-                  What we deliver
+                  What the platform does
                 </span>
                 <span className="h-px w-8 bg-cream/15" />
                 <span className="font-mono-label text-[10px] text-accentBright/80">
@@ -85,8 +85,9 @@ export function Capabilities() {
 
             <Reveal as="p" y={14} duration={0.8} delay={0.15}>
               <span className="mt-7 block max-w-sm text-base leading-relaxed text-cream/55">
-                Not another SaaS subscription. The software you depend on,
-                reverse-engineered and rebuilt to run on infrastructure you own.
+                Not another SaaS subscription. One proprietary platform that
+                regenerates the software you depend on to run in your own
+                environment.
               </span>
             </Reveal>
           </div>
@@ -125,8 +126,8 @@ export function Capabilities() {
               <p className="text-balance font-serif-display text-2xl leading-snug text-cream/85 md:text-3xl">
                 All of it for{" "}
                 <span className="italic text-accentBright">~10%</span> of the
-                SaaS licenses and full-time engineers it replaces, and you own
-                the result.
+                SaaS licenses and full-time engineers it replaces, and it keeps
+                improving itself.
               </p>
             </div>
           </Reveal>

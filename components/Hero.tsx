@@ -24,10 +24,11 @@ export function Hero() {
           className="mt-10 flex flex-col gap-8"
         >
           <p className="max-w-2xl text-balance text-lg leading-relaxed text-cream/65 md:text-xl">
-            We reverse-engineer the SaaS you rent, build the internal tools you
-            can&apos;t buy, and modernize the legacy systems you can&apos;t
-            touch, then deploy all of it on infrastructure you own, run by
-            self-evolving AI agents. AI transformation you actually keep.
+            A proprietary AI platform that rebuilds the SaaS you rent, the
+            internal tools you can&apos;t buy, and the legacy systems you
+            can&apos;t touch into software that runs in your own environment,
+            maintained by self-evolving agents. AI transformation you actually
+            keep.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">

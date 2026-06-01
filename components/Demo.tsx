@@ -41,8 +41,8 @@ type Beat = {
 const onboardingScript: Beat[] = [
   {
     who: "agent",
-    meta: "Day 1 · Embed",
-    text: "Forward-deployed today. Sitting with your team, mapping the SaaS and internal systems you run on. I'll watch how billing, auth, and reporting actually work before I rebuild anything.",
+    meta: "Day 1 · Connect",
+    text: "Connected to your stack today, mapping the SaaS and internal systems you run on. I'll learn how billing, auth, and reporting actually work before I rebuild anything.",
   },
   {
     who: "you",
@@ -160,7 +160,7 @@ export function Demo() {
           </h2>
           <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-cream/70 md:mt-6 md:text-xl">
             Pick a channel and a phase. The conversation below is hardcoded, but
-            every beat mirrors a real build-and-deploy engagement.
+            every beat mirrors how the platform builds and runs in production.
           </p>
         </Reveal>
 
@@ -451,9 +451,9 @@ function SlackPanel({
         )}
         {mode === "onboarding" && (
           <SlackMessage who="42nights agent" time="Day 0 · 9:00 AM" agent>
-            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
-            today, mapping the software you run on. I'll observe before I
-            rebuild.
+            Hello. I&apos;m your 42nights agent. Connected to your stack today,
+            mapping the software you run on. I&apos;ll learn how it works before
+            I rebuild.
           </SlackMessage>
         )}
 
@@ -582,9 +582,9 @@ function ImessagePanel({
 
         {mode === "onboarding" && (
           <ImessageBubble side="left">
-            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
-            today, mapping the software you run on. I'll observe before I
-            rebuild.
+            Hello. I&apos;m your 42nights agent. Connected to your stack today,
+            mapping the software you run on. I&apos;ll learn how it works before
+            I rebuild.
           </ImessageBubble>
         )}
         {mode === "ops" && (
@@ -740,9 +740,9 @@ function WhatsappPanel({
 
         {mode === "onboarding" && (
           <WhatsappBubble side="left" time="9:00">
-            Hello. I'm your forward-deployed agent. Starting a 1 to 2 week embed
-            today, mapping the software you run on. I'll observe before I
-            rebuild.
+            Hello. I&apos;m your 42nights agent. Connected to your stack today,
+            mapping the software you run on. I&apos;ll learn how it works before
+            I rebuild.
           </WhatsappBubble>
         )}
         {mode === "ops" && (
