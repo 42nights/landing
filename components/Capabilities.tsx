@@ -51,7 +51,7 @@ export function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="relative mx-auto w-full max-w-page px-6 py-28 md:px-10 md:py-40"
+      className="relative mx-auto w-full max-w-page px-6 py-20 md:px-10 md:py-28"
     >
       <div className="grid grid-cols-1 gap-y-14 md:grid-cols-12 md:gap-x-10">
         {/* Left rail: eyebrow + Fraunces header. Sticks while the rows scroll. */}
@@ -59,7 +59,7 @@ export function Capabilities() {
           <div className="md:sticky md:top-28">
             <Reveal as="div" y={14} duration={0.8}>
               <div className="flex items-center gap-3">
-                <span className="font-mono-label text-[10px] text-cream/45">
+                <span className="font-mono-label text-[10px] text-cream/65">
                   What we deliver
                 </span>
                 <span className="h-px w-8 bg-cream/15" />
@@ -80,11 +80,11 @@ export function Capabilities() {
               <br />
               rebuilt to
               <br />
-              <span className="italic text-cream/55">run in-house</span>.
+              <span className="italic text-cream/70">run in-house</span>.
             </SplitLines>
 
             <Reveal as="p" y={14} duration={0.8} delay={0.15}>
-              <span className="mt-7 block max-w-sm text-base leading-relaxed text-cream/55">
+              <span className="mt-7 block max-w-sm text-base leading-relaxed text-cream/70">
                 Not another SaaS subscription. The software you depend on,
                 reverse-engineered and rebuilt to run on infrastructure you own.
               </span>
@@ -100,14 +100,14 @@ export function Capabilities() {
                 key={cap.index}
                 className="group grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-cream/[0.08] py-7 first:border-t first:border-cream/[0.08] md:gap-x-8 md:py-8"
               >
-                <span className="font-mono-label pt-1 text-[11px] text-cream/30 transition-colors duration-200 group-hover:text-accentBright/70">
+                <span className="font-mono-label pt-1 text-[11px] text-cream/50 transition-colors duration-200 group-hover:text-accentBright/70">
                   {cap.index}
                 </span>
                 <div>
                   <h3 className="text-lg font-medium leading-snug text-cream md:text-xl">
                     {cap.title}
                   </h3>
-                  <p className="mt-2 max-w-prose text-sm leading-relaxed text-cream/55 md:text-base">
+                  <p className="mt-2 max-w-prose text-sm leading-relaxed text-cream/70 md:text-base">
                     {cap.detail}
                   </p>
                 </div>
@@ -119,7 +119,7 @@ export function Capabilities() {
               the figure only. */}
           <Reveal as="div" y={18} duration={0.8} delay={0.1}>
             <div className="mt-12 flex flex-col gap-2">
-              <span className="font-mono-label text-[10px] text-cream/45">
+              <span className="font-mono-label text-[10px] text-cream/65">
                 And the math
               </span>
               <p className="text-balance font-serif-display text-2xl leading-snug text-cream/85 md:text-3xl">

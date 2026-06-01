@@ -73,6 +73,18 @@ export function AsciiBackground() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
+    // Themed glyph fills — re-read from CSS vars on theme switch.
+    let fillCream = `rgba(247,245,241,${ALPHA})`;
+    let fillRed = RED_FILL;
+    function readThemeColors() {
+      const cs = getComputedStyle(document.documentElement);
+      const f = cs.getPropertyValue("--ascii-fill").trim();
+      const r = cs.getPropertyValue("--ascii-red").trim();
+      if (f) fillCream = f;
+      if (r) fillRed = r;
+    }
+    readThemeColors();
+
     let w = 0;
     let h = 0;
     let cell = BASE_CELL;
@@ -233,12 +245,12 @@ export function AsciiBackground() {
         }
       }
 
-      ctx!.fillStyle = `rgba(247,245,241,${ALPHA})`;
+      ctx!.fillStyle = fillCream;
       for (let k = 0; k < nc; k++) {
         ctx!.fillText(RAMP[creamI[k]], creamX[k], creamY[k]);
       }
       if (TINT) {
-        ctx!.fillStyle = RED_FILL;
+        ctx!.fillStyle = fillRed;
         for (let k = 0; k < nr; k++) {
           ctx!.fillText(RAMP[redI[k]], redX[k], redY[k]);
         }
@@ -304,6 +316,12 @@ export function AsciiBackground() {
       }
     }
 
+    function onTheme() {
+      readThemeColors();
+      if (reduce) draw(0, 0);
+      else last = 0; // force a redraw next frame with new fills
+    }
+
     size();
 
     if (reduce) {
@@ -311,10 +329,12 @@ export function AsciiBackground() {
       draw(0, 0);
       window.addEventListener("resize", onResize);
       window.visualViewport?.addEventListener("resize", onResize);
+      window.addEventListener("themechange", onTheme);
       return () => {
         window.clearTimeout(rt);
         window.removeEventListener("resize", onResize);
         window.visualViewport?.removeEventListener("resize", onResize);
+        window.removeEventListener("themechange", onTheme);
       };
     }
 
@@ -326,6 +346,7 @@ export function AsciiBackground() {
     window.addEventListener("pointerleave", onLeave);
     window.addEventListener("blur", onLeave);
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("themechange", onTheme);
     raf = requestAnimationFrame(loop);
 
     return () => {
@@ -337,6 +358,7 @@ export function AsciiBackground() {
       window.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("blur", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("themechange", onTheme);
     };
   }, []);
 
@@ -344,7 +366,7 @@ export function AsciiBackground() {
     <canvas
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 h-full w-full select-none"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full select-none"
     />
   );
 }

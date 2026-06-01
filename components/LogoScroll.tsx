@@ -53,7 +53,7 @@ function Row() {
               alt={it.alt}
               style={{ height: it.h }}
               className={`w-auto select-none opacity-75 ${
-                it.filter ? "[filter:brightness(0)_invert(1)]" : ""
+                it.filter ? "logo-img" : ""
               }`}
               draggable={false}
             />

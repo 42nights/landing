@@ -2,22 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme ────────────────────────────────────────────────────────────────
+   Colors are stored as RGB *channels* so Tailwind's `/opacity` utilities keep
+   working (rgb(var(--x-rgb) / <alpha-value>)). Flipping the channels under
+   `.light` re-themes every token-driven class at once. Default = dark. */
 :root {
-  /* Deliberate dark cinematic design. Declaring the scheme dark stops browsers
-     in OS dark mode (and Chrome "Auto Dark Mode") from inverting it. */
   color-scheme: dark;
-  --void: #08080a;
-  --ink: #0a0a0a;
-  --surface: #0e0e12;
-  --surface-2: #141418;
-  --cream: #f7f5f1;
-  --accent: #d72638;
-  --accent-bright: #ff3b50;
-  --line: rgba(247, 245, 241, 0.1);
-  --line-soft: rgba(247, 245, 241, 0.06);
+
+  --void-rgb: 8 8 10;
+  --ink-rgb: 10 10 10;
+  --surface-rgb: 14 14 18;
+  --surface-2-rgb: 20 20 24;
+  --cream-rgb: 247 245 241; /* foreground */
+  --accent-rgb: 215 38 56;
+  --accent-bright-rgb: 255 59 80;
+  --muted-rgb: 138 138 146;
+  --muted-soft-rgb: 106 106 114;
+
+  /* Decorative field glyph fills (read by AsciiBackground). */
+  --ascii-fill: rgba(247, 245, 241, 0.22);
+  --ascii-red: rgba(255, 72, 92, 0.45);
+
+  /* Derived color vars for direct CSS use. */
+  --void: rgb(var(--void-rgb));
+  --cream: rgb(var(--cream-rgb));
+  --accent: rgb(var(--accent-rgb));
+  --line: rgb(var(--cream-rgb) / 0.1);
+  --line-soft: rgb(var(--cream-rgb) / 0.06);
+
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.light {
+  color-scheme: light;
+
+  --void-rgb: 248 247 244; /* warm near-white page */
+  --ink-rgb: 10 10 10; /* stays dark — used for contrast blocks */
+  --surface-rgb: 255 255 255;
+  --surface-2-rgb: 244 242 238;
+  --cream-rgb: 12 12 14; /* foreground flips to near-black */
+  --accent-rgb: 215 38 56;
+  --accent-bright-rgb: 215 38 56;
+  --muted-rgb: 90 90 96;
+  --muted-soft-rgb: 120 120 128;
+
+  --ascii-fill: rgba(12, 12, 14, 0.16);
+  --ascii-red: rgba(215, 38, 56, 0.32);
 }
 
 html {
@@ -26,31 +58,23 @@ html {
 }
 
 body {
-  /* Layered radial depth so the canvas never reads as flat black. A low warm
-     accent bloom sits bottom-left; a cool lift sits top. */
+  /* Dark: layered radial depth + warm accent bloom. */
   background:
-    radial-gradient(
-      120% 80% at 15% 110%,
-      rgba(215, 38, 56, 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      100% 70% at 80% -10%,
-      rgba(120, 130, 160, 0.06) 0%,
-      transparent 50%
-    ),
+    radial-gradient(120% 80% at 15% 110%, rgba(215, 38, 56, 0.1) 0%, transparent 55%),
+    radial-gradient(100% 70% at 80% -10%, rgba(120, 130, 160, 0.06) 0%, transparent 50%),
     var(--void);
   background-attachment: fixed;
   color: var(--cream);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light: airy paper with a faint accent wash, no heavy bloom. */
+.light body {
+  background:
+    radial-gradient(120% 80% at 15% 110%, rgba(215, 38, 56, 0.05) 0%, transparent 55%),
+    var(--void);
 }
 
 .font-serif-display {
@@ -65,14 +89,30 @@ body {
   text-transform: uppercase;
 }
 
-/* The accent, used as a light source rather than a flat fill. */
+/* Accent as a light source (dark only — neutralized in light). */
 .text-glow {
   text-shadow:
     0 0 24px rgba(215, 38, 56, 0.55),
     0 0 4px rgba(215, 38, 56, 0.4);
 }
+.light .text-glow {
+  text-shadow: none;
+}
 
-/* Cinematic film grain. Sits over everything, pointer-events-none. */
+/* Sticky-nav elevation, themed + animated both directions. */
+.nav-bar {
+  transition:
+    background-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    backdrop-filter 0.3s var(--ease-out);
+}
+.nav-elevated {
+  background: rgb(var(--void-rgb) / 0.72);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgb(var(--cream-rgb) / 0.08);
+}
+
+/* Cinematic film grain. */
 .grain::after {
   content: "";
   position: absolute;
@@ -84,17 +124,16 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* A vignette to seat content and pull the eye inward. */
+/* Vignette seats content (dark only — off in light to stay airy). */
 .vignette::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(
-    130% 110% at 50% 45%,
-    transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
-  );
+  background: radial-gradient(130% 110% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+.light .vignette::before {
+  background: none;
 }
 
 @layer components {
@@ -125,20 +164,16 @@ body {
 }
 
 .marquee-mask {
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 8%,
-    #000 92%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 8%,
-    #000 92%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+/* Backer logos: white on dark, black on light. */
+.logo-img {
+  filter: brightness(0) invert(1);
+}
+.light .logo-img {
+  filter: brightness(0);
 }
 
 @media (prefers-reduced-motion: reduce) {

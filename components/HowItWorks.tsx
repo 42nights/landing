@@ -25,13 +25,13 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-28 md:py-40">
+    <section className="py-20 md:py-28">
       <div className="mx-auto max-w-page px-6 md:px-10">
         <Reveal
           as="p"
           y={14}
           duration={0.8}
-          className="font-mono-label text-[11px] text-cream/45"
+          className="font-mono-label text-[11px] text-cream/65"
         >
           How it works
         </Reveal>
@@ -41,7 +41,7 @@ export function HowItWorks() {
           y={32}
           duration={0.9}
           stagger={0.1}
-          className="mt-16 grid gap-x-12 gap-y-16 md:mt-24 md:grid-cols-3"
+          className="mt-12 grid gap-x-12 gap-y-16 md:mt-16 md:grid-cols-3"
         >
           {steps.map((s) => (
             <div key={s.n} className="relative">

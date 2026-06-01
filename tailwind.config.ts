@@ -5,15 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#08080A",
-        ink: "#0A0A0A",
-        surface: "#0E0E12",
-        surface2: "#141418",
-        cream: "#F7F5F1",
-        accent: "#D72638",
-        accentBright: "#FF3B50",
-        muted: "#8A8A92",
-        mutedSoft: "#6A6A72",
+        void: "rgb(var(--void-rgb) / <alpha-value>)",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        surface: "rgb(var(--surface-rgb) / <alpha-value>)",
+        surface2: "rgb(var(--surface-2-rgb) / <alpha-value>)",
+        cream: "rgb(var(--cream-rgb) / <alpha-value>)",
+        accent: "rgb(var(--accent-rgb) / <alpha-value>)",
+        accentBright: "rgb(var(--accent-bright-rgb) / <alpha-value>)",
+        muted: "rgb(var(--muted-rgb) / <alpha-value>)",
+        mutedSoft: "rgb(var(--muted-soft-rgb) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
