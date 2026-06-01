@@ -40,7 +40,7 @@ export function Hero() {
             </a>
             <a
               href="#demo"
-              className="btn-press inline-flex items-center justify-center  border border-cream/15 bg-cream/[0.02] px-7 py-3.5 text-sm font-medium text-cream/85 backdrop-blur-sm hover:border-cream/35 hover:bg-cream/[0.06]"
+              className="btn-press inline-flex items-center justify-center border border-white bg-transparent px-7 py-3.5 text-sm font-medium text-cream hover:bg-white/10"
             >
               See the demo
             </a>

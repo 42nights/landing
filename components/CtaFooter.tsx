@@ -3,10 +3,12 @@ import { Wordmark } from "./Wordmark";
 
 export function CtaFooter() {
   return (
-    <section className="grain vignette relative overflow-hidden">
+    <section className="grain vignette relative flex min-h-[100svh] flex-col overflow-hidden">
       {/* The shared ASCII field (rendered once by <AsciiBackground/>) shows
-          through here; the grain + vignette keep the headline clean. */}
-      <div className="relative z-10 mx-auto max-w-page px-6 py-28 md:px-10 md:py-40">
+          through here; the grain + vignette keep the headline clean. The CTA
+          block grows to fill the space above the footer and centers within it,
+          so it never sits awkwardly low against the footer. */}
+      <div className="relative z-10 flex flex-1 items-center justify-center px-6 py-24 md:px-10">
         <Reveal
           stagger={0.1}
           y={24}

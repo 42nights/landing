@@ -193,7 +193,7 @@ export function Demo() {
         >
           {/* Workflow panel */}
           <div className="flex h-[600px] flex-col  border border-cream/15 bg-surface">
-            <div className="flex items-center justify-between border-b border-cream/15 px-5 py-3">
+            <div className="flex h-16 items-center justify-between border-b border-cream/15 px-5">
               <div className="text-sm font-medium text-cream">Workflow</div>
               <div className="font-mono-label text-[10px] text-cream/45">
                 {mode === "onboarding" ? "mapping" : "live"}
@@ -429,7 +429,7 @@ function SlackPanel({
   const scrollRef = useAutoScroll([visible, phase, final]);
   return (
     <div className="flex h-[600px] flex-col overflow-hidden  border border-cream/15 bg-surface">
-      <div className="flex items-center justify-between border-b border-cream/15 bg-surface2 px-5 py-3">
+      <div className="flex h-16 items-center justify-between border-b border-cream/15 bg-surface2 px-5">
         <div className="flex items-center gap-2">
           <span className="font-serif-display text-base text-cream/45">#</span>
           <span className="text-sm font-semibold text-cream">
@@ -560,24 +560,16 @@ function ImessagePanel({
 
   return (
     <div className="flex h-[600px] flex-col overflow-hidden  border border-cream/15 bg-surface">
-      {/* iMessage status bar + contact header */}
-      <div className="border-b border-cream/15 bg-surface2">
-        <div className="flex items-center justify-between px-4 pt-2 text-[11px] font-semibold text-cream/80">
-          <span>9:41</span>
-          <span className="flex items-center gap-1">
-            <span>•••</span>
-            <span>5G</span>
-            <span>▮</span>
-          </span>
+      {/* iMessage contact header */}
+      <div className="flex h-16 items-center gap-3 border-b border-cream/15 bg-surface2 px-4">
+        <div className="flex h-9 w-9 items-center justify-center bg-accent/15 text-sm font-semibold text-accentBright">
+          42
         </div>
-        <div className="flex flex-col items-center pb-3 pt-2">
-          <div className="flex h-10 w-10 items-center justify-center  bg-accent/15 text-sm font-semibold text-accentBright">
-            42
-          </div>
-          <div className="mt-1 text-[11px] font-medium text-cream">
+        <div className="flex flex-1 flex-col leading-tight">
+          <span className="text-sm font-semibold text-cream">
             42nights agent
-          </div>
-          <div className="text-[10px] text-cream/40">iMessage</div>
+          </span>
+          <span className="text-[11px] text-cream/45">iMessage</span>
         </div>
       </div>
 
@@ -630,8 +622,8 @@ function ImessagePanel({
         <div className="flex items-center gap-2  border border-cream/15 bg-cream/[0.03] px-3 py-2">
           <span className="text-cream/40">+</span>
           <span className="flex-1 text-[11px] text-cream/40">iMessage</span>
-          <span className=" bg-accent px-2 py-0.5 text-[10px] text-white">
-            ↑
+          <span className="flex h-5 w-5 items-center justify-center bg-accent text-white">
+            <SendIcon className="h-3 w-3" />
           </span>
         </div>
       </div>
@@ -679,9 +671,7 @@ function ImessageBubble({
         <div className="relative">
           <div
             className={`px-3.5 py-2 text-[14px] leading-snug ${
-              isRight
-                ? "  bg-cream/10 text-cream"
-                : "  bg-accent/15 text-cream"
+              isRight ? "  bg-cream/10 text-cream" : "  bg-accent/15 text-cream"
             }`}
           >
             {children}
@@ -717,7 +707,7 @@ function WhatsappPanel({
   return (
     <div className="flex h-[600px] flex-col overflow-hidden  border border-cream/15 bg-surface">
       {/* WhatsApp top bar, dark surface with a green presence cue (no flat color block) */}
-      <div className="flex items-center gap-3 border-b border-cream/15 bg-surface2 px-4 py-3">
+      <div className="flex h-16 items-center gap-3 border-b border-cream/15 bg-surface2 px-4">
         <span className="text-lg text-cream/45">‹</span>
         <div className="flex h-9 w-9 items-center justify-center  bg-accent/15 text-sm font-semibold text-accentBright">
           42
@@ -731,9 +721,9 @@ function WhatsappPanel({
             online
           </span>
         </div>
-        <div className="flex items-center gap-3 text-cream/45">
-          <span className="text-base">📞</span>
-          <span className="text-base">⋮</span>
+        <div className="flex items-center gap-3.5 text-cream/45">
+          <PhoneIcon className="h-[18px] w-[18px]" />
+          <DotsIcon className="h-[18px] w-[18px]" />
         </div>
       </div>
 
@@ -784,13 +774,13 @@ function WhatsappPanel({
 
       {/* Compose */}
       <div className="flex items-center gap-2 border-t border-cream/15 bg-surface2 px-3 py-2">
-        <span className="text-base text-cream/40">😊</span>
-        <div className="flex-1  border border-cream/15 bg-cream/[0.03] px-3 py-2 text-[11px] text-cream/40">
+        <SmileIcon className="h-5 w-5 text-cream/40" />
+        <div className="flex-1 border border-cream/15 bg-cream/[0.03] px-3 py-2 text-[11px] text-cream/40">
           Type a message
         </div>
-        <span className="text-base text-cream/40">📎</span>
-        <div className="flex h-9 w-9 items-center justify-center  bg-accent text-white">
-          🎤
+        <ClipIcon className="h-5 w-5 text-cream/40" />
+        <div className="flex h-9 w-9 items-center justify-center bg-accent text-white">
+          <MicIcon className="h-4 w-4" />
         </div>
       </div>
 
@@ -836,9 +826,9 @@ function WhatsappBubble({
         <div className="mt-1 flex items-center justify-end gap-1 text-[10px] text-cream/40">
           <span>{time}</span>
           {isRight && (
-            <span className={read ? "text-[#34B7F1]" : "text-cream/40"}>
-              ✓✓
-            </span>
+            <ChecksIcon
+              className={`h-3.5 w-3.5 ${read ? "text-[#34B7F1]" : "text-cream/40"}`}
+            />
           )}
         </div>
       </div>
@@ -917,9 +907,10 @@ function ControlBar({
       {(phase === "playing" || phase === "done") && (
         <button
           onClick={onReset}
-          className="text-xs text-cream/45 underline-offset-4 transition-colors hover:text-cream hover:underline"
+          className="group inline-flex items-center gap-1.5 text-xs text-cream/45 transition-colors hover:text-cream"
         >
-          ↻ replay demo
+          <ReplayIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-rotate-180" />
+          replay demo
         </button>
       )}
     </div>
@@ -949,3 +940,73 @@ function Block({
     </div>
   );
 }
+
+/* ---- inline icons (replace emoji) ---- */
+function Glyph({
+  className = "h-4 w-4",
+  fill = false,
+  children,
+}: {
+  className?: string;
+  fill?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill={fill ? "currentColor" : "none"}
+      stroke={fill ? "none" : "currentColor"}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  );
+}
+const PhoneIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+  </Glyph>
+);
+const DotsIcon = (p: { className?: string }) => (
+  <Glyph fill {...p}>
+    <circle cx="12" cy="5" r="1.6" />
+    <circle cx="12" cy="12" r="1.6" />
+    <circle cx="12" cy="19" r="1.6" />
+  </Glyph>
+);
+const SmileIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
+  </Glyph>
+);
+const ClipIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+  </Glyph>
+);
+const MicIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <rect x="9" y="2" width="6" height="11" rx="3" />
+    <path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8" />
+  </Glyph>
+);
+const SendIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </Glyph>
+);
+const ChecksIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <path d="M2 13l3.5 3.5L13 9M9 13l3.5 3.5L20 9" />
+  </Glyph>
+);
+const ReplayIcon = (p: { className?: string }) => (
+  <Glyph {...p}>
+    <path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5" />
+  </Glyph>
+);
