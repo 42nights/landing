@@ -16,14 +16,14 @@ const ACTIONS = [
 export function ActivityTicker() {
   return (
     <div
-      className="marquee-mask overflow-hidden border-y border-cream/10 py-3"
+      className="marquee-mask overflow-hidden border-y border-cream/10 py-4"
       aria-hidden
     >
       <div className="flex w-max animate-marquee-left items-center motion-reduce:animate-none">
         {[...ACTIONS, ...ACTIONS].map((t, i) => (
           <span
             key={i}
-            className="mx-5 inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[13px] text-cream/70"
+            className="mx-6 inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[17px] text-cream/90"
           >
             <span className="text-accent">→</span>
             {t}
