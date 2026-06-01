@@ -25,7 +25,7 @@ const CAPABILITIES: Capability[] = [
     index: "02",
     title: "Build the software you can't buy",
     detail:
-      "Proprietary internal tools, purpose-built for your workflows and owned outright by you.",
+      "Internal tools the platform generates for your exact workflows, then runs and maintains end to end.",
   },
   {
     index: "03",
@@ -41,9 +41,9 @@ const CAPABILITIES: Capability[] = [
   },
   {
     index: "05",
-    title: "Source you own",
+    title: "No vendor lock-in",
     detail:
-      "You get the code, not a login. No vendor who can raise the price or take it back.",
+      "It runs in your environment on your terms, not a subscription a vendor can reprice, change, or shut off.",
   },
 ];
 
@@ -98,7 +98,7 @@ export function Capabilities() {
             {CAPABILITIES.map((cap) => (
               <div
                 key={cap.index}
-                className="group grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-cream/[0.08] py-7 first:border-t first:border-cream/[0.08] md:gap-x-8 md:py-8"
+                className="group grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-cream/15 py-7 first:border-t first:border-cream/15 md:gap-x-8 md:py-8"
               >
                 <span className="font-mono-label pt-1 text-[11px] text-cream/50 transition-colors duration-200 group-hover:text-accentBright/70">
                   {cap.index}
@@ -125,8 +125,8 @@ export function Capabilities() {
               <p className="text-balance font-serif-display text-2xl leading-snug text-cream/85 md:text-3xl">
                 All of it for{" "}
                 <span className="italic text-accentBright">~10%</span> of the
-                SaaS licenses and full-time engineers it replaces, and you own
-                the result.
+                SaaS licenses and full-time engineers it replaces, and it keeps
+                improving itself.
               </p>
             </div>
           </Reveal>

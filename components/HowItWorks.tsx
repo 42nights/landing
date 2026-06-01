@@ -4,15 +4,15 @@ import { Parallax } from "@/components/motion/Parallax";
 const steps = [
   {
     n: "01",
-    title: "Embed.",
-    body: "We forward-deploy engineers into your team for 1 to 2 weeks, mapping the SaaS, data, and legacy systems you run on.",
+    title: "Connect.",
+    body: "Our platform maps the SaaS, data, and legacy systems you run on, learning how your stack actually works.",
     // alternating drift so the numerals don't move as one rigid block
     drift: 0.07,
   },
   {
     n: "02",
     title: "Rebuild.",
-    body: "We reverse-engineer those systems and rebuild them as software that runs on your own infrastructure, source you own.",
+    body: "Our agents reverse-engineer those systems and regenerate them as software that runs in your own environment, fully under your control.",
     drift: -0.05,
   },
   {

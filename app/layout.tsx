@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "42nights — An AI chief-of-staff for your company",
+  title: "42nights",
   description:
     "We embed as engineers, learn how your company runs, and ship a closed-loop agent that takes action — not just suggestions.",
   openGraph: {
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
     title: "42nights",
     description: "An AI chief-of-staff for your company.",
   },
-  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {

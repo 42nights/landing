@@ -34,7 +34,7 @@ export function Hero() {
             {/* TODO: replace placeholder cal.com link before launch */}
             <a
               href="https://cal.com/42nights"
-              className="btn-press inline-flex items-center justify-center rounded-lg bg-accent px-7 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
+              className="btn-press inline-flex items-center justify-center border border-transparent bg-accent px-7 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
             >
               Book a call
             </a>

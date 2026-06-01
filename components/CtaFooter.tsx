@@ -3,7 +3,7 @@ import { Wordmark } from "./Wordmark";
 
 export function CtaFooter() {
   return (
-    <section className="grain vignette relative overflow-hidden">
+    <section className="grain vignette relative flex min-h-[100svh] flex-col overflow-hidden">
       {/* The shared ASCII field (rendered once by <AsciiBackground/>) shows
           through here; the grain + vignette keep the headline clean. */}
       <div className="relative z-10 mx-auto max-w-page px-6 py-20 md:px-10 md:py-28">
@@ -23,7 +23,7 @@ export function CtaFooter() {
             {/* TODO: replace placeholder cal.com link before launch */}
             <a
               href="https://cal.com/42nights"
-              className="btn-press inline-flex items-center justify-center rounded-lg bg-accent px-8 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
+              className="btn-press inline-flex items-center justify-center  bg-accent px-8 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
             >
               Book a call
             </a>
@@ -38,12 +38,11 @@ export function CtaFooter() {
           className="flex flex-col items-center justify-between gap-4 border-t border-cream/10 py-10 text-sm text-cream/65 md:flex-row"
         >
           <Wordmark className="text-base text-cream" />
-          {/* TODO: replace placeholder hello@ email before launch */}
           <a
             href="mailto:hello@42nights.dev"
             className="group relative text-cream/65 transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-cream"
           >
-            hello@42nights.dev
+            jerry@42nights.dev
             <span
               aria-hidden
               className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"

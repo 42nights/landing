@@ -30,9 +30,9 @@ const RAMP = "   ...,,:;+*?%#@";
 
 // Field look (merged from the three old instances): faint cream glyphs, a
 // drifting red-lit core in the lower-left, chunky cells.
-const ALPHA = 0.12;
+const ALPHA = 0.42;
 const TINT = true;
-const RED_FILL = "rgba(255,72,92,0.34)"; // tamed so the bloom never muddies body text
+const RED_FILL = "rgba(255,68,68,0.6)"; // bright RED core (no pink); field is a deeper red
 const FOCUS_X = 0.26;
 const FOCUS_Y = 0.6;
 const BASE_CELL = 13;
@@ -43,9 +43,9 @@ const MAX_CELLS = 16000;
 const RING_SPEED = 520; // expansion rate
 const RING_LIFE = 1.4; // time to fade out
 const RING_WIDTH = 46; // ring thickness (gaussian sigma)
-const RING_STRENGTH = 0.62;
+const RING_STRENGTH = 0.22;
 const HALO_RADIUS = 140; // soft cursor glow radius
-const HALO_STRENGTH = 0.5;
+const HALO_STRENGTH = 0.18;
 const MAX_RIPPLES = 10;
 const SPAWN_GAP = 55; // min ms between spawned rings
 const SPAWN_DIST = 26; // min px moved to spawn a new ring
@@ -204,7 +204,7 @@ export function AsciiBackground() {
           const dbx = nx - bx;
           const bloom = Math.max(0, 1 - Math.sqrt(dbx * dbx + dby * dby) * 1.9);
           let v = fieldAt(nx, ny, t) * 0.5 + 0.5;
-          v = v * 0.62 + bloom * 0.55;
+          v = v * 0.66; // even field, no focal bloom (kills the left-middle blob)
 
           // Cursor halo: soft local boost (squared-distance cull before sqrt).
           if (haloActive) {
@@ -227,7 +227,7 @@ export function AsciiBackground() {
             v += Math.exp(-(d * d) / TWO_SIGMA2) * ripFade[r];
           }
 
-          if (v <= 0.42) continue;
+          if (v <= 0.36) continue;
           const idx = Math.min(RAMP.length - 1, Math.floor(v * RAMP.length));
           const ch = RAMP.charCodeAt(idx);
           if (ch === 32) continue; // space
