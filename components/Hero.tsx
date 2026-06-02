@@ -1,22 +1,12 @@
-// Local light hero layout: badge + headline, then a two-column split — copy +
-// CTAs on the left, the capability-stack card on the right. Copy is carried
-// from main; the capability card has no main equivalent, so its list stays.
+// Local light hero layout: headline, then a two-column split — copy + CTAs on
+// the left, the capability-stack card on the right. Copy is carried from main;
+// the capability card has no main equivalent, so its list stays.
 export function Hero() {
   return (
     <section className="relative mx-auto max-w-page px-6 pb-24 pt-20 md:px-10 md:pb-32 md:pt-28">
       <div className="pointer-events-none absolute right-6 top-24 hidden h-[340px] w-[1px] bg-gradient-to-b from-accent/0 via-accent/40 to-accent/0 md:block md:right-10" />
 
-      <div className="fade-up inline-flex items-center gap-2 rounded-full border border-fg/15 bg-bg/60 px-3 py-1.5 backdrop-blur">
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-        </span>
-        <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-fg/80">
-          Live with 6 companies
-        </span>
-      </div>
-
-      <h1 className="fade-up mt-6 font-serif-display text-[44px] leading-[1.02] tracking-tight md:text-[92px]">
+      <h1 className="fade-up font-serif-display text-[44px] leading-[1.02] tracking-tight md:text-[92px]">
         Making companies{" "}
         <em className="not-italic">
           <span className="italic text-accent">AI native</span>

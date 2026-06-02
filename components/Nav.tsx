@@ -187,14 +187,17 @@ export function Nav() {
           hovering.current = false;
           shape();
         }}
-        className="mx-auto flex max-w-page items-center justify-between border border-transparent px-6 py-5 md:px-10"
+        className="relative mx-auto flex max-w-page items-center justify-between border border-transparent px-6 py-5 md:px-10"
       >
         <Link href="/" className="text-xl tracking-tight">
           <Wordmark />
         </Link>
 
-        {/* Center: one number per section; the active one lights up + scales. */}
-        <div className="hidden items-center gap-2 md:flex">
+        {/* Center: one number per section; the active one lights up + scales.
+            Absolutely centered so the cluster sits dead-center on the page
+            regardless of the differing left (wordmark) and right (toggle + CTA)
+            widths. */}
+        <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-2 md:flex">
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
