@@ -44,22 +44,28 @@ export function HowItWorks() {
           className="mt-16 grid gap-x-12 gap-y-16 md:mt-24 md:grid-cols-3"
         >
           {steps.map((s) => (
-            <div key={s.n} className="relative">
-              {/* oversized ghost Fraunces numeral, drifting against the scroll */}
-              <Parallax speed={s.drift} className="pointer-events-none">
+            <div key={s.n} className="relative pt-16 md:pt-20">
+              {/* Oversized ghost Fraunces numeral as a faint watermark, drifting
+                  against the scroll. Absolutely positioned so the title (also
+                  positioned, later in the DOM) always paints cleanly on top —
+                  no same-color clash where the two overlap. */}
+              <Parallax
+                speed={s.drift}
+                className="pointer-events-none absolute left-0 top-0"
+              >
                 <span
                   aria-hidden
-                  className="block select-none font-serif-display leading-[0.8] text-cream/10 [font-size:clamp(96px,12vw,176px)]"
+                  className="block select-none font-serif-display leading-[0.8] text-cream/[0.06] [font-size:clamp(96px,12vw,176px)]"
                 >
                   {s.n}
                 </span>
               </Parallax>
 
-              <h3 className="-mt-6 font-serif-display leading-[1.0] tracking-[-0.025em] text-cream [font-size:clamp(28px,3.4vw,40px)] md:-mt-8">
+              <h3 className="relative font-serif-display leading-[1.0] tracking-[-0.025em] text-cream [font-size:clamp(28px,3.4vw,40px)]">
                 {s.title}
               </h3>
 
-              <p className="mt-4 max-w-[36ch] text-base leading-relaxed text-cream/70">
+              <p className="relative mt-4 max-w-[36ch] text-base leading-relaxed text-cream/70">
                 {s.body}
               </p>
             </div>

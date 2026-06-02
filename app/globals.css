@@ -2,35 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light is the default theme. The `dark` class on <html> (set by ThemeToggle /
+   the no-flash script in layout.tsx) swaps in the dark-cinematic palette.
+   Colors are stored as space-separated RGB CHANNELS, not hex — Tailwind tokens
+   reference them as rgb(var(--x) / <alpha-value>) so opacity modifiers
+   (text-cream/70, border-fg/15, …) actually apply. */
 :root {
-  /* Deliberate dark cinematic design. Declaring the scheme dark stops browsers
-     in OS dark mode (and Chrome "Auto Dark Mode") from inverting it. */
-  color-scheme: dark;
-  --void: #08080a;
-  --ink: #0a0a0a;
-  --surface: #0e0e12;
-  --surface-2: #141418;
-  --cream: #f7f5f1;
-  --accent: #d72638;
-  --accent-bright: #ff3b3b;
-  --line: rgba(247, 245, 241, 0.1);
-  --line-soft: rgba(247, 245, 241, 0.06);
+  color-scheme: light;
+  --bg: 255 255 255;
+  --bg-elev: 250 249 246;
+  --bg-elev2: 241 239 233;
+  --fg: 10 10 10;
+  --fg-muted: 85 85 85;
+  --fg-soft: 122 122 122;
+  --accent: 215 38 56;
+  --accent-bright: 196 23 42;
+  --on-accent: 255 255 255;
+  --line: rgba(10, 10, 10, 0.1);
+  --line-soft: rgba(10, 10, 10, 0.06);
+  --vignette: rgba(0, 0, 0, 0.05);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
+html.dark {
+  color-scheme: dark;
+  --bg: 8 8 10;
+  --bg-elev: 14 14 18;
+  --bg-elev2: 20 20 24;
+  --fg: 247 245 241;
+  --fg-muted: 138 138 146;
+  --fg-soft: 106 106 114;
+  --accent: 215 38 56;
+  --accent-bright: 255 59 59;
+  --on-accent: 255 255 255;
+  --line: rgba(247, 245, 241, 0.1);
+  --line-soft: rgba(247, 245, 241, 0.06);
+  --vignette: rgba(0, 0, 0, 0.55);
+}
+
 html {
   scroll-behavior: smooth;
-  background: var(--void);
+  background: rgb(var(--bg));
 }
 
 body {
-  /* Transparent so the fixed z-[-10] AsciiBackground canvas shows through. The
-     page color (--void) lives on <html>; an opaque body background here would
+  /* Transparent so the fixed -z-10 AsciiBackground canvas shows through. The
+     page color (--bg) lives on <html>; an opaque body background here would
      paint OVER the negative-z canvas and hide the ASCII entirely. */
   background: transparent;
-  color: var(--cream);
+  color: rgb(var(--fg));
   font-family:
     Inter,
     system-ui,
@@ -73,7 +95,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* A vignette to seat content and pull the eye inward. */
+/* A vignette to seat content and pull the eye inward. Softer in light mode. */
 .vignette::before {
   content: "";
   position: absolute;
@@ -82,7 +104,7 @@ body {
   background: radial-gradient(
     130% 110% at 50% 45%,
     transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
+    var(--vignette) 100%
   );
 }
 
@@ -101,8 +123,8 @@ body {
   .btn-press:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px var(--void),
-      0 0 0 4px var(--accent);
+      0 0 0 2px rgb(var(--bg)),
+      0 0 0 4px rgb(var(--accent));
   }
 }
 
@@ -141,6 +163,58 @@ body {
   );
 }
 
+/* Entrance animations used by the hero (ported from the local light design).
+   @starting-style runs them once on first paint; base state is fully visible so
+   no-JS / older browsers just show the content. */
+.fade-up {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+}
+
+@starting-style {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.stagger > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 400ms var(--ease-out);
+}
+
+@starting-style {
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.stagger > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.stagger > *:nth-child(2) {
+  transition-delay: 50ms;
+}
+.stagger > *:nth-child(3) {
+  transition-delay: 100ms;
+}
+.stagger > *:nth-child(4) {
+  transition-delay: 150ms;
+}
+.stagger > *:nth-child(5) {
+  transition-delay: 200ms;
+}
+.stagger > *:nth-child(6) {
+  transition-delay: 250ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ping,
   .animate-pulse-ring,
@@ -150,6 +224,11 @@ body {
   .btn-press:hover,
   .btn-press:active {
     transform: none;
+  }
+  .fade-up,
+  .stagger > * {
+    transition: opacity 200ms ease;
+    transform: none !important;
   }
   html {
     scroll-behavior: auto;

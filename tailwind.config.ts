@@ -1,19 +1,36 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  // Theme is driven by a `dark` class on <html> (default = light). Most colors
+  // resolve through CSS variables (see globals.css) so existing token classes
+  // (bg-void, text-cream, bg-surface, …) flip automatically between themes; the
+  // `dark:` variant is reserved for the few spots that can't be expressed as a
+  // single variable (e.g. force-inverted logo filters, the Moat radial wash).
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        void: "#08080A",
-        ink: "#0A0A0A",
-        surface: "#0E0E12",
-        surface2: "#141418",
-        cream: "#F7F5F1",
-        accent: "#D72638",
-        accentBright: "#FF3B3B",
-        muted: "#8A8A92",
-        mutedSoft: "#6A6A72",
+        // Semantic tokens — prefer these in new/rewritten code. Channels live in
+        // globals.css; the <alpha-value> placeholder lets /opacity modifiers work.
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        elev: "rgb(var(--bg-elev) / <alpha-value>)",
+        elev2: "rgb(var(--bg-elev2) / <alpha-value>)",
+        line: "var(--line)",
+        lineSoft: "var(--line-soft)",
+        onAccent: "rgb(var(--on-accent) / <alpha-value>)",
+        // Legacy tokens, remapped onto the same variables so the existing
+        // dark-cinematic markup keeps working and now flips with the theme.
+        void: "rgb(var(--bg) / <alpha-value>)",
+        ink: "rgb(var(--fg) / <alpha-value>)",
+        surface: "rgb(var(--bg-elev) / <alpha-value>)",
+        surface2: "rgb(var(--bg-elev2) / <alpha-value>)",
+        cream: "rgb(var(--fg) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        accentBright: "rgb(var(--accent-bright) / <alpha-value>)",
+        muted: "rgb(var(--fg-muted) / <alpha-value>)",
+        mutedSoft: "rgb(var(--fg-soft) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],

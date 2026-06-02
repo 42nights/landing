@@ -5,24 +5,6 @@ import { Reveal } from "@/components/motion/Reveal";
 // glyphs into the void and keeps the left-anchored type clean and
 // high-contrast. No section borders: the air between this and its neighbors is
 // the divider.
-const POINTS = [
-  {
-    index: "01",
-    title: "Self-evolving harness.",
-    body: "Agents run a closed loop on your software: observe, test, patch, repeat. It improves itself in production, not on a vendor's roadmap.",
-  },
-  {
-    index: "02",
-    title: "It sharpens in place.",
-    body: "As frontier models advance, your agents inherit the gains automatically. No re-implementation, no drift, no migration project.",
-  },
-  {
-    index: "03",
-    title: "Each deploy compounds.",
-    body: "Patterns that recur across builds (auth, billing, reporting) become reusable, compressing the next deployment.",
-  },
-];
-
 export function Moat() {
   return (
     <section className="relative overflow-hidden py-28 md:py-40">
@@ -30,7 +12,7 @@ export function Moat() {
           left column legible. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_42%,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.45)_45%,transparent_75%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_42%,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.45)_45%,transparent_75%)] dark:bg-[radial-gradient(120%_90%_at_18%_42%,rgba(8,8,10,0.92)_0%,rgba(8,8,10,0.45)_45%,transparent_75%)]"
       />
 
       <div className="relative z-10 mx-auto max-w-page px-6 md:px-10">
@@ -45,36 +27,6 @@ export function Moat() {
             monitor, test, patch, and improve your software in place. A closed
             loop on your own infrastructure, with no vendor in it.
           </p>
-        </Reveal>
-
-        <Reveal
-          stagger={0.1}
-          y={26}
-          duration={0.9}
-          className="mt-20 max-w-3xl md:mt-28"
-        >
-          {POINTS.map((p, i) => (
-            <div key={p.index}>
-              {/* Hairline between blocks, never a section rule. Air carries the
-                  rest of the separation. */}
-              {i > 0 && (
-                <div aria-hidden className="h-px w-full bg-cream/[0.08]" />
-              )}
-              <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 py-8 md:grid-cols-[5rem_1fr] md:gap-x-10 md:py-10">
-                <span className="font-mono-label pt-1 text-[11px] text-cream/30 md:pt-2.5">
-                  {p.index}
-                </span>
-                <div>
-                  <h3 className="font-serif-display text-2xl leading-tight text-cream md:text-[2rem]">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 max-w-xl text-base leading-relaxed text-cream/70">
-                    {p.body}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
         </Reveal>
       </div>
     </section>

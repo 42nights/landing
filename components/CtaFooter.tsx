@@ -1,58 +1,62 @@
-import { Reveal } from "@/components/motion/Reveal";
+import Link from "next/link";
+import { LogoScroll } from "./LogoScroll";
 import { Wordmark } from "./Wordmark";
 
+// Local light closing section: centered CTA + flat footer. Copy (eyebrow,
+// headline, email) carried from main.
 export function CtaFooter() {
   return (
-    <section className="grain vignette relative flex min-h-[100svh] flex-col overflow-hidden">
-      {/* The shared ASCII field (rendered once by <AsciiBackground/>) shows
-          through here; the grain + vignette keep the headline clean. The CTA
-          block grows to fill the space above the footer and centers within it,
-          so it never sits awkwardly low against the footer. */}
-      <div className="relative z-10 flex flex-1 items-center justify-center px-6 py-24 md:px-10">
-        <Reveal
-          stagger={0.1}
-          y={24}
-          duration={0.9}
-          className="mx-auto flex max-w-3xl flex-col items-center text-center"
-        >
-          <span className="font-mono-label text-[10px] text-cream/45">
-            Ready when you are
-          </span>
-          <h2 className="mt-6 max-w-[20ch] text-balance font-serif-display leading-[1.06] text-cream [font-size:clamp(34px,5.5vw,68px)]">
-            Ready to bring your software in-house?
-          </h2>
-          <div className="mt-12">
-            {/* TODO: replace placeholder cal.com link before launch */}
-            <a
-              href="https://cal.com/42nights"
-              className="btn-press inline-flex items-center justify-center  bg-accent px-8 py-3.5 text-sm font-medium text-white hover:bg-accentBright"
-            >
-              Book a call
-            </a>
-          </div>
-        </Reveal>
-      </div>
-
-      <footer className="relative z-10 mx-auto max-w-page px-6 md:px-10">
-        <Reveal
-          y={12}
-          duration={0.9}
-          start="top bottom"
-          className="flex flex-col items-center justify-between gap-4 border-t border-cream/15 py-10 text-sm text-cream/45 md:flex-row"
-        >
-          <Wordmark className="text-base text-cream" />
+    <section className="border-t border-line">
+      <div className="mx-auto max-w-page px-6 py-24 text-center md:px-10 md:py-32">
+        <span className="font-mono-label text-[10px] text-mutedSoft">
+          Ready when you are
+        </span>
+        <h2 className="mx-auto mt-6 max-w-3xl font-serif-display text-3xl leading-tight tracking-tight md:text-5xl">
+          Ready to bring your software in-house?
+        </h2>
+        <div className="mt-10">
+          {/* TODO: replace placeholder cal.com link before launch */}
           <a
-            href="mailto:jerry@42nights.dev"
-            className="group relative text-cream/45 transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-cream"
+            href="https://cal.com/42nights"
+            className="btn-press inline-flex items-center justify-center rounded-md border border-fg bg-fg px-8 py-3 text-sm font-medium text-bg hover:bg-bg hover:text-fg"
           >
-            jerry@42nights.dev
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
-            />
+            Book a call
           </a>
-          <span className="text-cream/30">© 2026</span>
-        </Reveal>
+        </div>
+      </div>
+      <div className="border-t border-line">
+        <div className="mx-auto max-w-page px-6 py-12 md:px-10">
+          <p className="mb-7 text-center font-mono-label text-[10px] text-mutedSoft">
+            Clients backed by
+          </p>
+          <LogoScroll />
+        </div>
+      </div>
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-mutedSoft md:flex-row md:px-10">
+          <Wordmark className="text-base" />
+          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <a
+              href="mailto:jerry@42nights.dev"
+              className="transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-fg"
+            >
+              jerry@42nights.dev
+            </a>
+            <Link
+              href="/privacy"
+              className="transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-fg"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-fg"
+            >
+              Terms
+            </Link>
+          </nav>
+          <span>© 2026</span>
+        </div>
       </footer>
     </section>
   );

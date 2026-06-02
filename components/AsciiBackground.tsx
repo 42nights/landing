@@ -28,11 +28,15 @@ import { useEffect, useRef } from "react";
 
 const RAMP = "   ...,,:;+*?%#@";
 
-// Field look (merged from the three old instances): faint cream glyphs, a
-// drifting red-lit core in the lower-left, chunky cells.
-const ALPHA = 0.42;
+// Field look (merged from the three old instances): a drifting red-lit core in
+// the lower-left, chunky cells. Glyph fills are theme-dependent — dark keeps the
+// original red-on-void field; light uses quiet dark-ink glyphs on white with a
+// softer red core so it reads as "dark chars" rather than glaring red.
 const TINT = true;
-const RED_FILL = "rgba(255,68,68,0.6)"; // bright RED core (no pink); field is a deeper red
+const PALETTE = {
+  dark: { base: "rgba(140,26,32,0.42)", red: "rgba(255,68,68,0.6)" },
+  light: { base: "rgba(10,10,10,0.16)", red: "rgba(215,38,56,0.5)" },
+};
 const FOCUS_X = 0.26;
 const FOCUS_Y = 0.6;
 const BASE_CELL = 13;
@@ -72,6 +76,14 @@ export function AsciiBackground() {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+
+    // Glyph colors follow the active theme; a MutationObserver below repaints
+    // when the `dark` class on <html> is toggled.
+    const readPalette = () =>
+      document.documentElement.classList.contains("dark")
+        ? PALETTE.dark
+        : PALETTE.light;
+    let palette = readPalette();
 
     let w = 0;
     let h = 0;
@@ -233,12 +245,12 @@ export function AsciiBackground() {
         }
       }
 
-      ctx!.fillStyle = `rgba(140,26,32,${ALPHA})`;
+      ctx!.fillStyle = palette.base;
       for (let k = 0; k < nc; k++) {
         ctx!.fillText(RAMP[creamI[k]], creamX[k], creamY[k]);
       }
       if (TINT) {
-        ctx!.fillStyle = RED_FILL;
+        ctx!.fillStyle = palette.red;
         for (let k = 0; k < nr; k++) {
           ctx!.fillText(RAMP[redI[k]], redX[k], redY[k]);
         }
@@ -306,12 +318,28 @@ export function AsciiBackground() {
 
     size();
 
+    // Repaint when the theme (dark class on <html>) changes.
+    const themeObserver = new MutationObserver(() => {
+      palette = readPalette();
+      if (reduce) {
+        draw(0, 0);
+      } else {
+        last = 0; // force a repaint on the next frame
+        if (!raf && !document.hidden) raf = requestAnimationFrame(loop);
+      }
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     if (reduce) {
       // Static single frame; no loop, no interaction.
       draw(0, 0);
       window.addEventListener("resize", onResize);
       window.visualViewport?.addEventListener("resize", onResize);
       return () => {
+        themeObserver.disconnect();
         window.clearTimeout(rt);
         window.removeEventListener("resize", onResize);
         window.visualViewport?.removeEventListener("resize", onResize);
@@ -329,6 +357,7 @@ export function AsciiBackground() {
     raf = requestAnimationFrame(loop);
 
     return () => {
+      themeObserver.disconnect();
       cancelAnimationFrame(raf);
       window.clearTimeout(rt);
       window.removeEventListener("resize", onResize);
