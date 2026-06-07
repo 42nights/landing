@@ -57,8 +57,12 @@ export function Nav() {
       // scroll: shrink horizontally to a centered bar that still hangs flush
       // from the top (no top gap) with only its bottom corners rounded. Animate
       // `width` (not max-width — gsap can't tween max-width from its "none"
-      // default, so it silently no-ops).
-      width: !f ? window.innerWidth : hovering.current ? 1260 : 1200,
+      // default, so it silently no-ops). Clamp the floating width to the
+      // viewport so narrow (mobile) screens stay full-width instead of
+      // overflowing to a fixed 1200px.
+      width: !f
+        ? window.innerWidth
+        : Math.min(hovering.current ? 1260 : 1200, window.innerWidth),
       marginTop: 0,
       paddingTop: f ? 16 : 20,
       paddingBottom: f ? 16 : 20,
@@ -93,7 +97,7 @@ export function Nav() {
         floating.current = true;
         const p = island();
         gsap.set(barRef.current, {
-          width: 1200,
+          width: Math.min(1200, window.innerWidth),
           marginTop: 0,
           paddingTop: 16,
           paddingBottom: 16,
@@ -156,6 +160,14 @@ export function Nav() {
       attributeFilter: ["class"],
     });
     return () => obs.disconnect();
+  }, []);
+
+  // Re-clamp the inline px width on resize/orientation change so it tracks the
+  // viewport (otherwise a stale px width can overflow after a rotate).
+  useEffect(() => {
+    const onResize = () => shape();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   // The section numbers double as keybinds: press 0–9 to jump to that section.
