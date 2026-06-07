@@ -103,18 +103,14 @@ export function Demo() {
   return (
     <section id="demo" className="scroll-mt-16">
       <div className="mx-auto max-w-page px-6 py-28 md:px-10 md:py-40">
-        <Reveal
-          as="div"
-          stagger={0.08}
-          className="mx-auto max-w-2xl text-center"
-        >
+        <Reveal as="div" stagger={0.08} className="max-w-2xl">
           <div className="font-mono-label text-[11px] text-cream/45">
             Live demo
           </div>
           <h2 className="mt-6 font-serif-display leading-[1.02] tracking-[-0.02em] text-cream text-[clamp(34px,5vw,68px)]">
             The agents that build and run it.
           </h2>
-          <p className="mx-auto mt-5 max-w-[52ch] text-lg leading-relaxed text-cream/70 md:mt-6 md:text-xl">
+          <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-cream/70 md:mt-6 md:text-xl">
             It runs where your team already works — Slack, iMessage, WhatsApp —
             streaming through the build and the closed loop. Nothing to click.
           </p>
@@ -233,7 +229,7 @@ function SlackPanel({ mode, visible }: PanelProps) {
   const scrollRef = useAutoScroll([visible]);
   const beats = beatsFor(mode, visible);
   return (
-    <div className="flex h-[600px] flex-col overflow-hidden border border-cream/15 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-2xl border border-cream/15 bg-surface">
       <div className="flex h-16 items-center justify-between border-b border-cream/15 bg-surface2 px-5">
         <div className="flex items-center gap-2">
           <span className="font-serif-display text-base text-cream/45">#</span>
@@ -310,7 +306,7 @@ function ImessagePanel({ mode, visible }: PanelProps) {
   const scrollRef = useAutoScroll([visible]);
 
   return (
-    <div className="flex h-[600px] flex-col overflow-hidden border border-cream/15 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-2xl border border-cream/15 bg-surface">
       <div className="flex h-16 items-center gap-3 border-b border-cream/15 bg-surface2 px-4">
         <AgentAvatar />
         <div className="flex flex-1 flex-col leading-tight">
@@ -401,7 +397,7 @@ function WhatsappPanel({ mode, visible }: PanelProps) {
   const scrollRef = useAutoScroll([visible]);
 
   return (
-    <div className="flex h-[600px] flex-col overflow-hidden border border-cream/15 bg-surface">
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-2xl border border-cream/15 bg-surface">
       <div className="flex h-16 items-center gap-3 border-b border-cream/15 bg-surface2 px-4">
         <span className="text-lg text-cream/45">‹</span>
         <AgentAvatar />

@@ -48,7 +48,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}
-      className="btn-press inline-grid h-9 w-9 place-items-center rounded-md text-fg/60 transition-colors hover:text-fg"
+      className="btn-press inline-grid h-9 w-9 place-items-center rounded-2xl text-fg/60 transition-colors hover:text-fg"
     >
       {/* Until mounted, render nothing inside so SSR and first client render
           agree; the box keeps its size so layout doesn't shift. */}

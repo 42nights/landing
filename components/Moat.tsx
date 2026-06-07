@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrubWords } from "@/components/motion/ScrubWords";
 
 // The cinematic dark moment. The shared ASCII field (rendered once by
 // <AsciiBackground/>) shows through behind this section; a radial wash seats the
@@ -16,18 +17,34 @@ export function Moat() {
       />
 
       <div className="relative z-10 mx-auto max-w-page px-6 md:px-10">
-        <Reveal stagger={0.1} y={28} duration={1} className="max-w-2xl">
-          <p className="font-mono-label text-[10px] text-cream/45">The moat</p>
-          <h2 className="mt-7 font-serif-display leading-[1.0] text-cream [font-size:clamp(34px,5vw,68px)]">
+        <div className="max-w-2xl">
+          <Reveal
+            as="p"
+            y={20}
+            duration={0.9}
+            className="font-mono-label text-[10px] text-cream/45"
+          >
+            The moat
+          </Reveal>
+          <ScrubWords
+            as="h2"
+            className="mt-7 font-serif-display leading-[1.0] text-cream [font-size:clamp(34px,5vw,68px)]"
+          >
             The software{" "}
             <span className="italic text-accentBright">maintains itself</span>.
-          </h2>
-          <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-cream/70 md:text-xl">
+          </ScrubWords>
+          <Reveal
+            as="p"
+            y={24}
+            duration={0.9}
+            delay={0.1}
+            className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-cream/70 md:text-xl"
+          >
             Every deploy runs under a self-evolving harness: AI agents that
             monitor, test, patch, and improve your software in place. A closed
             loop on your own infrastructure, with no vendor in it.
-          </p>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

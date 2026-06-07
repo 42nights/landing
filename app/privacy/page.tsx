@@ -164,10 +164,10 @@ export default function PrivacyPage() {
               </a>
               . To request deletion of data we hold, email us at{" "}
               <a
-                href="mailto:hello@42nights.dev"
+                href="mailto:team@42nights.dev"
                 className="underline decoration-ink/30 underline-offset-4 transition-colors duration-200 hover:text-ink"
               >
-                hello@42nights.dev
+                team@42nights.dev
               </a>{" "}
               and we will delete it within 30 days, except where retention is
               required by law.
@@ -202,10 +202,10 @@ export default function PrivacyPage() {
             <p className="mt-4">
               Questions about this policy or your data? Email{" "}
               <a
-                href="mailto:hello@42nights.dev"
+                href="mailto:team@42nights.dev"
                 className="underline decoration-ink/30 underline-offset-4 transition-colors duration-200 hover:text-ink"
               >
-                hello@42nights.dev
+                team@42nights.dev
               </a>
               .
             </p>
@@ -217,10 +217,10 @@ export default function PrivacyPage() {
         <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-mutedSoft md:flex-row md:px-10">
           <Wordmark className="text-base" />
           <a
-            href="mailto:hello@42nights.dev"
+            href="mailto:team@42nights.dev"
             className="text-mutedSoft transition-[color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-ink"
           >
-            hello@42nights.dev
+            team@42nights.dev
           </a>
           <span>© 2026</span>
         </div>

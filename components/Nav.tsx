@@ -53,13 +53,20 @@ export function Nav() {
     const f = floating.current;
     const p = island();
     gsap.to(bar, {
-      maxWidth: !f ? 1280 : hovering.current ? 1260 : 1200,
-      marginTop: f ? 12 : 0,
+      // Rest: fill the full viewport width, flush to the top edge, square. On
+      // scroll: shrink horizontally to a centered bar that still hangs flush
+      // from the top (no top gap) with only its bottom corners rounded. Animate
+      // `width` (not max-width — gsap can't tween max-width from its "none"
+      // default, so it silently no-ops).
+      width: !f ? window.innerWidth : hovering.current ? 1260 : 1200,
+      marginTop: 0,
       paddingTop: f ? 16 : 20,
       paddingBottom: f ? 16 : 20,
       backgroundColor: f ? p.bg : p.bgFlat,
       backdropFilter: f ? "blur(12px)" : "blur(0px)",
       borderColor: f ? p.border : p.borderFlat,
+      borderBottomLeftRadius: f ? 16 : 0,
+      borderBottomRightRadius: f ? 16 : 0,
       boxShadow: f ? p.shadow : "0 0 0 0 rgba(0,0,0,0)",
       duration: 0.4,
       ease: "power3.out",
@@ -74,6 +81,11 @@ export function Nav() {
       sectionsRef.current = sections;
       setCount(sections.length);
 
+      // Seat a numeric max-width baseline up front: the bar carries no
+      // max-width class, so without this the first shrink tween would have a
+      // "none" start value and gsap would silently skip animating max-width.
+      gsap.set(barRef.current, { width: window.innerWidth });
+
       const mm = gsap.matchMedia();
 
       // Reduced motion: park in the floating state, no scroll-linked morph.
@@ -81,13 +93,15 @@ export function Nav() {
         floating.current = true;
         const p = island();
         gsap.set(barRef.current, {
-          maxWidth: 1200,
-          marginTop: 12,
+          width: 1200,
+          marginTop: 0,
           paddingTop: 16,
           paddingBottom: 16,
           backgroundColor: p.bg,
           backdropFilter: "blur(12px)",
           borderColor: p.border,
+          borderBottomLeftRadius: 16,
+          borderBottomRightRadius: 16,
           boxShadow: p.shadow,
         });
       });
@@ -187,7 +201,7 @@ export function Nav() {
           hovering.current = false;
           shape();
         }}
-        className="relative mx-auto flex max-w-page items-center justify-between border border-transparent px-6 py-5 md:px-10"
+        className="relative mx-auto flex items-center justify-between border border-transparent px-6 py-5 md:px-10"
       >
         <Link href="/" className="text-xl tracking-tight">
           <Wordmark />
@@ -221,7 +235,7 @@ export function Nav() {
           {/* TODO: replace placeholder cal.com link before launch */}
           <a
             href="https://cal.com/42nights"
-            className="btn-press rounded-md border border-fg/15 bg-fg/[0.04] px-4 py-2 text-sm text-fg/90 backdrop-blur-sm transition-colors hover:border-accent/60 hover:bg-accent hover:text-white"
+            className="btn-press rounded-2xl border border-fg/15 bg-fg/[0.04] px-4 py-2 text-sm text-fg/90 backdrop-blur-sm transition-colors hover:border-accent/60 hover:bg-accent hover:text-white"
           >
             Book a call
           </a>

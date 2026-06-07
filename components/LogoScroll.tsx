@@ -34,18 +34,20 @@ const ITEMS: Item[] = [
   },
   {
     kind: "logo",
-    src: "/logos/anthropic.svg",
+    src: "/logos/anthropic-icon.svg",
     alt: "Anthropic",
-    h: 22,
+    h: 30,
     filter: true,
   },
-  { kind: "logo", src: "/logos/afore.webp", alt: "Afore Capital", h: 40 },
+  { kind: "logo", src: "/logos/afore-icon.png", alt: "Afore Capital", h: 34 },
 ];
 
 function Row() {
+  // Repeat the set so one row already exceeds the viewport width — the -50%
+  // track loop only reads as seamless when a single row fills the screen.
   return (
     <div className="flex shrink-0 items-center">
-      {ITEMS.map((it, i) => (
+      {[...ITEMS, ...ITEMS, ...ITEMS].map((it, i) => (
         <span key={`${it.kind}-${i}`} className="flex items-center">
           <span aria-hidden className="select-none px-7 text-cream/20">
             &middot;
